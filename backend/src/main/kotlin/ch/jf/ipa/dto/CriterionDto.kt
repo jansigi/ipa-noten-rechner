@@ -17,4 +17,3 @@ data class RequirementDto(
     val module: String,
     val part: Int,
 )
-
