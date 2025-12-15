@@ -1,1 +1,3162 @@
-[]
+[
+  {
+    "id": "A01",
+    "title": "Auftragsanalyse und Wahl einer Projektmethode",
+    "question": "Wie erfolgt die Auftragsanalyse? Welche Projektmethode kommt zum Einsatz?",
+    "requirements": [
+      {
+        "id": "A01-1",
+        "description": "Der Projektauftrag wurde analysiert und die Erkenntnisse mittels geeigneter Darstellungsmethoden (z. B. Zielstruktur, Use-Case- oder Kontextdiagramm, Anforderungstabelle) schriftlich dokumentiert.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A01-2",
+        "description": "Die Dokumentation aus Punkt 1 liefert die Grundlage, um die Projektziele konsequent zu verfolgen.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A01-3",
+        "description": "Eine zur Aufgabe passende Projektmethode wurde ausgewählt.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "A01-4",
+        "description": "Die Wahl der Projektmethode ist nachvollziehbar und schriftlich begründet.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "A02",
+    "title": "Informations-Recherche",
+    "question": "Wie werden Informationen recherchiert?",
+    "requirements": [
+      {
+        "id": "A02-1",
+        "description": "Fehlende und für die IPA relevante Informationen wurden identifiziert und systematisch recherchiert.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A02-2",
+        "description": "Es wurde darauf verzichtet, allgemein bekannte Sachverhalte ausführlich wiederzugeben.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A02-3",
+        "description": "Alle verwendeten Informationen, einschliesslich solcher, die auf den Einsatz von künstlicher Intelligenz oder ähnlichen Technologien zurückzuführen sind und nicht auf eigener Leistung beruhen, sind entsprechend deklariert.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "A02-4",
+        "description": "Die recherchierten Informationen sind verlässlich, aktuell und gültig.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "A03",
+    "title": "Informations-Aufbereitung und -Verwendung",
+    "question": "Wie werden Informationen effektiv aufbereitet und verwendet?",
+    "requirements": [
+      {
+        "id": "A03-1",
+        "description": "Die verwendeten Informationen finden in einer klaren und übersichtlichen Dokumentation Niederschlag.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A03-2",
+        "description": "Es werden geeignete Visualisierungsmethoden wie Grafiken, Diagramme oder Tabellen eingesetzt.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A03-3",
+        "description": "Die bereitgestellten Informationen erlauben es einer Fachperson, ein umfassendes Verständnis der IPA (Dokumentation, Lösung) anzueignen.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "A03-4",
+        "description": "Alle verwendeten Informationen stehen im Auftragskontext und finden im Projekt sinnvolle Anwendung.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "A04",
+    "title": "Zeitplan",
+    "question": "Was sind die Anforderungen an den Zeitplan?",
+    "requirements": [
+      {
+        "id": "A04-1",
+        "description": "Der Zeitplan ist Bestandteil von Teil 1 des IPA-Berichts.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A04-2",
+        "description": "Der Zeitplan ist übersichtlich gestaltet.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A04-3",
+        "description": "Struktur und Elemente des Zeitplans orientieren sich nach der gewählten Projektmethode.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "A04-4",
+        "description": "Es wurde eine Zeitachse definiert (Datum), die Zeitachse weist eine vernünftige Granularität auf (z. B. Stundenblöcke).",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "A04-5",
+        "description": "Die identifizierten Aktivitäten sind zweckmässig und folgen einer sinnvollen Logik.",
+        "module": "BF",
+        "part": 5
+      },
+      {
+        "id": "A04-6",
+        "description": "Die IPA-Zeitvorgabe ist im Zeitplan korrekt berücksichtigt.",
+        "module": "BF",
+        "part": 6
+      }
+    ]
+  },
+  {
+    "id": "A05",
+    "title": "Überprüfung und Dokumentation der Fortschritte und Risiken",
+    "question": "Wie erfolgt die Überprüfung und Dokumentation des Projektfortschritts und der Risiken?",
+    "requirements": [
+      {
+        "id": "A05-1",
+        "description": "Der Fortschritt wurde regelmässig überprüft, verständlich und korrekt dokumentiert.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A05-2",
+        "description": "Es gibt eine genaue Gegenüberstellung des geplanten und tatsächlichen Zeitplans (Soll-/Ist-Vergleich).",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A05-3",
+        "description": "Es erfolgte eine periodische Risiko- und Problemüberprüfung. Bei einem allfälligen Eintreten eines Risikos oder Problems wurde professionell darauf reagiert. Es besteht hierzu ein schriftlicher Nachweis.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "A05-4",
+        "description": "Nicht erreichte Ziele wie auch Korrekturmassnahmen und Nacharbeiten zur IPA sind beschrieben. Falls solche Aspekte nicht existieren, ist dies entsprechend begründet.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "A06",
+    "title": "Leistungsfähigkeit",
+    "question": "Wie ist die Leistung einzustufen?",
+    "requirements": [
+      {
+        "id": "A06-1",
+        "description": "Die Projektziele wurden konsequent verfolgt, Prioritäten wurden erkannt und das Vorgehen darauf abgestimmt.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A06-2",
+        "description": "Die Aufgaben wurden effizient und ergebnisorientiert bearbeitet und entsprechen hinsichtlich Arbeitsleistung den Standards einer Informatik-Fachperson.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A06-3",
+        "description": "Ergebnisse und Arbeitsweise sind fachlich korrekt, praxisgerecht und entsprechen hinsichtlich Qualität und Professionalität den Standards einer Informatik-Fachperson.",
+        "module": "BF",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "A07",
+    "title": "Selbständiges Arbeiten",
+    "question": "Wie selbständig wurde gearbeitet?",
+    "requirements": [
+      {
+        "id": "A07-1",
+        "description": "Ziele und Aufgaben wurden eigenständig verfolgt.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A07-2",
+        "description": "Eine ausgeprägte Fähigkeit zur Problemlösung wurde demonstriert; Hindernisse wurden eigenständig überwunden und/oder fremde Hilfe wurde angemessen in Anspruch genommen.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A07-3",
+        "description": "Die Fähigkeit zur Selbstmotivation wurde gezeigt, das Engagement war hoch.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "A07-4",
+        "description": "Die Fähigkeit zur Selbstreflexion wurde gezeigt.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "A08",
+    "title": "Anwendung der Fachsprache",
+    "question": "Wie ist die Anwendung der Fachsprache zu beurteilen?",
+    "requirements": [
+      {
+        "id": "A08-1",
+        "description": "Das relevante Fachvokabular ist bekannt und wird konsistent und fachgerecht angewendet.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A08-2",
+        "description": "Fachinhalte wurden präzise formuliert und korrekt wiedergegeben.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A08-3",
+        "description": "Die Sprache ist durchgängig logisch strukturiert und ermöglicht dem Zielpublikum (externe Fachperson) ein klares Verständnis.",
+        "module": "BF",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "A09",
+    "title": "Anwendung der Fachkompetenz",
+    "question": "Wie ist die Anwendung der Fachkompetenz zu beurteilen?",
+    "requirements": [
+      {
+        "id": "A09-1",
+        "description": "Das theoretische Wissen ist vorhanden und konnte in praktischen Situationen erfolgreich angewandt werden. Bei offensichtlichem Mangel an theoretischem Wissen wird dieser Punkt nicht gesprochen.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A09-2",
+        "description": "Informationen und Sachverhalte wurden kritisch analysiert, um fundierte Schlussfolgerungen zu ziehen.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A09-3",
+        "description": "Der Anspruch der Transferleistung ist erfüllt, da Fähigkeiten und Kenntnisse auf unerwartete oder neuartige Aufgabenstellungen angewandt wurden.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "A09-4",
+        "description": "Methoden und Werkzeuge wurden passend zur gewählten Projektmethode ausgewählt und wirkungsvoll eingesetzt.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "A10",
+    "title": "Interaktion im Projektteam",
+    "question": "Wie ist die Interaktion mit anderen Projektmitgliedern zu beurteilen?",
+    "requirements": [
+      {
+        "id": "A10-1",
+        "description": "Relevante Informationen von Auftraggebern, Experten oder anderen Projektmitgliedern wurden sorgfältig aufgenommen und korrekt dokumentiert.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A10-2",
+        "description": "Rückmeldungen oder Vorgaben wurden nachvollziehbar umgesetzt und im Projektbericht nachgewiesen.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A10-3",
+        "description": "Die Kommunikation mit Projektbeteiligten erfolgte effizient und nachvollziehbar, z. B. über Projektmanagement- oder Kollaborationstools.",
+        "module": "BF",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "A11",
+    "title": "Abbildung der Projektaufbauorganisation",
+    "question": "Welche Informationen zur Projektaufbauorganisation sind verlangt?",
+    "requirements": [
+      {
+        "id": "A11-1",
+        "description": "Die zur gewählten Projektmethode relevanten Rollen wurden identifiziert.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A11-2",
+        "description": "Die Rollen wurden korrekt und verständlich beschrieben.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A11-3",
+        "description": "Die Projektaufbauorganisation ist grafisch dargestellt (z. B. als Organigramm), vollständig und die Abhängigkeiten zwischen den Rollen sind korrekt dargestellt.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "A11-4",
+        "description": "Der schriftliche Nachweis dieser drei Punkte ist Bestandteil von Teil 1 des IPA-Berichts.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "A12",
+    "title": "Testdurchführung und Dokumentation",
+    "question": "Wie wurde die Testdurchführung organisiert und dokumentiert?",
+    "requirements": [
+      {
+        "id": "A12-1",
+        "description": "Es wurde eine Beschreibung der Testinfrastruktur und des Umfelds bereitgestellt, sodass eine externe Fachperson die Tests mit gleichen Ergebnissen reproduzieren kann.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A12-2",
+        "description": "Verbesserungspotential wie auch Nacharbeiten wurden identifiziert. Falls weder Verbesserungspotential besteht noch Nacharbeit nötig ist, ist dies nachvollziehbar begründet.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A12-3",
+        "description": "Bei linearem Vorgehen: Relevante Testszenarien wie auch Testkomponenten (z. B. Funktionen, Daten, Dokumente, Performance, Schnittstellen etc.) sind inklusive der erwarteten Ergebnisse beschrieben.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "A12-4",
+        "description": "Bei linearem Vorgehen: Die Tests wurden basierend auf den Testszenarien durchgeführt. Die Ergebnisse sind korrekt und übersichtlich dokumentiert.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "A12-5",
+        "description": "Bei agilem Vorgehen: Es existiert eine Definition of Done (DoD), die festlegt, welche Bedingungen erfüllt sein müssen, damit eine User Story oder ein Arbeitspaket als abgeschlossen gilt.",
+        "module": "BF",
+        "part": 5
+      },
+      {
+        "id": "A12-6",
+        "description": "Bei agilem Vorgehen: Die Tests wurden basierend auf der DoD durchgeführt. Die Ergebnisse sind korrekt und übersichtlich dokumentiert.",
+        "module": "BF",
+        "part": 6
+      }
+    ]
+  },
+  {
+    "id": "A13",
+    "title": "Erhebung und Dokumentation der Bedürfnisse und Umfeld",
+    "question": "Wie werden die Bedürfnisse und das Umfeld erhoben und dokumentiert?",
+    "requirements": [
+      {
+        "id": "A13-1",
+        "description": "Die Bedürfniserhebung folgte einem strukturierten und geeigneten Vorgehen (Befragungstechniken, Erhebungen oder Modelle). Das Vorgehen ist dokumentiert.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A13-2",
+        "description": "Die relevanten Bedürfnisse (z. B. Kosten, Zeit, Qualität, Funktionen) wurden präzise erhoben und dokumentiert.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A13-3",
+        "description": "Die Bedürfnisse sind nach ihrer Relevanz oder Dringlichkeit priorisiert oder strukturiert.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "A13-4",
+        "description": "Systeme und Umfeld sowie die relevanten Schnittstellen wurden korrekt identifiziert und dokumentiert.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "A14",
+    "title": "Machbarkeitsstudie (Proof of concept)",
+    "question": "Wie ist eine Machbarkeitsstudie durchzuführen?",
+    "requirements": [
+      {
+        "id": "A14-1",
+        "description": "Der Umfang der Machbarkeitsstudie ist korrekt identifiziert und beschrieben.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A14-2",
+        "description": "Sinnvolle Erfolgskriterien wurden identifiziert und beschrieben.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A14-3",
+        "description": "Die Machbarkeitsstudie liefert brauchbare Rückschlüsse zur Anwendbarkeit der geplanten Lösung.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "A14-4",
+        "description": "Die Machbarkeitsstudie liefert eine solide und dokumentierte Grundlage, um über die nächsten Schritte zu befinden.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "A15",
+    "title": "Instruktion",
+    "question": "Wie wird eine Instruktion durchgeführt?",
+    "requirements": [
+      {
+        "id": "A15-1",
+        "description": "Die Instruktion ist systematisch vorbereitet.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A15-2",
+        "description": "Die Instruktion wurde durchgeführt.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A15-3",
+        "description": "Die Instruktion setzt die relevanten Schwerpunkte und ist sinnvoll strukturiert.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "A15-4",
+        "description": "Die Instruktion ist auf die Zielgruppe zugeschnitten.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "A15-5",
+        "description": "Die Instruktion führt den Benutzer zum Erfolg.",
+        "module": "BF",
+        "part": 5
+      }
+    ]
+  },
+  {
+    "id": "A16",
+    "title": "Durchführung einer Evaluation",
+    "question": "Wie ist eine Evaluation durchzuführen?",
+    "requirements": [
+      {
+        "id": "A16-1",
+        "description": "Die Evaluationskriterien sind sinnvoll gewählt.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "A16-2",
+        "description": "Das Gewichtungsschema ist vor der Bewertung festgelegt.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "A16-3",
+        "description": "KO-Kriterien und allfällige Grenzwerte sind festgelegt.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "A16-4",
+        "description": "Die Evaluation wurde durchgeführt, das Ergebnis wurde verständlich dokumentiert.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "A16-5",
+        "description": "Basierend auf dem Evaluations-Ergebnis wurde eine objektive Empfehlung hergeleitet.",
+        "module": "BF",
+        "part": 5
+      }
+    ]
+  },
+  {
+    "id": "B01",
+    "title": "Firewall aufsetzen",
+    "question": "Wie wird eine Firewall aufgesetzt?",
+    "requirements": [
+      {
+        "id": "B01-1",
+        "description": "Die Zugriffskontrolle ist klar geregelt, inklusive der Festlegung erlaubter und verbotener Verbindungen.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "B01-2",
+        "description": "Filterregeln wurden korrekt implementiert, um den Zugriff auf Anwendungen und Dienste zu kontrollieren.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "B01-3",
+        "description": "Funktionen zur Erkennung und Prävention von Eindringversuchen wurden korrekt aktiviert.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "B01-4",
+        "description": "Der Datenverkehr wird bezüglich verdächtiger Aktivitäten überwacht, potenzielle Bedrohungen werden blockiert.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "B01-5",
+        "description": "Eine Protokollierung wurde sinnvoll konfiguriert und aktiviert.",
+        "module": "BF",
+        "part": 5
+      }
+    ]
+  },
+  {
+    "id": "B02",
+    "title": "Installation des Betriebssystems",
+    "question": "Wie erfolgt die Installation eines Betriebssystems?",
+    "requirements": [
+      {
+        "id": "B02-1",
+        "description": "Das Betriebssystem wurde gemäss den Unternehmensstandards und -richtlinien aufgesetzt, einschliesslich der erforderlichen Treiber und Konfigurationsoptionen.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "B02-2",
+        "description": "Nach Abschluss der Installation wurde eine Überprüfung durchgeführt, um sicherzustellen, dass das Betriebssystem ordnungsgemäss funktioniert und alle erforderlichen Komponenten erkannt wurden.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "B02-3",
+        "description": "Es wurde sichergestellt, dass alle erforderlichen Patches und Updates installiert sind, um die Sicherheit und Stabilität des Systems zu gewährleisten.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "B02-4",
+        "description": "Vor der endgültigen Bereitstellung des Systems wurden Benutzertests durchgeführt, um sicherzustellen, dass alle Funktionen ordnungsgemäss funktionieren und die Benutzererwartungen erfüllt werden.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "B03",
+    "title": "Konfiguration der Sicherheitsmassnahmen",
+    "question": "Wie erfolgt die Konfiguration der Sicherheitsmassnahmen?",
+    "requirements": [
+      {
+        "id": "B03-1",
+        "description": "Die erforderlichen Sicherheitsmassnahmen wie Firewall-Konfiguration und Antivirensoftware-Installation wurden gemäss den Unternehmensrichtlinien umgesetzt.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "B03-2",
+        "description": "Es wurde eine umfassende Dokumentation über die durchgeführten Sicherheitskonfigurationen erstellt, einschliesslich der Einstellungen, Ausnahmen und Aktualisierungen.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "B03-3",
+        "description": "Eine Sicherheitsprüfung wurde durchgeführt, um zu gewährleisten, dass die Konfiguration den aktuellen Bedrohungen standhält und den Sicherheitsanforderungen entspricht.",
+        "module": "BF",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "B04",
+    "title": "Identifikation relevanter Prozessinformationen",
+    "question": "Was umfasst die Identifikation relevanter Prozessinformationen?",
+    "requirements": [
+      {
+        "id": "B04-1",
+        "description": "Die Prozessinformationen wurden vollständig erfasst und umfassen mindestens die Bezeichnung des Prozesses, das auslösende Ereignis, das erwartete Ergebnis, den Auslöser des Prozesses und den Empfänger des Ergebnisses.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "B04-2",
+        "description": "Die erfassten Prozessinformationen wurden klar und präzise dokumentiert, um eine eindeutige Zuordnung zu ermöglichen.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "B04-3",
+        "description": "Es wurde sichergestellt, dass die erfassten Informationen den tatsächlichen Ablauf des Geschäftsprozesses vollständig abbilden und keine wesentlichen Details fehlen.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "B04-4",
+        "description": "Die Identifikation erfolgte unter Berücksichtigung der spezifischen Anforderungen des Kunden und der branchenüblichen Standards für die Prozessdokumentation.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "B05",
+    "title": "Zerlegung eines Geschäftsprozesses in einzelne Prozessschritte",
+    "question": "Wie erfolgt die Zerlegung eines Geschäftsprozesses in einzelne Prozessschritte?",
+    "requirements": [
+      {
+        "id": "B05-1",
+        "description": "Der Geschäftsprozess wurde systematisch analysiert, um alle relevanten Prozessschritte zu identifizieren und zu erfassen.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "B05-2",
+        "description": "Jeder Prozessschritt wurde klar und verständlich beschrieben, um seine Funktionalität und seine Position im Gesamtprozess zu verdeutlichen.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "B05-3",
+        "description": "Es wurde sichergestellt, dass die Zerlegung des Prozesses eine logische Abfolge von Aktivitäten darstellt und keine wesentlichen Schritte ausgelassen wurden.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "B05-4",
+        "description": "Die Zerlegung erfolgte unter Berücksichtigung der Abhängigkeiten zwischen den einzelnen Prozessschritten sowie der möglichen Variationen oder Ausnahmen, die auftreten können.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "C01",
+    "title": "Daten sichten unter Einsatz des 4V-Modells",
+    "question": "Wie wird das 4V-Modell bei Big Data angewandt?",
+    "requirements": [
+      {
+        "id": "C01-1",
+        "description": "Es wurde deklariert, aus welchen Quellen die Daten stammen, um ihre Herkunft nachvollziehbar zu machen.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "C01-2",
+        "description": "Die Komponente Menge (Volume) des 4V-Modells wurde korrekt beschrieben.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "C01-3",
+        "description": "Die Komponente Vielfalt (Variety) des 4V-Modells wurde korrekt beschrieben.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "C01-4",
+        "description": "Die Komponente Geschwindigkeit (Velocity) des 4V-Modells wurde korrekt beschrieben.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "C01-5",
+        "description": "Die Komponente Zuverlässigkeit (Veracity) des 4V-Modells wurde korrekt beschrieben.",
+        "module": "BF",
+        "part": 5
+      }
+    ]
+  },
+  {
+    "id": "C02",
+    "title": "Datenmodelle entwickeln",
+    "question": "Wie wird ein Datenmodell entwickelt?",
+    "requirements": [
+      {
+        "id": "C02-1",
+        "description": "Es wurde eine geeignete Datenmodellierungsmethodik (z. B. relational, objektorientiert, ER-Modellierung) gewählt, die Wahl wurde sinnvoll begründet.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "C02-2",
+        "description": "In der Umsetzung des Datenmodells wurden die spezifischen Geschäftsanforderungen korrekt widerspiegelt.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "C02-3",
+        "description": "Die Grundsätze der Normalisierung wurden sinnvoll angewandt.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "C02-4",
+        "description": "Das Datenmodell ist flexibel und skalierbar.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "C02-5",
+        "description": "Das Datenmodell ist ausreichend dokumentiert, damit andere Entwickler das Modell verstehen und damit arbeiten können.",
+        "module": "BF",
+        "part": 5
+      },
+      {
+        "id": "C02-6",
+        "description": "Die Performanceanforderungen sind dokumentiert und es wurde ihnen entsprochen (z. B. via Indexierungen).",
+        "module": "BF",
+        "part": 6
+      }
+    ]
+  },
+  {
+    "id": "C03",
+    "title": "Datenmodell implementieren",
+    "question": "Wie wird ein Datenmodell implementiert?",
+    "requirements": [
+      {
+        "id": "C03-1",
+        "description": "Es wurde ein geeignetes Datenbankmanagementsystem (z. B. MySQL) ausgewählt, und die Wahl wurde plausibel begründet.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "C03-2",
+        "description": "Basierend auf dem Datenmodell wurden im Datenbankmanagementsystem Tabellen und Beziehungen angelegt.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "C03-3",
+        "description": "Die Datenintegrität wurde durch den Einsatz von Integritätsregeln (Constraints) sowie Primär- und Fremdschlüsseln sichergestellt.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "C03-4",
+        "description": "Es wurden Sicherheitsmassnahmen implementiert, um die Vertraulichkeit und Integrität der Daten zu gewährleisten.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "C03-5",
+        "description": "Es wurden Massnahmen, wie beispielsweise Indexierung, umgesetzt, um den Performanceerwartungen zu entsprechen.",
+        "module": "BF",
+        "part": 5
+      }
+    ]
+  },
+  {
+    "id": "C04",
+    "title": "Durchführung einer Datenmigration",
+    "question": "Wie erfolgt eine Datenmigration?",
+    "requirements": [
+      {
+        "id": "C04-1",
+        "description": "Die Datenmigration aus den definierten Quellen ins Zielsystem wurde strukturiert vorbereitet.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "C04-2",
+        "description": "Die Datenmigration wurde strukturiert durchgeführt.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "C04-3",
+        "description": "Die relevanten Funktions- und Performancetests wurden durchgeführt, dokumentiert und ausgewertet.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "C04-4",
+        "description": "Die migrierten Daten wurden korrekt auf Vollständigkeit und Integrität geprüft. Bei Unregelmässigkeiten wurden diese entweder umgehend behoben oder es wurde ein detailliertes Vorgehen zur Behebung beschrieben.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "C05",
+    "title": "Datensicherheit und Datenschutz planen",
+    "question": "Wie wird der Schutz von Daten geplant?",
+    "requirements": [
+      {
+        "id": "C05-1",
+        "description": "Es wurde erfolgreich ein Modell entwickelt oder gewählt, welches eine Klassifizierung der Daten nach ihrer Schutzwürdigkeit ermöglicht. Das Modell ist beschrieben.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "C05-2",
+        "description": "Die Klassifizierung der relevanten Daten nach ihrer Schutzwürdigkeit wurde durchgeführt.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "C05-3",
+        "description": "Es wurden erfolgreich Modelle eingesetzt, welche den Grundsätzen von \"Privacy by Design\" entsprechen.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "C05-4",
+        "description": "Ein einsetzbares Rollenkonzept wurde beschrieben, das Zuweisungen von Verantwortlichkeiten und Zugriffsrechten für die verschiedenen Benutzerrollen innerhalb des Systems festlegt.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "C05-5",
+        "description": "Es wurde ein einsetzbares Backup-Recovery-Konzept beschrieben.",
+        "module": "BF",
+        "part": 5
+      }
+    ]
+  },
+  {
+    "id": "C06",
+    "title": "Verschlüsselung von Daten",
+    "question": "Wie werden Daten verschlüsselt?",
+    "requirements": [
+      {
+        "id": "C06-1",
+        "description": "Ein geeigneter Verschlüsselungsalgorithmus wurde gewählt und die Wahl wurde begründet.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "C06-2",
+        "description": "Ein robustes Schlüsselmanagement wurde entwickelt, das die sichere Erzeugung, Speicherung, Verteilung und Vernichtung von Verschlüsselungsschlüsseln ermöglicht.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "C06-3",
+        "description": "Die End-to-End-Verschlüsselung wurde erfolgreich implementiert.",
+        "module": "BF",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "C07",
+    "title": "Planung eines Backup-Recovery-Konzepts und Durchführung",
+    "question": "Wie wird ein Backup-Recovery-Konzept geplant und durchgeführt?",
+    "requirements": [
+      {
+        "id": "C07-1",
+        "description": "Es wurde eine Backup-Strategie entwickelt, welche mindestens Datenumfang, Häufigkeit der Backups, Backup-Methode und einen sicheren Speicherort korrekt festlegt.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "C07-2",
+        "description": "Es wurden Backup-Routinen konzipiert und implementiert, damit die Daten in definierten Intervallen gespeichert werden.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "C07-3",
+        "description": "Der Backup-Wiederherstellungsprozess wurde erfolgreich getestet.",
+        "module": "BF",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "C08",
+    "title": "Planung und Implementierung eines Rollenkonzepts",
+    "question": "Wie wird ein Rollenkonzept geplant und implementiert?",
+    "requirements": [
+      {
+        "id": "C08-1",
+        "description": "Die entsprechenden Rollen wurden korrekt identifiziert und beschrieben.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "C08-2",
+        "description": "Ein einsetzbares Berechtigungsmanagement wurde entwickelt, welches die Rollen mit entsprechenden Zugriffsrechten verknüpft.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "C08-3",
+        "description": "Das Prinzip der geringsten Privilegien (Least Privilege) wurde korrekt angewandt.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "C08-4",
+        "description": "Das Konzept wurde erfolgreich implementiert.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "C09",
+    "title": "Daten analysieren, identifizieren sowie Validität prüfen.",
+    "question": "Wie werden die Daten analysiert, identifiziert sowie auf Datenfehler und Validität geprüft?",
+    "requirements": [
+      {
+        "id": "C09-1",
+        "description": "Die relevanten Daten wurden nach einem systematischen Ansatz analysiert.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "C09-2",
+        "description": "Die essenziellen Informationen wurden identifiziert.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "C09-3",
+        "description": "Es wurden entsprechende Massnahmen ergriffen, um Datenfehler zu erkennen und die Validität der Daten sicherzustellen.",
+        "module": "BF",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "C10",
+    "title": "Daten aufbereiten, darstellen und bewerten.",
+    "question": "Wie werden Daten dargestellt?",
+    "requirements": [
+      {
+        "id": "C10-1",
+        "description": "Es wurden geeignete Darstellungsmethoden gewählt und eingesetzt.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "C10-2",
+        "description": "Es wurden geeignete Methoden eingesetzt, um die Konsistenz der dargestellten Daten sicherzustellen. Die Umsetzung ist dokumentiert.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "C10-3",
+        "description": "Die präsentierten Ergebnisse sind von Relevanz und bieten einen Mehrwert, beispielsweise für eine Entscheidungsfindung oder für Analysezwecke.",
+        "module": "BF",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "C11",
+    "title": "Einsatz von KI-Modellen",
+    "question": "Wie werden KI-Modelle souverän eingesetzt?",
+    "requirements": [
+      {
+        "id": "C11-1",
+        "description": "Der Einsatz von KI-Modellen führte zu höherer Effizienz, beispielsweise durch schnellere Datenanalyse oder Prozessautomatisierung.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "C11-2",
+        "description": "Der Einsatz von KI-Modellen führte zu höherer Effektivität, beispielsweise durch bessere Entscheidungsfindung oder frühzeitige Fehlererkennung.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "C11-3",
+        "description": "Der Einsatz von KI-Modellen führte zu einer Qualitätssteigerung, beispielsweise in Form höherwertiger Datenqualität.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "C11-4",
+        "description": "Die Input-Werte für das KI-Modell wurden durch korrekt und präzise formulierte Erwartungen und Spezifikationen bereitgestellt.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "C11-5",
+        "description": "Das KI-Modell wurde zweckmässig genutzt.",
+        "module": "BF",
+        "part": 5
+      },
+      {
+        "id": "C11-6",
+        "description": "Die Ergebnisse wurden objektiv geprüft.",
+        "module": "BF",
+        "part": 6
+      }
+    ]
+  },
+  {
+    "id": "C12",
+    "title": "Eine KI mittels Machine Learning antrainieren",
+    "question": "Wie erfolgt das Anlernen einer KI mittels Machine Learning?",
+    "requirements": [
+      {
+        "id": "C12-1",
+        "description": "Das zu lösende Problem sowie das Ziel wurden klar definiert.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "C12-2",
+        "description": "Relevante Trainingsdaten wurden beschafft und entsprechend aufbereitet.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "C12-3",
+        "description": "Ein geeignetes Machine-Learning-Modell wurde evaluiert.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "C12-4",
+        "description": "Der Trainingsprozess wurde erfolgreich durchgeführt.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "C12-5",
+        "description": "Das KI-Modell wurde bewertet und basierend auf den Erkenntnissen verbessert beziehungsweise die Limitationen wurden beschrieben.",
+        "module": "BF",
+        "part": 5
+      },
+      {
+        "id": "C12-6",
+        "description": "Das KI-Modell wurde in die Nutzungsphase überführt.",
+        "module": "BF",
+        "part": 6
+      }
+    ]
+  },
+  {
+    "id": "D01",
+    "title": "Analyse",
+    "question": "Wie wurden Prozesse und Informationen aufbereitet?",
+    "requirements": [
+      {
+        "id": "D01-1",
+        "description": "Bedürfnisse und Rahmenbedingungen wurden auftragsbezogen definiert und beschrieben.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "D01-2",
+        "description": "Aus der Analyse sind Optimierungen oder fehlende Elemente nachvollziehbar beschrieben.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "D01-3",
+        "description": "Die Implementierbarkeit ist dokumentiert und beschrieben.",
+        "module": "PE",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "D02",
+    "title": "Standardisierung, Optimierung und Automatisierung",
+    "question": "Wie wurden Arbeiten und Prozesse standardisiert, automatisiert und/oder optimiert?",
+    "requirements": [
+      {
+        "id": "D02-1",
+        "description": "Prozesse und Vorgänge zur Automatisierung und/oder Optimierung wurden identifiziert.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "D02-2",
+        "description": "Prozesse und Vorgänge zur Automatisierung und/oder Optimierung wurden beschrieben.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "D02-3",
+        "description": "Der Mehrwert aus den definierten Prozessen ist beschrieben und nachvollziehbar.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "D02-4",
+        "description": "Die Umsetzung berücksichtigt geltende Standards oder Best Practices und ist nachvollziehbar.",
+        "module": "PE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "D03",
+    "title": "Sicherstellung des Betriebs und der Weiterentwicklung",
+    "question": "Was ist zu beachten, damit das erstellte Produkt erfolgreich betrieben oder weiterentwickelt werden kann?",
+    "requirements": [
+      {
+        "id": "D03-1",
+        "description": "Es steht eine detaillierte Übergabe-Dokumentation zur Verfügung, die alle relevanten Informationen für den Betreiber des Produkts enthält, beispielsweise Anleitungen zur Installation, Konfiguration, Wartung und Fehlerbehebung.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "D03-2",
+        "description": "Es existiert eine präzise Beschreibung, die die nächsten Entwicklungsschritte oder Massnahmen aufzeigt. Gibt es keine weiteren Entwicklungsschritte oder Massnahmen, ist das entsprechend begründet.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "D03-3",
+        "description": "Basierend auf den Punkten eins und zwei kann der Betrieb und/oder die Weiterentwicklung der Lösung durch eine Fachperson ohne zusätzliche Mithilfe der in der IPA beauftragten Person sichergestellt werden.",
+        "module": "PE",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "D04",
+    "title": "Plattform wählen und bereitstellen",
+    "question": "Wie erfolgen die Wahl und Bereitstellung der Plattform?",
+    "requirements": [
+      {
+        "id": "D04-1",
+        "description": "Die technischen Rahmenbedingungen für die Wahl der Plattform wurden definiert und beschrieben.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "D04-2",
+        "description": "Die Wahl der Plattform ist fachlich begründet und berücksichtigt die Rahmenbedingungen sowie den Auftrag.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "D04-3",
+        "description": "Die technische Umsetzung und Konfiguration für die Implementierung wurden definiert und beschrieben.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "D04-4",
+        "description": "Die Plattform wurde erfolgreich in Betrieb genommen.",
+        "module": "PE",
+        "part": 4
+      },
+      {
+        "id": "D04-5",
+        "description": "Eine geeignete Dokumentation ermöglicht einer Fachperson eine effiziente Anpassung der Plattform.",
+        "module": "PE",
+        "part": 5
+      }
+    ]
+  },
+  {
+    "id": "D05",
+    "title": "Inbetriebnahme und Übergabe einer ICT-Lösung",
+    "question": "Wie wurde die ICT-Lösung in Betrieb genommen und die Übergabe geplant?",
+    "requirements": [
+      {
+        "id": "D05-1",
+        "description": "Inhaltliche und technische Anpassungen und Konfigurationen der Umsysteme sind nachvollziehbar beschrieben.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "D05-2",
+        "description": "Die Inbetriebnahme wurde mit den Stakeholdern koordiniert und notwendige Schulungen zur Gewährleistung der Betriebsübernahme sind definiert.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "D05-3",
+        "description": "Die Inbetriebnahme wurde durch klare Schritte und Prozesse gewährleistet, um einen reibungslosen und nachvollziehbaren Betrieb sicherzustellen.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "D05-4",
+        "description": "Alle benötigten Informationen zum Weiterbetrieb der Lösung sind vorhanden und richten sich an eine Fachperson.",
+        "module": "PE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "E01",
+    "title": "Netzwerkplanung",
+    "question": "Was ist bei der Planung eines Netzwerks zu beachten?",
+    "requirements": [
+      {
+        "id": "E01-1",
+        "description": "Die betrieblichen Anforderungen an das Netzwerk wurden umfassend erhoben, beispielsweise Bandbreite, Anzahl Benutzer, betroffene Standorte und notwendige Sicherheitsmassnahmen.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "E01-2",
+        "description": "Basierend auf den Anforderungen wurde eine passende Netzwerkarchitektur abgeleitet, die eine optimale Leistung, Skalierbarkeit, Verfügbarkeit und Sicherheit gewährleistet.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "E01-3",
+        "description": "Die Netzwerkarchitektur beinhaltet die richtigen Netzwerkkomponenten, die Festlegung von Netzwerksegmentierungen sowie die Konfiguration von Routing- und Switching-Protokollen.",
+        "module": "PE",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "E02",
+    "title": "Netzwerk dokumentieren und visualisieren",
+    "question": "Wie ist ein Netzwerk zu dokumentieren und zu visualisieren?",
+    "requirements": [
+      {
+        "id": "E02-1",
+        "description": "Die Netzwerkumgebung ist visuell dargestellt und die Darstellung ist umfassend.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "E02-2",
+        "description": "Die Objekte der visuellen Darstellung sind in ihrer Art und Funktion identifizierbar.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "E02-3",
+        "description": "Die Dokumentation umfasst eine Aufzeichnung aller Funktionen, Dienste und Spezifikationen der Netzwerkkomponenten, einschliesslich ihrer technischen Details und Funktionalitäten.",
+        "module": "PE",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "E03",
+    "title": "Netzwerkkomponenten auswählen",
+    "question": "Was ist bei der Auswahl von Netzwerkkomponenten zu beachten?",
+    "requirements": [
+      {
+        "id": "E03-1",
+        "description": "Die ausgewählten Netzwerkkomponenten erfüllen die Anforderungen an Bandbreite, Geschwindigkeit, Übertragungsprotokolle und andere relevante Leistungsmerkmale.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "E03-2",
+        "description": "Die ausgewählten Netzwerkkomponenten können nahtlos mit anderen Netzwerkgeräten und -systemen integriert werden.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "E03-3",
+        "description": "Die Verwaltbarkeit, Konfigurierbarkeit und Wartungsintensität der Komponenten sind der Situation angemessen.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "E03-4",
+        "description": "Den erforderlichen Sicherheitsstandards wird entsprochen.",
+        "module": "PE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "E04",
+    "title": "Netzwerkkomponenten in Betrieb nehmen",
+    "question": "Wie ist bei der Inbetriebnahme von Netzwerkkomponenten vorzugehen?",
+    "requirements": [
+      {
+        "id": "E04-1",
+        "description": "Die physische Installation der Netzwerkkomponenten wurde korrekt vorgenommen.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "E04-2",
+        "description": "Die Netzwerkkomponenten wurden korrekt konfiguriert.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "E04-3",
+        "description": "Konnektivitätsprüfungen, Leistungstests, Überprüfung der Datenintegrität und Sicherheitstests wurden durchgeführt; allfällige nötige Massnahmen wurden initiiert.",
+        "module": "PE",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "E05",
+    "title": "Planung der Wartung von Netzwerkkomponenten",
+    "question": "Was ist bezüglich Planung der Wartung von Netzwerkkomponenten zu berücksichtigen?",
+    "requirements": [
+      {
+        "id": "E05-1",
+        "description": "Wartungsmassnahmen und deren Zyklen sind definiert und berücksichtigen die Wichtigkeit.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "E05-2",
+        "description": "Der Lebenszyklus der Netzwerkkomponenten und der verbundenen Dienste ist detailliert dokumentiert.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "E05-3",
+        "description": "Die Funktionsüberprüfung nach Wartungsmassnahmen ist festgehalten.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "E05-4",
+        "description": "Ein Rollback-Plan wurde entwickelt, um im Falle von Problemen während der Wartung eine schnelle Rückkehr zum vorherigen Zustand zu ermöglichen.",
+        "module": "PE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "E06",
+    "title": "Definition von Netzwerk-Sicherheitsmassnahmen",
+    "question": "Wie ist bei der Definition von Netzwerk-Sicherheitsmassnahmen vorzugehen?",
+    "requirements": [
+      {
+        "id": "E06-1",
+        "description": "Sicherheitsrisiken wurden basierend auf ihrer Schwere und der Wichtigkeit der zu schützenden Ressourcen identifiziert und priorisiert.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "E06-2",
+        "description": "Sicherheitsrichtlinien und -standards wurden festgelegt.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "E06-3",
+        "description": "Es wurde ein Plan erarbeitet, um die Netzwerksicherheit kontinuierlich zu überwachen.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "E06-4",
+        "description": "Es wurde ein Plan erarbeitet, der beschreibt, wie im Falle des Eintritts eines Sicherheitsvorfalls umzugehen ist.",
+        "module": "PE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "E07",
+    "title": "Implementierung von Netzwerk-Sicherheitsmassnahmen",
+    "question": "Wie ist bei der Implementierung von Netzwerk-Sicherheitsmassnahmen vorzugehen?",
+    "requirements": [
+      {
+        "id": "E07-1",
+        "description": "Die definierten Sicherheitsmassnahmen wurden erfolgreich implementiert.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "E07-2",
+        "description": "Die implementierten Sicherheitsmassnahmen wurden erfolgreich getestet.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "E07-3",
+        "description": "Es wurden Massnahmen ergriffen, um das System kontinuierlich bezüglich Netzwerksicherheit zu überwachen.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "E07-4",
+        "description": "Die Massnahmen wurden transparent dokumentiert.",
+        "module": "PE",
+        "part": 4
+      },
+      {
+        "id": "E07-5",
+        "description": "Die relevanten Personen wurden über das Vorgehen informiert und wissen, wie sie sich beim Eintritt eines Sicherheitsvorfalls zu verhalten haben.",
+        "module": "PE",
+        "part": 5
+      }
+    ]
+  },
+  {
+    "id": "E08",
+    "title": "Leistungsfähigkeit eines Netzes analysieren",
+    "question": "Wie erfolgt die Prüfung der Leistungsfähigkeit eines Netzwerks?",
+    "requirements": [
+      {
+        "id": "E08-1",
+        "description": "Es wurde ein Konzept erarbeitet, welches Aussagen zu den zu prüfenden Leistungselementen eines Netzwerks macht. Die Zielwerte wurden festgehalten.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "E08-2",
+        "description": "Das Netzwerk wurde basierend auf dem Konzept geprüft und das Prüfergebnis wurde schriftlich festgehalten.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "E08-3",
+        "description": "Das Prüfergebnis resultiert in sinnvollen Massnahme-Empfehlungen.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "E08-4",
+        "description": "Die Massnahmen wurden korrekt adressiert.",
+        "module": "PE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "E09",
+    "title": "Leistungsfähigkeit eines Netzes basierend auf Prüfwerten optimieren",
+    "question": "Wie ist bei der Optimierung eines Netzwerks basierend auf Prüfwerten vorzugehen?",
+    "requirements": [
+      {
+        "id": "E09-1",
+        "description": "Relevante Optimierungsmassnahmen wurden definiert, priorisiert und umfassen konkrete Schritte zur Verbesserung der Netzwerkleistung.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "E09-2",
+        "description": "Die Optimierungsmassnahmen berücksichtigen Einschränkungen und Abhängigkeiten sowohl funktional als auch betriebswirtschaftlich.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "E09-3",
+        "description": "Die Massnahmen wurden umgesetzt, Vorgehen und Ergebnis wurden dokumentiert.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "E09-4",
+        "description": "Der Erfolg wird durch nachweisbare Verbesserungen der Netzwerkleistung und der Erfüllung der definierten Ziele bestätigt.",
+        "module": "PE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "E10",
+    "title": "Konzept zur Überwachung von Netzwerken",
+    "question": "Wie sieht ein Konzept zur Überwachung von Netzwerken aus?",
+    "requirements": [
+      {
+        "id": "E10-1",
+        "description": "Alle sich im definierten Netzwerk befindenden Komponenten sind in einem Konzept beschrieben.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "E10-2",
+        "description": "Die zu überwachenden Elemente aller Komponenten sind definiert.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "E10-3",
+        "description": "Die Begründung der zu überwachenden Elemente aller Komponenten ist nachvollziehbar beschrieben.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "E10-4",
+        "description": "Die Deklaration der Schwellwerte, deren Dringlichkeit und Priorisierung sowie die daraus resultierenden Aktionen sind definiert.",
+        "module": "PE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "E11",
+    "title": "Implementierung einer Netzwerk- und Peripherie-Überwachung",
+    "question": "Wie wird eine Netzwerküberwachung implementiert?",
+    "requirements": [
+      {
+        "id": "E11-1",
+        "description": "Zu überwachende Netzwerkkomponenten wurden gemäss Vorgaben definiert und integriert.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "E11-2",
+        "description": "Die zu überwachenden Elemente der Komponenten wurden gemäss Vorgaben implementiert.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "E11-3",
+        "description": "Aktionen zu den definierten Schwellwerten wurden entsprechend implementiert.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "E11-4",
+        "description": "Die korrekte Funktion der Überwachung wurde nachvollziehbar überprüft.",
+        "module": "PE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "F01",
+    "title": "Anforderungserhebung der Server-Infrastruktur und -Dienste",
+    "question": "Welche Kriterien müssen bei der Anforderungserhebung für Server-Infrastruktur und -Dienste erfüllt werden?",
+    "requirements": [
+      {
+        "id": "F01-1",
+        "description": "Betriebliche Gegebenheiten wurden berücksichtigt.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "F01-2",
+        "description": "Die dem Auftrag angemessenen Leistungsmerkmale, beispielsweise Rechenleistung, Speicherkapazität und Netzwerkbandbreite, wurden festgelegt.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "F01-3",
+        "description": "Die Skalierbarkeit wurde berücksichtigt, um zukünftiges Wachstum und steigende Anforderungen zu adressieren.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "F01-4",
+        "description": "Relevante Sicherheitsanforderungen wurden berücksichtigt.",
+        "module": "PE",
+        "part": 4
+      },
+      {
+        "id": "F01-5",
+        "description": "Die zu erwartenden Kosten wurden ausgewiesen.",
+        "module": "PE",
+        "part": 5
+      },
+      {
+        "id": "F01-6",
+        "description": "Mindestens eine Lösungsvariante wurde dokumentiert und vorgeschlagen. Der Vorschlag macht Sinn.",
+        "module": "PE",
+        "part": 6
+      }
+    ]
+  },
+  {
+    "id": "F02",
+    "title": "Konfiguration der Server-Infrastruktur",
+    "question": "Wie ist bei der Konfiguration der Server-Infrastruktur vorzugehen?",
+    "requirements": [
+      {
+        "id": "F02-1",
+        "description": "Das Betriebssystem wurde nachvollziehbar ausgewählt und korrekt aufgesetzt.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "F02-2",
+        "description": "Die physische Server-Hardware wurde konfiguriert, beispielsweise Prozessor, Speicher, Festplatten, Netzwerkkarten oder RAID-Arrays.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "F02-3",
+        "description": "Die Netzwerkeinstellungen des Servers wurden konfiguriert, einschliesslich IP-Adressen, Subnetzmasken, Gateway-Adressen und DNS-Einstellungen.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "F02-4",
+        "description": "Nötige Dienste und Anwendungen wurden installiert, konfiguriert und bereitgestellt.",
+        "module": "PE",
+        "part": 4
+      },
+      {
+        "id": "F02-5",
+        "description": "Alle Vorgaben aus der Aufgabenstellung wurden implementiert, beispielsweise Firewall-Regeln oder Zugriffskontrollen.",
+        "module": "PE",
+        "part": 5
+      }
+    ]
+  },
+  {
+    "id": "F03",
+    "title": "Abnahme einer Server-Infrastruktur oder von Server-Diensten",
+    "question": "Wie ist bei der Abnahme einer Server-Infrastruktur oder von Server-Diensten vorzugehen?",
+    "requirements": [
+      {
+        "id": "F03-1",
+        "description": "Die Abnahmekriterien sind klar definiert und geeignet.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "F03-2",
+        "description": "Ein ausführliches Testkonzept zur Überprüfung von Funktionalität, Performance und Sicherheit ist vorhanden.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "F03-3",
+        "description": "Systemabhängigkeiten sind dokumentiert.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "F03-4",
+        "description": "Die Abnahme basiert auf den definierten Kriterien und Tests, wurde durchgeführt und dokumentiert.",
+        "module": "PE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "F04",
+    "title": "Erstellen und Führen des Betriebshandbuchs",
+    "question": "Was ist bei der Erstellung und Führung eines Betriebshandbuchs zu beachten?",
+    "requirements": [
+      {
+        "id": "F04-1",
+        "description": "Das Betriebshandbuch dokumentiert die Infrastruktur und Dienste sowie deren Abhängigkeiten.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "F04-2",
+        "description": "Das Betriebshandbuch beschreibt Verantwortungen und Zuständigkeiten.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "F04-3",
+        "description": "Das Betriebshandbuch beschreibt das Dokumentationsverfahren der Wartungs- und Arbeitshistorie.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "F04-4",
+        "description": "Der Zugriff auf das Betriebshandbuch ist für alle betroffenen Personen gewährleistet und dokumentiert.",
+        "module": "PE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "F05",
+    "title": "Erstellung eines Wartungskonzepts",
+    "question": "Was ist bei der Erstellung eines Wartungskonzepts zu beachten?",
+    "requirements": [
+      {
+        "id": "F05-1",
+        "description": "Das Wartungskonzept beinhaltet die Definition und Dokumentation der Wartungsaufgaben.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "F05-2",
+        "description": "Die Wartungszyklen und deren Regelmässigkeit sind beschrieben.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "F05-3",
+        "description": "Planung und Kommunikation der Wartungen sind festgehalten und klar geregelt.",
+        "module": "PE",
+        "part": 3
+      },
+      {
+        "id": "F05-4",
+        "description": "Die Protokollierung und Versionierung sind nachvollziehbar beschrieben.",
+        "module": "PE",
+        "part": 4
+      },
+      {
+        "id": "F05-5",
+        "description": "Es bestehen Backup- und Wiederherstellungsstrategien, diese sind im Konzept reproduzierbar aufgelistet.",
+        "module": "PE",
+        "part": 5
+      }
+    ]
+  },
+  {
+    "id": "F06",
+    "title": "Durchführung der Wartung",
+    "question": "Wie wird eine Wartung durchgeführt?",
+    "requirements": [
+      {
+        "id": "F06-1",
+        "description": "Die Durchführung der Wartung orientiert sich an einem Wartungskonzept.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "F06-2",
+        "description": "Die Wartung wurde durchgeführt und protokolliert.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "F06-3",
+        "description": "Die Systemverfügbarkeit wurde nach Wartungsabschluss überprüft.",
+        "module": "PE",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "F07",
+    "title": "Implementierung einer Archivierungslösung",
+    "question": "Wie erfolgt die Implementierung einer Archivierungslösung?",
+    "requirements": [
+      {
+        "id": "F07-1",
+        "description": "Die Implementation der Archivierungslösung folgt einem Archivierungskonzept.",
+        "module": "PE",
+        "part": 1
+      },
+      {
+        "id": "F07-2",
+        "description": "Die Archivierung ist fachlich korrekt umgesetzt und dokumentiert.",
+        "module": "PE",
+        "part": 2
+      },
+      {
+        "id": "F07-3",
+        "description": "Die Archivierungsfunktion ist sichergestellt und getestet.",
+        "module": "PE",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "G01",
+    "title": "Dokumentation fachlicher und technischer Anforderungen",
+    "question": "Wie wurden die fachlichen und technischen Anforderungen erfasst und dokumentiert?",
+    "requirements": [
+      {
+        "id": "G01-1",
+        "description": "Die fachlichen und technischen Anforderungen sind vollständig, verständlich und nachvollziehbar dokumentiert.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G01-2",
+        "description": "Die Anforderungen sind lösungsneutral beschrieben und entsprechend ihrer Relevanz oder Priorität gekennzeichnet.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G01-3",
+        "description": "Die Anforderungen sind klar formuliert, eindeutig abgegrenzt und bei Bedarf mit Beispielen oder Akzeptanzkriterien ergänzt.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G01-4",
+        "description": "Die Dokumentation enthält einheitliche Begriffsdefinitionen und eine klare Struktur, sodass die Stakeholder diese problemlos verstehen.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "G02",
+    "title": "Validierung und Abstimmung von Anforderungen mit Stakeholdern",
+    "question": "Wie wurden die Anforderungen mit den Stakeholdern abgestimmt und validiert?",
+    "requirements": [
+      {
+        "id": "G02-1",
+        "description": "Die Anforderungen wurden in Zusammenarbeit mit allen relevanten Stakeholdern, inklusive Endnutzern, überprüft und validiert.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G02-2",
+        "description": "Rückmeldungen und Änderungswünsche der Beteiligten wurden aufgenommen, dokumentiert und berücksichtigt.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G02-3",
+        "description": "Die endgültigen Anforderungen sind gemeinsam abgestimmt und für alle nachvollziehbar festgehalten.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G02-4",
+        "description": "Die Dokumentation der Anforderungen ist aktuell, inklusive aller Änderungen während des Entwicklungsprozesses.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "G03",
+    "title": "Entwicklung von Gestaltungsentwürfen",
+    "question": "Wie wurde sichergestellt, dass die Gestaltungsentwürfe für Benutzerschnittstellen den technischen Vorgaben entsprachen?",
+    "requirements": [
+      {
+        "id": "G03-1",
+        "description": "Es wurden geeignete grafische Tools zur Erstellung von Gestaltungsentwürfen wie Mock-ups eingesetzt, die den Richtlinien der eingesetzten Technologie und Vorgaben der Firma entsprechen.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G03-2",
+        "description": "Benutzerfreundlichkeit und technische Machbarkeit wurden in den Entwürfen gewährleistet.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G03-3",
+        "description": "Die finalen Gestaltungsentwürfe sind vollständig dokumentiert, inklusive aller Änderungen und Begründungen für diese Anpassungen.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G03-4",
+        "description": "Die Entwürfe wurden mit dem Auftraggeber abgeglichen und in die Überarbeitung integriert, um eine optimale Benutzererfahrung zu sichern.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "G04",
+    "title": "Überprüfung der technischen Machbarkeit",
+    "question": "Wie wurden die technischen Anforderungen auf Machbarkeit überprüft und sichergestellt, dass die Lösung umsetzbar ist?",
+    "requirements": [
+      {
+        "id": "G04-1",
+        "description": "Die technische Machbarkeit der geplanten Lösung wurde überprüft, beispielsweise hinsichtlich Schnittstellen, Datenstrukturen, Technologien oder Abhängigkeiten.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G04-2",
+        "description": "Potenzielle Risiken oder technische Einschränkungen wurden früh erkannt und nachvollziehbar dokumentiert.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G04-3",
+        "description": "Mit Stakeholdern oder Fachpersonen wurden machbare Alternativen oder Optimierungen besprochen.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G04-4",
+        "description": "Die gewählte Lösung ist technisch realisierbar und entspricht den definierten Anforderungen.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "G05",
+    "title": "Prototyping und Validierung der Benutzeroberfläche",
+    "question": "Wie wurden Benutzeroberflächen und Abläufe mit geeigneten Prototypen gestaltet, getestet und verbessert?",
+    "requirements": [
+      {
+        "id": "G05-1",
+        "description": "Zentrale Funktionen oder Abläufe wurden mit Prototypen dargestellt.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G05-2",
+        "description": "Die Prototypen wurden genutzt, um Benutzerfreundlichkeit, Informationsfluss und Gestaltung zu überprüfen.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G05-3",
+        "description": "Rückmeldungen von Beteiligten oder Testpersonen wurden eingeholt und in die Verbesserung eingearbeitet.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G05-4",
+        "description": "Die finalen Oberflächen sind klar, konsistent und orientieren sich an aktuellen Usability- und Designprinzipien.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "G06",
+    "title": "Risikoanalyse und Sicherheitsmassnahme",
+    "question": "Wie wurden Sicherheitsrisiken von Applikationen und Schnittstellen identifiziert und wie wurden diese adressiert?",
+    "requirements": [
+      {
+        "id": "G06-1",
+        "description": "Relevante Risiken im Projekt wurden systematisch identifiziert und dokumentiert.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G06-2",
+        "description": "Das Systemumfeld wurde analysiert, um sicherheitsrelevante Schwachstellen zu erkennen.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G06-3",
+        "description": "Geeignete Sicherheitsmassnahmen wie Verschlüsselung und Zugriffssicherheit sind spezifiziert und umgesetzt worden.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G06-4",
+        "description": "Die Ergebnisse und geplanten Massnahmen wurden mit den Stakeholdern abgestimmt.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "G07",
+    "title": "Entwicklung und Anpassung des Anforderungskatalogs",
+    "question": "Wie wurde der Anforderungskatalog für Sicherheitsmassnahmen von Applikationen und/oder Schnittstellen erstellt oder angepasst?",
+    "requirements": [
+      {
+        "id": "G07-1",
+        "description": "Der Anforderungskatalog wurde basierend auf den identifizierten Sicherheitsrisiken und den diskutierten Massnahmen aktualisiert und detailliert ausgearbeitet.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G07-2",
+        "description": "Sicherheitsrelevante Informationen wurden systematisch im Team und mit der Community, beispielsweise OWASP, ausgetauscht und in die Anforderungen integriert.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G07-3",
+        "description": "Alle sicherheitsrelevanten Risiken und Massnahmen sind im Anforderungskatalog nachvollziehbar dokumentiert und klar kommuniziert.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G07-4",
+        "description": "Der überarbeitete Anforderungskatalog wurde mit den Stakeholdern besprochen, um eine vollständige Übereinstimmung mit den Sicherheitsanforderungen zu gewährleisten.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "G08",
+    "title": "Erarbeitung von Umsetzungsvarianten",
+    "question": "Wie wurden alternative Umsetzungsmöglichkeiten für die Applikation bewertet und ausgewählt?",
+    "requirements": [
+      {
+        "id": "G08-1",
+        "description": "Mindestens zwei mögliche Umsetzungsvarianten wurden skizziert und beschrieben, beispielsweise Ablauf, Komponenten oder Technologien.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G08-2",
+        "description": "Vor- und Nachteile jeder Variante wurden dokumentiert, um eine sachliche Entscheidungsgrundlage zu schaffen.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G08-3",
+        "description": "Die Auswahl der bevorzugten Variante wurde nachvollziehbar begründet und mit den relevanten Stakeholdern abgestimmt.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G08-4",
+        "description": "Für die gewählte Variante wurde eine Machbarkeitsprüfung durchgeführt, um die Realisierbarkeit zu bestätigen.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "G09",
+    "title": "Ausarbeitung des Realisierungskonzepts",
+    "question": "Wie wird das Realisierungskonzept für die ausgewählte Umsetzungsvariante entwickelt?",
+    "requirements": [
+      {
+        "id": "G09-1",
+        "description": "Das fachliche und technische Realisierungskonzept wurde schrittweise ausgearbeitet, inklusive Use Cases, Komponenten, Schichten, Abläufen, Schnittstellen, Klassen und Datenmodell.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G09-2",
+        "description": "Relevante Daten, Abläufe, Systeme und Schnittstellen wurden analysiert und die Ergebnisse präzise dokumentiert.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G09-3",
+        "description": "Zur Dokumentation und Darstellung des Konzepts wurden geeignete Werkzeuge und/oder Methoden, beispielsweise UML, verwendet.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G09-4",
+        "description": "Bei Bedarf wurden Anpassungen für bestehende Applikationen entworfen und in das Konzept integriert.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "G10",
+    "title": "Einrichtung der Entwicklungs- und Laufzeitumgebung",
+    "question": "Wie wird eine geeignete Entwicklungs- und Laufzeitumgebung eingerichtet?",
+    "requirements": [
+      {
+        "id": "G10-1",
+        "description": "Die Auswahl und Konfiguration der Entwicklungs- und Laufzeitumgebung basiert auf dem Realisierungskonzept sowie den spezifischen Firmenvorgaben.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G10-2",
+        "description": "Alle notwendigen Tools und Dienste für die Entwicklung, beispielsweise IDEs, Datenbanken und Versionierungssysteme, sind installiert und funktionsfähig.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G10-3",
+        "description": "Die Umgebung unterstützt die Entwicklung sowohl des Back-Ends als auch des Front-Ends und berücksichtigt dabei Sicherheitsanforderungen.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G10-4",
+        "description": "Die Einrichtung ermöglicht eine effiziente, strukturierte Programmierung und unterstützt regelmässige Tests und Debugging-Aktivitäten.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "G11",
+    "title": "Konforme Implementierung und Versionierung",
+    "question": "Wie werden Applikationen und Schnittstellen konform implementiert und versioniert?",
+    "requirements": [
+      {
+        "id": "G11-1",
+        "description": "Back-End und Front-End wurden gemäss den definierten Anforderungen und unter Einhaltung der Programmiersprachen, Entwicklungstools und Sicherheitsvorgaben implementiert.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G11-2",
+        "description": "Regelmässige Überprüfungen der Implementierung gegen die Anforderungen wurden durchgeführt, mit kontinuierlicher Anpassung und Optimierung.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G11-3",
+        "description": "Die Einhaltung von Coderichtlinien wurde überprüft, um Nachvollziehbarkeit und Verständlichkeit des Codes zu sichern.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G11-4",
+        "description": "Alle Änderungen und Erweiterungen wurden übersichtlich und zuverlässig in einem Softwareverwaltungssystem abgelegt, wobei firmeninterne Richtlinien beachtet wurden.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "G12",
+    "title": "Testkonzepterstellung und Testfalldefinition",
+    "question": "Wie wurden Testkonzepte und Testfälle für die Applikationen und/oder Schnittstellen entwickelt?",
+    "requirements": [
+      {
+        "id": "G12-1",
+        "description": "Das Testumfeld wurde vollständig beschrieben, inklusive System, Akteure, Daten, Benutzer und Berechtigungen, sodass eine aussenstehende Person dieses Umfeld reproduzieren kann.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G12-2",
+        "description": "Eine Auswahl geeigneter Testarten wurde getroffen und die Begründung wurde dokumentiert.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G12-3",
+        "description": "Testfälle wurden klar in Bezug auf Anwendungsfälle und Anforderungen beschrieben, unter Berücksichtigung verschiedener Testperspektiven, und sind wiederholbar gestaltet.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G12-4",
+        "description": "Erwartete Ergebnisse für jeden Testfall wurden definiert und sind nachvollziehbar dokumentiert. Unerwartete Ergebnisse beziehungsweise Fehler wurden souverän behoben.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "G13",
+    "title": "Durchführung und Auswertung von Tests",
+    "question": "Wie wird die Durchführung von Tests organisiert und deren Ergebnisse ausgewertet?",
+    "requirements": [
+      {
+        "id": "G13-1",
+        "description": "Eine geeignete Testumgebung wurde gemäss dem Testkonzept aufgebaut und alle automatisierbaren Testfälle wurden implementiert.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G13-2",
+        "description": "Testfälle wurden umfassend durchgeführt, wobei besonderes Augenmerk auf die Sorgfalt der Testdurchführung und die Nachvollziehbarkeit der Protokollierung gelegt wurde.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G13-3",
+        "description": "Ergebnisse der Testläufe wurden systematisch ausgewertet und dokumentiert; nicht erfolgreiche Testfälle wurden identifiziert und Korrekturmassnahmen eingeleitet.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G13-4",
+        "description": "Die Implementierung wurde gemäss dem Sicherheitskonzept überprüft, und bei Abweichungen wurden geeignete Korrekturmassnahmen getroffen.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "G14",
+    "title": "Berücksichtigung sicherer Programmierpraktiken",
+    "question": "Wie werden sichere Programmierpraktiken angewandt?",
+    "requirements": [
+      {
+        "id": "G14-1",
+        "description": "Die Software wurde unter Berücksichtigung sicherer Programmierpraktiken entwickelt, beispielsweise durch Vermeidung von SQL-Injektionen, Cross-Site-Scripting und unsicheren Datenübertragungen.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G14-2",
+        "description": "Es wurden Sicherheitsüberprüfungen und -tests durchgeführt, einschliesslich der Implementierung automatisierter Tests, um sicherzustellen, dass sicherheitsrelevante Anforderungen erfüllt sind.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G14-3",
+        "description": "Die Dokumentation umfasst klare Richtlinien zu Cyber-Security, einschliesslich Best Practices für die sichere Softwareentwicklung, Anleitungen zur Durchführung von Sicherheitsüberprüfungen sowie einen Plan zur Reaktion auf Sicherheitsvorfälle.",
+        "module": "AE",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "G15",
+    "title": "Weiterführende Test- und Qualitätssicherungsmassnahmen",
+    "question": "Wie sind weiterführende Test- und Qualitätsmassnahmen umzusetzen?",
+    "requirements": [
+      {
+        "id": "G15-1",
+        "description": "Automatisierte Tests wurden umfassend implementiert, einschliesslich Unit-Tests, Integrationstests und gegebenenfalls End-to-End-Tests, und sind klar strukturiert sowie dokumentiert.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G15-2",
+        "description": "Test-Driven Development (TDD) wurde konsequent angewendet.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G15-3",
+        "description": "Es wurden geeignete Testtools und -frameworks eingesetzt, um Tests zu automatisieren, und die Ergebnisse der Tests wurden regelmässig überprüft; zusätzlich wurden Metriken zur Testabdeckung erfasst und ausgewertet.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G15-4",
+        "description": "Die Projektdokumentation umfasst eine Beschreibung der Teststrategie, einschliesslich der verwendeten Automatisierungstools, der Struktur der Tests und der Vorgehensweise zur Sicherstellung der Testqualität.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "G16",
+    "title": "Fehlerbehandlung und Protokollierung",
+    "question": "Wie ist bei der Konzeption und Umsetzung der Fehler- und Ausnahmebehandlung vorzugehen?",
+    "requirements": [
+      {
+        "id": "G16-1",
+        "description": "Eine umfassende Fehlerbehandlung wurde implementiert, die sowohl erwartete als auch unerwartete Fehler angemessen auffängt, ohne die Benutzererfahrung negativ zu beeinflussen.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "G16-2",
+        "description": "Es sind spezifische Ausnahmebehandlungsmechanismen vorhanden, die sicherstellen, dass Fehler systematisch protokolliert werden.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "G16-3",
+        "description": "Ein robustes Logging-System wird verwendet, um Fehlerprotokolle zu erstellen, die relevante Informationen wie Zeitstempel, Fehlermeldungen und Kontext enthalten.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "G16-4",
+        "description": "Die Dokumentation beschreibt die Vorgehensweise zur Fehlerbehandlung, einschliesslich der verwendeten Methoden für Logging und Benachrichtigungen, sowie Leitlinien zur Reaktion auf bestimmte Fehler.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "H01",
+    "title": "Komponenten-Abhängigkeiten und deren Auswahl",
+    "question": "Wie werden Abhängigkeiten zwischen Komponenten analysiert?",
+    "requirements": [
+      {
+        "id": "H01-1",
+        "description": "Alle relevanten Abhängigkeiten zwischen Komponenten wurden identifiziert.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "H01-2",
+        "description": "Potenzielle Risiken und Einschränkungen durch Abhängigkeiten wurden analysiert und dokumentiert.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "H01-3",
+        "description": "Abhängigkeiten wurden bewertet, um die Auswahl geeigneter Plattformen und Technologien zu erleichtern.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "H01-4",
+        "description": "Die Analyse ist nachvollziehbar dokumentiert und für Stakeholder verständlich.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "H02",
+    "title": "Plattformwahl",
+    "question": "Wie erfolgt die Wahl einer geeigneten Plattform?",
+    "requirements": [
+      {
+        "id": "H02-1",
+        "description": "Die Plattform wurde auf Basis der technischen Anforderungen und Abhängigkeiten der Applikation ausgewählt.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "H02-2",
+        "description": "Die Plattformwahl berücksichtigt technische Umsetzbarkeit, beispielsweise Unterstützung der benötigten Services, Schnittstellen und Komponenten.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "H02-3",
+        "description": "Die Plattform wurde praktisch eingerichtet oder konfiguriert, sodass die Applikation darauf ausgeführt werden kann.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "H02-4",
+        "description": "Sicherheits- und Datenschutzanforderungen wurden identifiziert und die verfügbaren Plattformdienste entsprechend genutzt.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "H03",
+    "title": "Ressourcenauswahl und Konsistenzprüfung",
+    "question": "Wie erfolgt die Auswahl der benötigten Ressourcen und die Konsistenzprüfung?",
+    "requirements": [
+      {
+        "id": "H03-1",
+        "description": "Notwendige Ressourcen sind basierend auf der Empfehlung des Plattformbetreibers ausgewählt, beispielsweise Performance, Speicherbedarf, Verfügbarkeit, Kosten oder Zugriff.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "H03-2",
+        "description": "Die gewählten Ressourcen unterstützen die geplante Funktionalität und Performance der Applikation.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "H03-3",
+        "description": "Die Auswahl wurde im Team und/oder mit den Stakeholdern auf Konsistenz geprüft; nötige Anpassungen wurden vorgenommen.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "H03-4",
+        "description": "Die Ergebnisse der Auswahl und Konsistenzprüfung sind dokumentiert und für alle Beteiligten nachvollziehbar festgehalten.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "H04",
+    "title": "Integrationspraktiken für Auslieferungsprozesse",
+    "question": "Welche Integrationspraktiken sind für den Auslieferungsprozess geeignet?",
+    "requirements": [
+      {
+        "id": "H04-1",
+        "description": "Abhängigkeiten zwischen den verschiedenen Komponenten im Hinblick auf den Auslieferungsprozess sind analysiert und dokumentiert.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "H04-2",
+        "description": "Die Art und Weise, wie verschiedene Source-Codes geeignet zusammengefügt und freigegeben werden, ist definiert und korrekt umgesetzt.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "H04-3",
+        "description": "Die ausgewählten Integrationspraktiken sind klar festgehalten und allen relevanten Teammitgliedern kommuniziert.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "H04-4",
+        "description": "Planbare Migrationen sind unter Berücksichtigung der Architektur berücksichtigt und in den Integrationsprozess integriert.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "H05",
+    "title": "Deployment-Praktiken und Artefakt-Verwaltung",
+    "question": "Wie werden Deployment-Praktiken und Artefakt-Verwaltung definiert und umgesetzt?",
+    "requirements": [
+      {
+        "id": "H05-1",
+        "description": "Geeignete Deployment-Praktiken wurden praktisch definiert und umgesetzt.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "H05-2",
+        "description": "Die Applikation wurde erfolgreich auf der vorgesehenen Umgebung bereitgestellt.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "H05-3",
+        "description": "Die Deployment-Schritte wurden in einer logischen Reihenfolge umgesetzt, sodass abhängige Komponenten korrekt starten.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "H05-4",
+        "description": "Es wurde überprüft, ob die Applikation korrekt läuft; die Grundfunktionen wurden getestet und auftretende Probleme wurden behoben.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "H06",
+    "title": "Automatisierung des Auslieferungsprozesses",
+    "question": "Wie wird der Auslieferungsprozess effizient automatisiert?",
+    "requirements": [
+      {
+        "id": "H06-1",
+        "description": "Die Auslieferung ist automatisiert, korrekt eingerichtet und funktioniert einwandfrei.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "H06-2",
+        "description": "Die Auslieferung ist dokumentiert und für Aussenstehende nachvollziehbar.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "H06-3",
+        "description": "Der Automatisierungsprozess wurde auf Effizienz und Fehlerfreiheit überprüft und bei Bedarf optimiert.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "H06-4",
+        "description": "Es sind geeignete Kontrollmechanismen implementiert, um Probleme frühzeitig zu erkennen.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "H07",
+    "title": "Verwaltung und Test des Auslieferungsprozesses",
+    "question": "Wie werden Applikationskomponenten verwaltet und der Auslieferungsprozess getestet?",
+    "requirements": [
+      {
+        "id": "H07-1",
+        "description": "Applikationskomponenten sind bereitgestellt und korrekt in die Laufzeitumgebung integriert.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "H07-2",
+        "description": "Artefakte sind systematisch verwaltet und versioniert, um Nachvollziehbarkeit und Konsistenz zu gewährleisten.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "H07-3",
+        "description": "Der gesamte Auslieferungsprozess ist gemäss Vorgaben überprüft, und die Funktionsfähigkeit der Applikation ist mittels eines Testkonzepts bestätigt.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "H07-4",
+        "description": "Verbesserungs- und Optimierungsmassnahmen für den Auslieferungsprozess sind auf Basis der Testergebnisse und der praktischen Anwendung identifiziert und umgesetzt.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "H08",
+    "title": "Überwachung der Stabilität und Performance von Applikationen",
+    "question": "Wie wird die Stabilität und Performance der Applikation überwacht?",
+    "requirements": [
+      {
+        "id": "H08-1",
+        "description": "Kritische Performance-Indikatoren, beispielsweise Antwortzeiten oder Ressourcenverbrauch, wurden definiert.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "H08-2",
+        "description": "Tools oder Mechanismen zur Überwachung wurden eingerichtet und korrekt konfiguriert.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "H08-3",
+        "description": "Die Performance wurde regelmässig überprüft, Abweichungen wurden erkannt und dokumentiert.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "H08-4",
+        "description": "Optimierungen oder Anpassungen wurden auf Basis der Überprüfung durchgeführt, um die Stabilität sicherzustellen.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "H09",
+    "title": "Überwachung der Sicherheit von Applikationen",
+    "question": "Wie wird die Applikation auf sicherheitsrelevante Ereignisse überwacht?",
+    "requirements": [
+      {
+        "id": "H09-1",
+        "description": "Relevante Sicherheitsmetriken oder Ereignisse wurden definiert.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "H09-2",
+        "description": "Monitoring-Mechanismen oder Logs wurden eingerichtet, um diese Metriken zu erfassen.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "H09-3",
+        "description": "Sicherheitsrelevante Vorfälle wurden regelmässig überprüft und dokumentiert.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "H09-4",
+        "description": "Bei erkannten Problemen wurden angemessene Massnahmen umgesetzt oder vorgeschlagen.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "H10",
+    "title": "Analyse und Behebung von Problemen im Betrieb",
+    "question": "Wie werden Probleme im laufenden Betrieb analysiert und behoben?",
+    "requirements": [
+      {
+        "id": "H10-1",
+        "description": "Eine strukturierte Vorgehensweise zur Problemanalyse ist etabliert, inklusive Fehlerreproduktion und systematischer Fehlerausgrenzung.",
+        "module": "AE",
+        "part": 1
+      },
+      {
+        "id": "H10-2",
+        "description": "Aktualität und Sicherheitseinstellungen der Applikationen und Schnittstellen werden regelmässig überprüft, basierend auf den neuesten Herstellerinformationen.",
+        "module": "AE",
+        "part": 2
+      },
+      {
+        "id": "H10-3",
+        "description": "Ein zielführendes Vorgehen zur Problembehebung ist festgelegt.",
+        "module": "AE",
+        "part": 3
+      },
+      {
+        "id": "H10-4",
+        "description": "Umgesetzte Massnahmen zur Problembehebung sind dokumentiert und führen zu einer Erweiterung der Testfälle, um zukünftige Vorfälle zu minimieren.",
+        "module": "AE",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "Doc01",
+    "title": "Gliederung",
+    "question": "Wie ist die Dokumentation gegliedert?",
+    "requirements": [
+      {
+        "id": "Doc01-1",
+        "description": "Der IPA-Bericht gliedert sich in Teil 1 und 2 sowie allfällige Anhänge.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "Doc01-2",
+        "description": "Die Kapitelstruktur richtet sich nach den relevanten Schwerpunkten und ist klar gegliedert.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "Doc01-3",
+        "description": "Die strukturellen Eigenheiten der gewählten Projektmethode sind in Teil 2 umgesetzt.",
+        "module": "BF",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "Doc02",
+    "title": "Gestaltung der Dokumentation",
+    "question": "Wie ist die Dokumentation gestaltet?",
+    "requirements": [
+      {
+        "id": "Doc02-1",
+        "description": "Es wird ein einheitlicher Formatsatz angewandt, der Konsistenz gewährleistet und dem Leser eine klare Orientierung bietet.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "Doc02-2",
+        "description": "Es kommen ausgewogene Abstände zwischen Texten und Elementen zur Anwendung.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "Doc02-3",
+        "description": "Die Gestaltung von Überschriften, Texten und Grafiken erleichtert den Lesefluss und behindert ihn nicht.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "Doc02-4",
+        "description": "Die Überschriften enthalten relevante Informationen und erleichtern dem Leser die Orientierung.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "Doc02-5",
+        "description": "Qualitative Seitenumbrüche stellen sicher, dass keine einzelnstehenden Zeilen am Ende oder am Anfang einer Seite auftreten.",
+        "module": "BF",
+        "part": 5
+      }
+    ]
+  },
+  {
+    "id": "Doc03",
+    "title": "Formale Anforderungen an den IPA-Bericht",
+    "question": "Was sind die Anforderungen an die formale Vollständigkeit des IPA-Berichts?",
+    "requirements": [
+      {
+        "id": "Doc03-1",
+        "description": "Der IPA-Bericht enthält auf allen Seiten (optional Titelblatt) eine Kopf- oder Fusszeile, eine korrekte Seitennummerierung, das aktuelle Druckdatum und den Kandidatennamen.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "Doc03-2",
+        "description": "Der IPA-Bericht enthält ein vollständiges Inhaltsverzeichnis.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "Doc03-3",
+        "description": "Der IPA-Bericht enthält ein alphabetisch sortiertes Glossar mit präzisen Erläuterungen zu den verwendeten Fachbegriffen und Abkürzungen; es fehlen maximal drei relevante Komponenten.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "Doc03-4",
+        "description": "Der IPA-Bericht enthält ein vollständiges und gültiges Quellenverzeichnis.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "Doc03-5",
+        "description": "Der IPA-Bericht ist digital durchsuchbar (Screenshots und Grafiken ausgenommen).",
+        "module": "BF",
+        "part": 5
+      }
+    ]
+  },
+  {
+    "id": "Doc04",
+    "title": "Schriftliche Brillanz",
+    "question": "Wie sind Rechtschreibung, Interpunktion und Grammatik zu beurteilen?",
+    "requirements": [
+      {
+        "id": "Doc04-1",
+        "description": "Der Schreibstil ist flüssig, der Text ist durchweg klar und verständlich geschrieben.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "Doc04-2",
+        "description": "Die Sätze sind vollständig und ausführlich formuliert.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "Doc04-3",
+        "description": "Rechtschreibung, Interpunktion und Grammatik weisen keine oder nur vereinzelt kleine Schwächen auf.",
+        "module": "BF",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "Doc05",
+    "title": "Visuelle Anforderungen an Abbildungen",
+    "question": "Welche visuellen Kriterien sind für Abbildungen zu erfüllen?",
+    "requirements": [
+      {
+        "id": "Doc05-1",
+        "description": "Die Abbildungen sind gut lesbar, wobei ausreichender Kontrast und angemessene Grösse berücksichtigt wurden.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "Doc05-2",
+        "description": "Die Abbildungen sind klar und verständlich, um eine einfache Interpretation und Informationsaufnahme zu ermöglichen.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "Doc05-3",
+        "description": "Die Abbildungen weisen aussagekräftige Beschriftungen oder Legenden auf, um den Inhalt zu erklären und zu kontextualisieren.",
+        "module": "BF",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "Doc06",
+    "title": "Kurzfassung des IPA-Berichts",
+    "question": "Was sind die Anforderungen an eine Kurzfassung?",
+    "requirements": [
+      {
+        "id": "Doc06-1",
+        "description": "Die Kurzfassung ist Bestandteil von Teil 2 des IPA-Berichts.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "Doc06-2",
+        "description": "Es werden die Kerninformationen wiedergegeben, weder mehr noch weniger.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "Doc06-3",
+        "description": "Die Kurzfassung beschränkt sich auf eine A4-Seite und enthält keine Grafik.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "Doc06-4",
+        "description": "Die Kurzfassung weist eine klare Struktur auf und beinhaltet drei bis vier Kapitel.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "Doc06-5",
+        "description": "Die Ausrichtung auf die Zielgruppe ist gewährleistet.",
+        "module": "BF",
+        "part": 5
+      },
+      {
+        "id": "Doc06-6",
+        "description": "Die Kurzfassung endet sinnvoll, beispielsweise mit einer Schlussfolgerung oder einer Empfehlung.",
+        "module": "BF",
+        "part": 6
+      },
+      {
+        "id": "Doc06-7",
+        "description": "Die Kurzfassung ist objektiv und verzichtet auf die Schilderung persönlicher Erfahrungen.",
+        "module": "BF",
+        "part": 7
+      }
+    ]
+  },
+  {
+    "id": "Doc07",
+    "title": "Führung des Arbeitsjournals",
+    "question": "Was ist beim Führen des Arbeitsjournals zu beachten?",
+    "requirements": [
+      {
+        "id": "Doc07-1",
+        "description": "Das Arbeitsjournal ist Bestandteil von Teil 1 des IPA-Berichts.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "Doc07-2",
+        "description": "Die Darstellung ist übersichtlich, klar und verständlich.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "Doc07-3",
+        "description": "Das Arbeitsjournal besteht aus individuellen Tagesberichten.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "Doc07-4",
+        "description": "Alle Aktivitäten gemäss Zeitplan sowie Überzeiten und ungeplante Arbeiten sind erwähnt.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "Doc07-5",
+        "description": "Erfolge und Misserfolge sind erwähnt und Misserfolge werden kritisch hinterfragt.",
+        "module": "BF",
+        "part": 5
+      },
+      {
+        "id": "Doc07-6",
+        "description": "Alle genutzten Unterstützungen, einschliesslich Hilfestellungen und KI-Nutzung, sind vollständig aufgelistet und begründet.",
+        "module": "BF",
+        "part": 6
+      }
+    ]
+  },
+  {
+    "id": "Doc08",
+    "title": "Persönliches Fazit",
+    "question": "Was ist beim Verfassen des persönlichen Fazits zu berücksichtigen?",
+    "requirements": [
+      {
+        "id": "Doc08-1",
+        "description": "Das persönliche Fazit ist Bestandteil von Teil 1 des IPA-Berichts.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "Doc08-2",
+        "description": "Das persönliche Fazit gewährt einen objektiven Einblick in die Herausforderungen.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "Doc08-3",
+        "description": "Das persönliche Fazit gewährt einen objektiven Einblick in die Lernerfahrung.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "Doc08-4",
+        "description": "Das persönliche Fazit gewährt einen objektiven Einblick in Entwicklungsperspektiven und beschreibt, was bei einem künftig ähnlichen Projekt besser oder anders gemacht wird.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "Doc08-5",
+        "description": "Das persönliche Fazit beinhaltet eine Beurteilung des Erfolgs.",
+        "module": "BF",
+        "part": 5
+      }
+    ]
+  },
+  {
+    "id": "F&P01",
+    "title": "Präsentation: Struktur und Zeitmanagement",
+    "question": "Wie ist die Präsentation zu strukturieren und welcher Zeitrahmen ist einzuhalten?",
+    "requirements": [
+      {
+        "id": "F&P01-1",
+        "description": "Die Präsentation umfasst eine Einführung, einen Hauptteil und schliesst mit einer kritischen Reflexion ab.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "F&P01-2",
+        "description": "Die Präsentation setzt relevante Schwerpunkte.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "F&P01-3",
+        "description": "Die Informationen werden in einer logischen und zusammenhängenden Reihenfolge präsentiert.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "F&P01-4",
+        "description": "Der Zeitrahmen von 15 bis 20 Minuten wurde eingehalten.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "F&P02",
+    "title": "Präsentation: Einsatz von Medien und Technologie",
+    "question": "Was ist beim Einsatz von Medien und Technologie anlässlich der Präsentation zu beachten?",
+    "requirements": [
+      {
+        "id": "F&P02-1",
+        "description": "Verwendete Geräte und Software funktionierten einwandfrei oder es ist erkennbar, dass die Vorbereitungen professionell getroffen wurden.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "F&P02-2",
+        "description": "Die Verwendung von Medien und Technologie ist sinnvoll, inhaltlich relevant und unterstützt die Präsentation effektiv.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "F&P02-3",
+        "description": "Die Präsentationsunterlagen sind visuell ansprechend gestaltet.",
+        "module": "BF",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "F&P03",
+    "title": "Präsentationsgeschick",
+    "question": "Was zeichnet ein hohes Präsentationsgeschick aus?",
+    "requirements": [
+      {
+        "id": "F&P03-1",
+        "description": "Informationen wurden klar und verständlich präsentiert.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "F&P03-2",
+        "description": "Sprache und Medieneinsatz sind aufeinander abgestimmt und ergänzen sich inhaltlich.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "F&P03-3",
+        "description": "Die Präsentation beeindruckte durch selbstsicheres Auftreten, sowohl verbal als auch durch eine überzeugende Körpersprache.",
+        "module": "BF",
+        "part": 3
+      }
+    ]
+  },
+  {
+    "id": "F&P04",
+    "title": "Demonstration des Produkts",
+    "question": "Wie ist das Produkt der Facharbeit vorzuführen?",
+    "requirements": [
+      {
+        "id": "F&P04-1",
+        "description": "Die Demonstration erfolgte direkt am Produkt im Zustand des Abgabetermins und live.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "F&P04-2",
+        "description": "Die wesentlichen Produktmerkmale oder Funktionen wurden aufgezeigt.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "F&P04-3",
+        "description": "Die Demonstration war gut vorbereitet.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "F&P04-4",
+        "description": "Die Demonstration ist logisch aufgebaut.",
+        "module": "BF",
+        "part": 4
+      },
+      {
+        "id": "F&P04-5",
+        "description": "Die Demonstration ist für die Zuschauer verständlich und nachvollziehbar.",
+        "module": "BF",
+        "part": 5
+      }
+    ]
+  },
+  {
+    "id": "F&P05",
+    "title": "Fachgespräch: Themenkomplex 1",
+    "question": "Wie professionell werden die Fragen der Experten zur Facharbeit beantwortet?",
+    "requirements": [
+      {
+        "id": "F&P05-1",
+        "description": "Alle Aspekte der Fragestellung werden professionell in differenzierter Weise behandelt.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "F&P05-2",
+        "description": "Alle Aussagen sind, wo notwendig, mit Beispielen oder logischen Schlussfolgerungen belegt.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "F&P05-3",
+        "description": "Die Antworten sind fachlich kompetent und korrekt.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "F&P05-4",
+        "description": "Der Kandidat kann auch zu Details präzise Auskunft geben.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "F&P06",
+    "title": "Fachgespräch: Themenkomplex 2",
+    "question": "Wie professionell werden die Fragen der Experten zur Facharbeit beantwortet?",
+    "requirements": [
+      {
+        "id": "F&P06-1",
+        "description": "Alle Aspekte der Fragestellung werden professionell in differenzierter Weise behandelt.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "F&P06-2",
+        "description": "Alle Aussagen sind, wo notwendig, mit Beispielen oder logischen Schlussfolgerungen belegt.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "F&P06-3",
+        "description": "Die Antworten sind fachlich kompetent und korrekt.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "F&P06-4",
+        "description": "Der Kandidat kann auch zu Details präzise Auskunft geben.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "F&P07",
+    "title": "Fachgespräch: Themenkomplex 3",
+    "question": "Wie professionell werden die Fragen der Experten zur Facharbeit beantwortet?",
+    "requirements": [
+      {
+        "id": "F&P07-1",
+        "description": "Alle Aspekte der Fragestellung werden professionell in differenzierter Weise behandelt.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "F&P07-2",
+        "description": "Alle Aussagen sind, wo notwendig, mit Beispielen oder logischen Schlussfolgerungen belegt.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "F&P07-3",
+        "description": "Die Antworten sind fachlich kompetent und korrekt.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "F&P07-4",
+        "description": "Der Kandidat kann auch zu Details präzise Auskunft geben.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "F&P08",
+    "title": "Fachgespräch: Themenkomplex 4",
+    "question": "Wie professionell werden die Fragen der Experten zur Facharbeit beantwortet?",
+    "requirements": [
+      {
+        "id": "F&P08-1",
+        "description": "Alle Aspekte der Fragestellung werden professionell in differenzierter Weise behandelt.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "F&P08-2",
+        "description": "Alle Aussagen sind, wo notwendig, mit Beispielen oder logischen Schlussfolgerungen belegt.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "F&P08-3",
+        "description": "Die Antworten sind fachlich kompetent und korrekt.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "F&P08-4",
+        "description": "Der Kandidat kann auch zu Details präzise Auskunft geben.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "F&P09",
+    "title": "Fachgespräch: Themenkomplex 5",
+    "question": "Wie professionell werden die Fragen der Experten zur Facharbeit beantwortet?",
+    "requirements": [
+      {
+        "id": "F&P09-1",
+        "description": "Alle Aspekte der Fragestellung werden professionell in differenzierter Weise behandelt.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "F&P09-2",
+        "description": "Alle Aussagen sind, wo notwendig, mit Beispielen oder logischen Schlussfolgerungen belegt.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "F&P09-3",
+        "description": "Die Antworten sind fachlich kompetent und korrekt.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "F&P09-4",
+        "description": "Der Kandidat kann auch zu Details präzise Auskunft geben.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  },
+  {
+    "id": "F&P10",
+    "title": "Fachgespräch: Themenkomplex 6",
+    "question": "Wie professionell werden die Fragen der Experten zur Facharbeit beantwortet?",
+    "requirements": [
+      {
+        "id": "F&P10-1",
+        "description": "Alle Aspekte der Fragestellung werden professionell in differenzierter Weise behandelt.",
+        "module": "BF",
+        "part": 1
+      },
+      {
+        "id": "F&P10-2",
+        "description": "Alle Aussagen sind, wo notwendig, mit Beispielen oder logischen Schlussfolgerungen belegt.",
+        "module": "BF",
+        "part": 2
+      },
+      {
+        "id": "F&P10-3",
+        "description": "Die Antworten sind fachlich kompetent und korrekt.",
+        "module": "BF",
+        "part": 3
+      },
+      {
+        "id": "F&P10-4",
+        "description": "Der Kandidat kann auch zu Details präzise Auskunft geben.",
+        "module": "BF",
+        "part": 4
+      }
+    ]
+  }
+]
