@@ -1,6 +1,7 @@
 val ktorVersion = "2.3.11"
 val exposedVersion = "0.49.0"
 val koinVersion = "3.5.6"
+val coroutinesVersion = "1.8.1"
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -8,7 +9,7 @@ plugins {
     application
 }
 
-group = "ch.ergon.ipa"
+group = "ch.jf.ipa"
 version = "0.1.0"
 
 application {
@@ -38,6 +39,8 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
 
     implementation("org.postgresql:postgresql:42.7.3")
+    implementation("com.zaxxer:HikariCP:5.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
 
     implementation("io.insert-koin:koin-ktor:$koinVersion")
     implementation("io.insert-koin:koin-logger-slf4j:$koinVersion")
@@ -47,6 +50,8 @@ dependencies {
 
     testImplementation(kotlin("test"))
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
+    testImplementation("com.h2database:h2:2.2.224")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
 }
 
 tasks.test {

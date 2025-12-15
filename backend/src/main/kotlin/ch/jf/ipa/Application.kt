@@ -1,7 +1,11 @@
-package ch.ergon.ipa
+package ch.jf.ipa
 
-import ch.ergon.ipa.routes.personRoutes
-import ch.ergon.ipa.routes.progressRoutes
+import ch.jf.ipa.config.DatabaseFactory
+import ch.jf.ipa.config.repositoryModule
+import ch.jf.ipa.repository.CriterionProgressRepository
+import ch.jf.ipa.repository.PersonRepository
+import ch.jf.ipa.routes.personRoutes
+import ch.jf.ipa.routes.progressRoutes
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
@@ -9,13 +13,15 @@ import io.ktor.server.netty.EngineMain
 import io.ktor.server.plugins.callloging.CallLogging
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.routing.routing
-import org.koin.core.module.Module
+import org.koin.ktor.ext.inject
 import org.koin.ktor.plugin.Koin
 
 fun main(args: Array<String>) = EngineMain.main(args)
 
 @Suppress("unused")
 fun Application.module() {
+    DatabaseFactory.init(environment)
+
     install(CallLogging)
 
     install(ContentNegotiation) {
@@ -23,12 +29,15 @@ fun Application.module() {
     }
 
     install(Koin) {
-        modules(emptyList<Module>())
+        modules(repositoryModule)
     }
 
+    val personRepository by inject<PersonRepository>()
+    val progressRepository by inject<CriterionProgressRepository>()
+
     routing {
-        personRoutes()
-        progressRoutes()
+        personRoutes(personRepository)
+        progressRoutes(progressRepository)
     }
 }
 

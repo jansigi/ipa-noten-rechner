@@ -1,6 +1,6 @@
-package ch.ergon.ipa.util
+package ch.jf.ipa.util
 
-import ch.ergon.ipa.dto.CriterionDto
+import ch.jf.ipa.dto.CriterionDto
 import java.io.InputStreamReader
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
