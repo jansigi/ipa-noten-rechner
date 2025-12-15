@@ -6,6 +6,15 @@ import kotlinx.serialization.Serializable
 data class CriterionDto(
     val id: String,
     val title: String,
-    val requirements: List<String>,
+    val question: String,
+    val requirements: List<RequirementDto>,
+)
+
+@Serializable
+data class RequirementDto(
+    val id: String,
+    val description: String,
+    val module: String,
+    val part: Int,
 )
 
