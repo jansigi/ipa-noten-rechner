@@ -1,4 +1,4 @@
-package ch.ergon.ipa.model
+package ch.jf.ipa.model
 
 import java.time.LocalDate
 import java.util.UUID

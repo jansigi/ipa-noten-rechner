@@ -1,4 +1,4 @@
-package ch.ergon.ipa.dto
+package ch.jf.ipa.dto
 
 import kotlinx.serialization.Serializable
 

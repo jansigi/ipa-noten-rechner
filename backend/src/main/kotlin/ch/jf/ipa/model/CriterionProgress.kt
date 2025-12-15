@@ -1,4 +1,4 @@
-package ch.ergon.ipa.model
+package ch.jf.ipa.model
 
 import java.util.UUID
 import org.jetbrains.exposed.dao.id.UUIDTable
