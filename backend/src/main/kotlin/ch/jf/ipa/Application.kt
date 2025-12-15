@@ -2,10 +2,13 @@ package ch.jf.ipa
 
 import ch.jf.ipa.config.DatabaseFactory
 import ch.jf.ipa.config.repositoryModule
+import ch.jf.ipa.config.serviceModule
 import ch.jf.ipa.repository.CriterionProgressRepository
 import ch.jf.ipa.repository.PersonRepository
 import ch.jf.ipa.routes.personRoutes
 import ch.jf.ipa.routes.progressRoutes
+import ch.jf.ipa.routes.resultsRoutes
+import ch.jf.ipa.service.GradingService
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
@@ -29,15 +32,17 @@ fun Application.module() {
     }
 
     install(Koin) {
-        modules(repositoryModule)
+        modules(repositoryModule, serviceModule)
     }
 
     val personRepository by inject<PersonRepository>()
     val progressRepository by inject<CriterionProgressRepository>()
+    val gradingService by inject<GradingService>()
 
     routing {
         personRoutes(personRepository)
         progressRoutes(progressRepository)
+        resultsRoutes(personRepository, gradingService)
     }
 }
 
