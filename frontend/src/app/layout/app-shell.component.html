@@ -1,0 +1,55 @@
+<mat-sidenav-container class="shell-container app-container">
+  <mat-sidenav #drawer class="app-sidenav" mode="over" position="start" disableClose="false">
+    <div class="sidenav-header">
+      <div class="title">{{ appTitle() }}</div>
+      <button mat-icon-button aria-label="Navigation schließen" (click)="drawer.close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <mat-nav-list>
+      <a
+        mat-list-item
+        *ngFor="let item of navItems()"
+        [routerLink]="item.path"
+        routerLinkActive="is-active"
+        (click)="closeSidenav()"
+      >
+        <mat-icon aria-hidden="true">{{ item.icon }}</mat-icon>
+        <span>{{ item.label }}</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="app-toolbar">
+      <button
+        class="nav-trigger"
+        mat-icon-button
+        aria-label="Navigation öffnen"
+        (click)="drawer.toggle()"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div class="brand">
+        <span class="brand-mark"></span>
+        <span class="brand-name">{{ appTitle() }}</span>
+      </div>
+      <span class="spacer"></span>
+      <nav class="toolbar-nav" aria-label="Hauptnavigation">
+        <a
+          mat-button
+          *ngFor="let item of navItems()"
+          [routerLink]="item.path"
+          routerLinkActive="is-active"
+        >
+          <mat-icon aria-hidden="true">{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </a>
+      </nav>
+    </mat-toolbar>
+
+    <main class="shell-content">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

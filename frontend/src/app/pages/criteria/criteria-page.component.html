@@ -1,0 +1,79 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Schritt 2</p>
+      <h1>Kriterien</h1>
+      <p class="muted">
+        Definiere, priorisiere und gewichte die Bewertungs-Kriterien für die Auswertung.
+      </p>
+    </div>
+    <div class="actions">
+      <button mat-stroked-button color="primary" (click)="loadData()">
+        <mat-icon aria-hidden="true">refresh</mat-icon>
+        <span>Neu laden</span>
+      </button>
+      <button mat-button color="accent" (click)="toggleError()">
+        <mat-icon aria-hidden="true">{{ forceError() ? 'bug_report' : 'flag' }}</mat-icon>
+        <span>{{ forceError() ? 'Fehler simuliert' : 'Fehler simulieren' }}</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="stack">
+    <mat-card class="content-card">
+      <ng-container *ngIf="loading(); else loadedOrError">
+        <app-loading message="Kriterien werden geladen..."></app-loading>
+      </ng-container>
+
+      <ng-template #loadedOrError>
+        <ng-container *ngIf="error(); else criteriaContent">
+          <app-error-state
+            title="Kriterien nicht verfügbar"
+            [message]="error()!"
+            [retryLabel]="'Nochmal laden'"
+            (retry)="loadData()"
+          />
+        </ng-container>
+
+        <ng-template #criteriaContent>
+          <div class="stack">
+            <div class="stat">
+              <div class="icon-circle">
+                <mat-icon aria-hidden="true">checklist</mat-icon>
+              </div>
+              <div>
+                <p class="eyebrow">Aktueller Stand</p>
+                <p class="muted">{{ data() }}</p>
+              </div>
+            </div>
+
+            <div class="grid">
+              <div class="light-card">
+                <h3>Kritische Faktoren</h3>
+                <p class="muted">Codequalität, Testabdeckung, Dokumentation</p>
+              </div>
+              <div class="light-card">
+                <h3>Team Fokus</h3>
+                <p class="muted">Pair-Programming, Wissens-Transfer, Architektur-Guides</p>
+              </div>
+            </div>
+
+            <div class="stack">
+              <p class="eyebrow">Nächste Aktion</p>
+              <div class="actions">
+                <button mat-flat-button color="primary">
+                  <mat-icon aria-hidden="true">tune</mat-icon>
+                  <span>Gewichte anpassen</span>
+                </button>
+                <button mat-stroked-button color="accent">
+                  <mat-icon aria-hidden="true">visibility</mat-icon>
+                  <span>Review starten</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ng-template>
+    </mat-card>
+  </div>
+</section>

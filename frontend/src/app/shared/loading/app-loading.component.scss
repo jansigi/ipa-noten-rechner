@@ -1,0 +1,15 @@
+.app-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  background: #f8f4ef;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.message {
+  margin: 0;
+  font-weight: 600;
+}

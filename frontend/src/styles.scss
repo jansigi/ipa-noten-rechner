@@ -1,1 +1,368 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$brand-brown-palette: (
+  0: #0d0a08,
+  10: #2f1a11,
+  20: #4d2d1d,
+  30: #6b4130,
+  40: #8b5a3c,
+  50: #a87656,
+  60: #c59471,
+  70: #e2b18b,
+  80: #f1ccaa,
+  90: #fbe4cf,
+  95: #fff3e5,
+  99: #fffbff,
+  100: #ffffff
+);
+
+$app-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$orange-palette,
+    tertiary: mat.$orange-palette
+  ),
+  typography: (
+    brand-family: 'Inter, "Helvetica Neue", Arial, sans-serif',
+    plain-family: 'Inter, "Helvetica Neue", Arial, sans-serif',
+    bold-weight: 700,
+    medium-weight: 600,
+    regular-weight: 500
+  ),
+  density: (scale: 0)
+));
+
+:root {
+  color-scheme: light;
+  @include mat.color-variants-backwards-compatibility($app-theme);
+  @include mat.system-level-colors($app-theme);
+  @include mat.system-level-typography($app-theme);
+  @include mat.all-component-themes($app-theme);
+
+  --bg-page: #f8f4ef;
+  --bg-card: #ffffff;
+  --border: rgba(25, 23, 17, 0.1);
+  --text-primary: #111827;
+  --text-muted: #4b5563;
+  --accent: #8b5a3c;
+  --brand-brown: #8b5a3c;
+  --brand-brown-strong: #73452f;
+  --checkbox-border: var(--brand-brown);
+  --checkbox-fill: var(--brand-brown);
+  --mat-sys-primary: var(--brand-brown);
+  --mat-sys-tertiary: var(--brand-brown);
+  --mat-sys-primary-container: rgba(139, 90, 60, 0.12);
+  --mat-sys-tertiary-container: rgba(139, 90, 60, 0.12);
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-on-tertiary: #ffffff;
+  --mat-sys-tertiary-fixed: var(--brand-brown);
+  --mat-sys-tertiary-fixed-dim: var(--brand-brown);
+  --mat-sys-on-tertiary-fixed: #ffffff;
+  --mat-sys-on-tertiary-fixed-variant: #ffffff;
+  --mat-sys-secondary: var(--brand-brown);
+  --mat-sys-secondary-container: rgba(139, 90, 60, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: 0.01em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-container {
+  min-height: 100vh;
+}
+
+.page {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  h1 {
+    margin: 0 0 0.35rem;
+    font-size: clamp(1.8rem, 1.4rem + 0.9vw, 2.2rem);
+    letter-spacing: -0.01em;
+  }
+
+  .muted {
+    margin: 0;
+    color: var(--text-muted);
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.mat-mdc-card {
+  border-radius: 18px;
+  box-shadow: 0 14px 50px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.mat-mdc-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-stroked-button {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 700;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.mat-mdc-progress-bar {
+  .mdc-linear-progress__buffer {
+    background-color: rgba(139, 90, 60, 0.12);
+  }
+  
+  .mdc-linear-progress__bar-inner {
+    background-color: var(--brand-brown);
+  }
+}
+
+/* Neutralize checkbox color to charcoal */
+.mat-mdc-checkbox .mdc-checkbox__background {
+  border-color: var(--checkbox-border);
+}
+
+.mat-mdc-checkbox .mdc-checkbox__ripple {
+  --mdc-ripple-color: var(--brand-brown);
+  --mdc-ripple-hover-opacity: 0.06;
+  --mdc-ripple-pressed-opacity: 0.12;
+  /* Kill default magenta/pink overlays */
+  background-color: transparent !important;
+  &::before,
+  &::after {
+    background-color: transparent !important;
+    opacity: 0 !important;
+  }
+  display: none !important; /* disable MDC ripple layer entirely */
+}
+
+/* Ensure wrapper/host never paints pink halos */
+.mat-mdc-checkbox .mdc-checkbox__ripple::before,
+.mat-mdc-checkbox .mdc-checkbox__ripple::after {
+  background-color: var(--brand-brown) !important;
+}
+
+.mat-mdc-checkbox:hover .mdc-checkbox__ripple::before,
+.mat-mdc-checkbox:hover .mdc-checkbox__ripple::after {
+  opacity: 0.08 !important;
+}
+
+.mat-mdc-checkbox:active .mdc-checkbox__ripple::before,
+.mat-mdc-checkbox:active .mdc-checkbox__ripple::after {
+  opacity: 0.12 !important;
+}
+
+.mat-mdc-checkbox .mdc-checkbox__native-control:focus-visible ~ .mdc-checkbox__ripple::before,
+.mat-mdc-checkbox .mdc-checkbox__native-control:focus-visible ~ .mdc-checkbox__ripple::after {
+  background-color: var(--brand-brown) !important;
+  opacity: 0.16 !important;
+}
+
+/* Force all MDC checkbox state-layer colors to brand brown */
+.mat-mdc-checkbox {
+  --mdc-checkbox-selected-checkmark-color: #fff;
+  --mdc-checkbox-selected-icon-color: var(--brand-brown);
+  --mdc-checkbox-selected-focus-state-layer-color: var(--brand-brown);
+  --mdc-checkbox-selected-hover-state-layer-color: var(--brand-brown);
+  --mdc-checkbox-selected-pressed-state-layer-color: var(--brand-brown);
+  --mdc-checkbox-unselected-icon-color: var(--brand-brown);
+  --mdc-checkbox-unselected-focus-state-layer-color: var(--brand-brown);
+  --mdc-checkbox-unselected-hover-state-layer-color: var(--brand-brown);
+  --mdc-checkbox-unselected-pressed-state-layer-color: var(--brand-brown);
+  accent-color: var(--brand-brown);
+}
+
+/* Explicitly set active/pressed background to brown and remove any tint */
+.mat-mdc-checkbox:active .mdc-checkbox__background,
+.mat-mdc-checkbox.mdc-checkbox--selected:active .mdc-checkbox__background {
+  background-color: var(--brand-brown) !important;
+  border-color: var(--brand-brown) !important;
+  box-shadow: none !important;
+}
+
+/* Align press/toggle overlay color both directions */
+.mat-mdc-checkbox .mdc-checkbox__native-control:enabled:active ~ .mdc-checkbox__background,
+.mat-mdc-checkbox.mdc-checkbox--selected .mdc-checkbox__native-control:enabled:active ~ .mdc-checkbox__background {
+  background-color: rgba(139, 90, 60, 0.12) !important;
+  border-color: var(--brand-brown) !important;
+}
+
+.mat-mdc-checkbox-checked .mdc-checkbox__background,
+.mat-mdc-checkbox-checked.mdc-checkbox--selected .mdc-checkbox__background {
+  background-color: var(--checkbox-fill) !important;
+  border-color: var(--checkbox-fill) !important;
+}
+
+.mat-mdc-checkbox .mdc-checkbox__native-control:focus-visible ~ .mdc-checkbox__background {
+  box-shadow: 0 0 0 3px rgba(139, 90, 60, 0.3);
+}
+
+.mat-mdc-checkbox .mdc-checkbox__checkmark-path {
+  stroke: #fff !important;
+}
+
+.mat-mdc-checkbox .mdc-checkbox__background {
+  border-radius: 4px;
+}
+
+.mat-mdc-checkbox.mdc-checkbox--disabled .mdc-checkbox__background {
+  border-color: rgba(139, 90, 60, 0.35) !important;
+  background-color: rgba(139, 90, 60, 0.12) !important;
+}
+
+.mat-mdc-checkbox.mdc-checkbox--disabled .mdc-checkbox__checkmark-path {
+  stroke: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Clean select / dropdown styling */
+.mat-mdc-select {
+  .mat-mdc-select-trigger {
+    min-height: 46px;
+    padding-inline: 14px 12px;
+    font-weight: 600;
+    border-radius: 12px;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mat-mdc-select-value {
+    padding-right: 4px;
+  }
+
+  .mat-mdc-select-value-text {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.mat-mdc-form-field {
+  font-weight: 600;
+
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__trailing,
+  .mdc-notched-outline__notch {
+    border-color: var(--border);
+  }
+
+  .mdc-notched-outline {
+    border-radius: 12px !important;
+  }
+
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__trailing,
+  .mdc-notched-outline__notch {
+    border-width: 1px;
+  }
+
+  &:hover .mdc-notched-outline__leading,
+  &:hover .mdc-notched-outline__trailing,
+  &:hover .mdc-notched-outline__notch {
+    border-color: rgba(139, 90, 60, 0.6);
+  }
+
+  &.mat-focused .mdc-notched-outline__leading,
+  &.mat-focused .mdc-notched-outline__trailing,
+  &.mat-focused .mdc-notched-outline__notch {
+    border-color: var(--brand-brown) !important;
+  }
+
+  &.mat-focused .mdc-text-field--outlined {
+    box-shadow: 0 0 0 3px rgba(139, 90, 60, 0.18);
+    border-radius: 12px;
+  }
+}
+
+.cdk-overlay-pane .mat-mdc-select-panel {
+  padding-block: 6px;
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.mat-mdc-option {
+  min-height: 44px !important;
+  padding-inline: 14px !important;
+  font-weight: 600;
+
+  &.mdc-list-item--selected,
+  &.mdc-list-item--activated {
+    background: rgba(139, 90, 60, 0.1);
+    box-shadow: inset 3px 0 0 0 rgba(139, 90, 60, 0.4);
+  }
+
+  &:hover {
+    background: rgba(139, 90, 60, 0.06);
+  }
+}
+
+.mat-mdc-select-arrow {
+  color: var(--text-muted);
+}
+
+.cdk-overlay-pane .mat-mdc-select-panel .mat-mdc-option .mdc-list-item__primary-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.mat-mdc-select-placeholder {
+  color: var(--text-muted);
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding: 1.25rem 1rem 2rem;
+  }
+}
+

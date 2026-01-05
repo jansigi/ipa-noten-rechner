@@ -1,0 +1,14 @@
+<mat-card class="error-card" role="alert">
+  <div class="icon">
+    <mat-icon color="warn" aria-hidden="true">error</mat-icon>
+  </div>
+  <div class="content">
+    <h3>{{ title }}</h3>
+    <p class="message">{{ message }}</p>
+    <p class="details" *ngIf="details">{{ details }}</p>
+    <button mat-stroked-button color="primary" *ngIf="retry.observed" (click)="retry.emit()">
+      <mat-icon aria-hidden="true">refresh</mat-icon>
+      <span>{{ retryLabel }}</span>
+    </button>
+  </div>
+</mat-card>

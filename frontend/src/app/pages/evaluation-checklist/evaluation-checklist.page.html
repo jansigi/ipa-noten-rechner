@@ -1,0 +1,163 @@
+<section class="page page-grid">
+  <div class="main-column">
+    <header class="panel-header sticky">
+      <div class="header-grid">
+        <div class="title-block">
+          <p class="eyebrow">Checkliste</p>
+          <h1>Grobentwurf</h1>
+        </div>
+        <div class="meta-block">
+          <div><span class="label">Name:</span> <strong>Vorname Nachname</strong></div>
+          <div><span class="label">Titel:</span> <strong>Microservice für Auftragsauswertung</strong></div>
+        </div>
+        <div class="jump-block">
+          <div class="compact-label">Springe zu Kriterium</div>
+          <app-custom-dropdown
+            [label]="''"
+            [options]="dropdownOptions()"
+            [selected]="criteria()[0]?.id"
+            (selectionChange)="jumpTo($event)"
+          ></app-custom-dropdown>
+        </div>
+        <div class="actions-block">
+          <button mat-stroked-button color="primary" (click)="reset()">
+            <mat-icon aria-hidden="true">restart_alt</mat-icon>
+            <span>Reset</span>
+          </button>
+          <button mat-button (click)="adminMode.set(!adminMode())">
+            <mat-icon aria-hidden="true">{{ adminMode() ? 'lock_open' : 'lock' }}</mat-icon>
+            <span>Admin</span>
+          </button>
+        </div>
+      </div>
+      <mat-progress-bar mode="determinate" [value]="overallRatio() * 100"></mat-progress-bar>
+    </header>
+
+    <div class="admin-panel" *ngIf="adminMode()">
+      <div class="admin-row">
+        <div class="jump-field">
+          <app-custom-dropdown
+            [label]="'Teil'"
+            [options]="partOptions()"
+            [selected]="newCriterionPart()"
+            (selectionChange)="newCriterionPart.set($event)"
+          ></app-custom-dropdown>
+        </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Code</mat-label>
+          <input matInput [value]="newCriterionCode()" (input)="newCriterionCode.set($any($event.target).value)" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Titel</mat-label>
+          <input
+            matInput
+            [value]="newCriterionTitle()"
+            (input)="newCriterionTitle.set($any($event.target).value)"
+          />
+        </mat-form-field>
+        <button mat-flat-button color="primary" (click)="addCriterion()">Kriterium hinzufügen</button>
+      </div>
+
+      <div class="admin-row">
+        <div class="jump-field">
+          <app-custom-dropdown
+            [label]="'Kriterium'"
+            [options]="dropdownOptions()"
+            [selected]="targetCriterionForSub()"
+            (selectionChange)="targetCriterionForSub.set($event)"
+          ></app-custom-dropdown>
+        </div>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Subkriterium</mat-label>
+          <input
+            matInput
+            [value]="newSubCriterionText()"
+            (input)="newSubCriterionText.set($any($event.target).value)"
+          />
+        </mat-form-field>
+        <button mat-stroked-button color="primary" (click)="addSubcriterion()">Sub hinzufügen</button>
+      </div>
+    </div>
+
+    <div class="criteria-scroll">
+      <mat-card
+        *ngFor="let criterion of criteria(); trackBy: trackCriterion"
+        class="criterion-card"
+        #criterionCard
+        [attr.data-criterion-id]="criterion.id"
+      >
+        <div class="criterion-header">
+          <div class="code">{{ criterion.code }}</div>
+          <div class="titles">
+            <h3>{{ criterion.title }}</h3>
+            <p class="muted">Frage</p>
+          </div>
+          <span class="tag">Teil {{ criterion.partId === 'teil-1' ? '1' : '2' }}</span>
+        </div>
+
+        <div class="subcriteria">
+            <div class="subcriterion" *ngFor="let sub of criterion.subcriteria; let idx = index">
+            <div class="text">
+              <span class="number">{{ idx + 1 }}.</span>
+              <span>{{ sub.description }}</span>
+            </div>
+            <mat-checkbox
+              [checked]="isChecked(sub.id)"
+              (change)="toggle(sub.id)"
+              [aria-label]="'Subkriterium ' + (idx + 1) + ' ' + sub.description"
+            ></mat-checkbox>
+          </div>
+        </div>
+
+        <mat-form-field class="comment-field" appearance="outline">
+          <mat-label>Kommentar</mat-label>
+          <textarea
+            matInput
+            rows="2"
+            [value]="commentFor(criterion.id)"
+            (input)="updateComment(criterion.id, $any($event.target).value)"
+          ></textarea>
+        </mat-form-field>
+
+        <mat-divider class="section-divider" *ngIf="adminMode()"></mat-divider>
+
+        <div class="admin-inline" *ngIf="adminMode()">
+          <button mat-button (click)="removeLastSub(criterion.id)">Letztes Sub entfernen</button>
+          <button mat-button color="warn" (click)="removeCriterion(criterion.id)">Kriterium löschen</button>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <aside class="eval-column">
+    <mat-card class="summary-card">
+      <p class="eyebrow">Auswertung</p>
+      <h2>Berechnung</h2>
+
+      <div class="summary-line" *ngFor="let summary of partSummaries()">
+        <div class="summary-left">
+          <mat-icon
+            aria-hidden="true"
+            class="summary-icon"
+            *ngIf="summary.part.locked && summary.part.id !== 'teil-2'"
+          >
+            lock
+          </mat-icon>
+          <span class="label-text">{{ summary.part.name }}</span>
+          <span class="summary-badge" *ngIf="summary.part.badge && summary.part.id !== 'teil-2'">
+            {{ summary.part.badge }}
+          </span>
+        </div>
+        <div class="summary-right">
+          <div class="fraction">{{ summary.achieved }} / {{ summary.max }}</div>
+          <div class="grade">{{ formatDecimal(summary.grade) }}</div>
+        </div>
+      </div>
+
+      <div class="summary-final">
+        <div class="label">mutmassliche Note</div>
+        <div class="final-grade">{{ formatDecimal(overallGrade()) }}</div>
+      </div>
+    </mat-card>
+  </aside>
+</section>
