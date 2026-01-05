@@ -1,0 +1,31 @@
+name: Database CI
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+
+jobs:
+  database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start database
+        run: docker compose -f container/docker-compose.yml up -d
+
+      - name: Wait for database
+        run: |
+          for i in {1..20}; do
+            if docker compose -f container/docker-compose.yml exec -T db pg_isready -U postgres -d ipa; then
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
+
+      - name: Shutdown
+        if: always()
+        run: docker compose -f container/docker-compose.yml down -v
