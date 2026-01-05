@@ -1,0 +1,54 @@
+<div class="dropdown">
+  <label *ngIf="label" class="dropdown-label">{{ label }}</label>
+  <button
+    cdkOverlayOrigin
+    #trigger="cdkOverlayOrigin"
+    type="button"
+    class="dropdown-trigger"
+    [attr.aria-haspopup]="'listbox'"
+    [attr.aria-expanded]="open()"
+    [attr.aria-controls]="'dropdown-panel'"
+    (click)="toggle()"
+    (keydown)="onKeydown($event)"
+  >
+    <span class="value" [class.placeholder]="!selectedOption">
+      {{ selectedOption?.label || placeholder }}
+    </span>
+    <mat-icon class="chevron" aria-hidden="true">expand_more</mat-icon>
+  </button>
+
+  <ng-template
+    cdk-connected-overlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="open()"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    [cdkConnectedOverlayPositions]="[
+      { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
+      { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom' }
+    ]"
+    (backdropClick)="close()"
+    (detach)="close()"
+  >
+    <div
+      #listbox
+      id="dropdown-panel"
+      class="dropdown-panel"
+      role="listbox"
+      [attr.aria-activedescendant]="activeIndex() >= 0 ? 'opt-' + activeIndex() : null"
+    >
+      <div
+        *ngFor="let option of options; let idx = index"
+        role="option"
+        class="dropdown-option"
+        [class.selected]="option.value === selected"
+        [class.active]="idx === activeIndex()"
+        [attr.id]="'opt-' + idx"
+        [attr.data-option-idx]="idx"
+        [attr.aria-selected]="option.value === selected"
+        (click)="select(option)"
+      >
+        {{ option.label }}
+      </div>
+    </div>
+  </ng-template>
+</div>

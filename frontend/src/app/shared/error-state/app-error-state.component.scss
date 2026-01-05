@@ -1,0 +1,39 @@
+.error-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: #fff6f2;
+  border: 1px solid rgba(211, 84, 0, 0.35);
+  color: #8c2f00;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.icon {
+  display: inline-flex;
+  padding: 0.5rem;
+  border-radius: 10px;
+  background: rgba(211, 84, 0, 0.16);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  h3 {
+    margin: 0;
+    font-weight: 700;
+    color: #8c2f00;
+  }
+
+  .message {
+    margin: 0;
+    color: #8c2f00;
+  }
+
+  .details {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #4b5563;
+  }
+}

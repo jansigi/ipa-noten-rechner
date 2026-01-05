@@ -1,0 +1,91 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Stammdaten</p>
+      <h1>Personen verwalten</h1>
+      <p class="muted">Erfasse neue Kandidat:innen und behalte den Überblick über bestehende Profile.</p>
+    </div>
+    <div class="actions">
+      <button mat-stroked-button color="primary" (click)="void store.loadPersons()" [disabled]="loading()">
+        <mat-icon aria-hidden="true">refresh</mat-icon>
+        <span>Neu laden</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="grid">
+    <mat-card class="list-card">
+      <div class="card-header">
+        <div class="icon-circle">
+          <mat-icon aria-hidden="true">group</mat-icon>
+        </div>
+        <div>
+          <p class="eyebrow">Registrierte Personen</p>
+          <p class="muted">Wähle eine Person aus, um zur Bewertung zu wechseln.</p>
+        </div>
+      </div>
+
+      <app-loading *ngIf="loading()" message="Personen werden geladen..."></app-loading>
+
+      <app-error-state
+        *ngIf="!loading() && error() as message"
+        title="Personendaten nicht verfügbar"
+        [message]="message"
+        retryLabel="Neu laden"
+        (retry)="void store.loadPersons()"
+      />
+
+      <ng-container *ngIf="!loading() && !error()">
+        <div class="person-list" *ngIf="persons().length; else emptyState">
+          <div class="person-item" *ngFor="let person of persons(); trackBy: trackPerson">
+            <div class="details">
+              <h3>{{ person.firstName }} {{ person.lastName }}</h3>
+              <p class="muted">{{ person.topic }}</p>
+            </div>
+            <span class="pill">{{ person.submissionDate }}</span>
+          </div>
+        </div>
+        <ng-template #emptyState>
+          <div class="empty-state">
+            <mat-icon aria-hidden="true">person_add</mat-icon>
+            <p>Noch keine Personen erfasst.</p>
+            <span class="muted">Nutze das Formular rechts, um eine neue Person anzulegen.</span>
+          </div>
+        </ng-template>
+      </ng-container>
+    </mat-card>
+
+    <mat-card class="form-card">
+      <p class="eyebrow">Neue Person erfassen</p>
+      <form [formGroup]="form" (ngSubmit)="submit()" class="stack">
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Vorname</mat-label>
+            <input matInput formControlName="firstName" required />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Nachname</mat-label>
+            <input matInput formControlName="lastName" required />
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Thema</mat-label>
+          <input matInput formControlName="topic" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Abgabedatum</mat-label>
+          <input matInput type="date" formControlName="submissionDate" required />
+        </mat-form-field>
+
+        <div class="actions">
+          <button mat-flat-button color="primary" type="submit">
+            <mat-icon aria-hidden="true">save</mat-icon>
+            <span>Speichern</span>
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</section>

@@ -1,0 +1,153 @@
+<section class="page page-grid">
+  <div class="main-column">
+    <header class="panel-header sticky">
+      <div class="header-grid">
+        <div class="title-block">
+          <p class="eyebrow">Checkliste</p>
+          <h1>Bewertung</h1>
+        </div>
+        <div class="meta-block" *ngIf="store.selectedPerson() as person; else noPerson">
+          <div><span class="label">Name:</span> <strong>{{ person.firstName }} {{ person.lastName }}</strong></div>
+          <div><span class="label">Thema:</span> <strong>{{ person.topic }}</strong></div>
+          <div><span class="label">Abgabe:</span> <strong>{{ person.submissionDate }}</strong></div>
+        </div>
+        <ng-template #noPerson>
+          <div class="meta-block muted">Keine Person ausgewählt</div>
+        </ng-template>
+        <div class="jump-block">
+          <app-custom-dropdown
+            label="Person"
+            [placeholder]="personOptions().length ? 'Person wählen' : 'Keine Personen'"
+            [options]="personOptions()"
+            [selected]="store.selectedPersonId() ?? undefined"
+            (selectionChange)="selectPerson($event)"
+          ></app-custom-dropdown>
+        </div>
+        <div class="actions-block">
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="void store.refreshPersonData()"
+            [disabled]="store.personDataLoading()"
+          >
+            <mat-icon aria-hidden="true">refresh</mat-icon>
+            <span>Aktualisieren</span>
+          </button>
+        </div>
+      </div>
+      <mat-progress-bar mode="determinate" [value]="store.overallCompletionRatio() * 100"></mat-progress-bar>
+    </header>
+
+    <div class="status-row">
+      <app-error-state
+        *ngIf="store.error() as message"
+        title="Daten nicht verfügbar"
+        [message]="message"
+        retryLabel="Erneut versuchen"
+        (retry)="void store.refreshPersonData()"
+      />
+    </div>
+
+    <ng-container *ngIf="!store.personDataLoading() && !store.criteriaLoading(); else loadingState">
+      <ng-container *ngIf="store.criteria().length; else emptyCriteria">
+        <div class="criteria-scroll">
+          <mat-card
+            *ngFor="let criterion of store.criteria(); trackBy: trackCriterion"
+            class="criterion-card"
+            #criterionCard
+            [attr.data-criterion-id]="criterion.id"
+          >
+            <div class="criterion-header">
+              <div class="code">{{ criterion.id }}</div>
+              <div class="titles">
+                <h3>{{ criterion.title }}</h3>
+                <p class="muted">{{ criterion.question }}</p>
+              </div>
+              <div class="tag-group" *ngIf="store.resultFor(criterion.id) as result">
+                <span class="tag grade">Stufe {{ result.gradeLevel }}</span>
+              </div>
+            </div>
+
+            <div class="subcriteria">
+              <div class="subcriterion" *ngFor="let requirement of criterion.requirements; let idx = index">
+                <div class="text">
+                  <span class="number">{{ idx + 1 }}.</span>
+                  <span>{{ requirement.description }}</span>
+                </div>
+                <mat-checkbox
+                  [checked]="isChecked(criterion.id, requirement.id)"
+                  (change)="toggleRequirement(criterion.id, requirement.id)"
+                  [aria-label]="'Anforderung ' + (idx + 1) + ' ' + requirement.description"
+                ></mat-checkbox>
+              </div>
+            </div>
+
+            <mat-form-field class="comment-field" appearance="outline">
+              <mat-label>Notiz</mat-label>
+              <textarea
+                matInput
+                rows="2"
+                [value]="noteFor(criterion.id)"
+                (blur)="updateNote(criterion.id, $any($event.target).value)"
+              ></textarea>
+            </mat-form-field>
+
+            <mat-divider></mat-divider>
+
+            <div class="criterion-footer">
+              <div class="evaluation-info" *ngIf="store.evaluationFor(criterion.id) as evaluation">
+                <span>Bewertung: {{ evaluation.grade }} / 3</span>
+                <span>
+                  Erfüllt: {{ evaluation.checkedRequirements }} von {{ evaluation.totalRequirements }}
+                </span>
+              </div>
+              <button mat-button color="warn" (click)="resetCriterion(criterion.id)">Kriterium zurücksetzen</button>
+            </div>
+          </mat-card>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #loadingState>
+      <div class="loading-panel">
+        <app-loading message="Bewertung wird geladen..."></app-loading>
+      </div>
+    </ng-template>
+
+    <ng-template #emptyCriteria>
+      <div class="loading-panel muted">Keine Kriterien verfügbar.</div>
+    </ng-template>
+  </div>
+
+  <aside class="eval-column">
+    <mat-card class="summary-card">
+      <p class="eyebrow">Auswertung</p>
+      <h2>Übersicht</h2>
+
+      <div class="summary-line">
+        <span class="label-text">Gesamterfüllung</span>
+        <span class="grade">{{ formatPercent(store.overallCompletionRatio()) }}</span>
+      </div>
+      <div class="summary-line">
+        <span class="label-text">Ø Bewertungsstufe</span>
+        <span class="grade">{{ formatGrade(store.averageGradeLevel()) }}</span>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="summary-section" *ngIf="store.results() as results">
+        <p class="eyebrow">Kriterien (Top 5)</p>
+        <div class="summary-entry" *ngFor="let entry of results.results | slice: 0:5">
+          <div class="summary-left">
+            <span class="label-text">{{ entry.criterionId }}</span>
+            <span class="muted">{{ entry.title }}</span>
+          </div>
+          <div class="summary-right">
+            <div class="fraction">{{ entry.fulfilledCount }} / {{ entry.totalCount }}</div>
+            <div class="grade">Stufe {{ entry.gradeLevel }}</div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </aside>
+</section>

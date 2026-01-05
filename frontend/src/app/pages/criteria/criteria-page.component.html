@@ -1,0 +1,86 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Kriterienkatalog</p>
+      <h1>Bewertungskriterien durchsuchen</h1>
+      <p class="muted">
+        Durchsuche alle Anforderungen und Module der offiziellen IPA-Kriterien. Nutze die Suche, um
+        gezielt nach Themen oder IDs zu filtern.
+      </p>
+    </div>
+    <div class="actions">
+      <button mat-stroked-button color="primary" (click)="void store.loadCriteria()" [disabled]="loading()">
+        <mat-icon aria-hidden="true">refresh</mat-icon>
+        <span>Neu laden</span>
+      </button>
+    </div>
+  </header>
+
+  <mat-card class="criteria-card">
+    <div class="card-header">
+      <div class="icon-circle">
+        <mat-icon aria-hidden="true">checklist</mat-icon>
+      </div>
+      <div>
+        <p class="eyebrow">Gesamt</p>
+        <p class="muted">
+          {{ filteredCriteria().length }} von {{ criteria().length }} Kriterien angezeigt
+        </p>
+      </div>
+    </div>
+
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Nach Kriterien, Anforderungen oder Modulen suchen</mat-label>
+      <input
+        matInput
+        [value]="filter()"
+        (input)="updateFilter($any($event.target).value)"
+        placeholder="z. B. A01, Dokumentation, Modul BF"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        *ngIf="filter()"
+        aria-label="Filter löschen"
+        (click)="updateFilter('')"
+      >
+        <mat-icon aria-hidden="true">close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <app-loading *ngIf="loading()" message="Kriterien werden geladen..."></app-loading>
+
+    <app-error-state
+      *ngIf="!loading() && error() as message"
+      title="Kriterien nicht verfügbar"
+      [message]="message"
+      retryLabel="Neu laden"
+      (retry)="void store.loadCriteria()"
+    />
+
+    <div class="criteria-list" *ngIf="!loading() && !error()">
+      <article class="criterion-card" *ngFor="let criterion of filteredCriteria(); trackBy: trackCriterion">
+        <header class="criterion-header">
+          <div class="criterion-meta">
+            <span class="criterion-id">{{ criterion.id }}</span>
+            <h2>{{ criterion.title }}</h2>
+          </div>
+          <p class="question">{{ criterion.question }}</p>
+        </header>
+
+        <div class="requirements">
+          <div class="requirement" *ngFor="let requirement of criterion.requirements">
+            <div class="requirement-text">
+              <strong>{{ requirement.id }}</strong>
+              <span>{{ requirement.description }}</span>
+            </div>
+            <mat-chip-set aria-label="Anforderungs-Tags">
+              <mat-chip color="primary" selected>{{ requirement.module }}</mat-chip>
+              <mat-chip>Teil {{ requirement.part }}</mat-chip>
+            </mat-chip-set>
+          </div>
+        </div>
+      </article>
+    </div>
+  </mat-card>
+</section>
