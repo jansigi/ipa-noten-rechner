@@ -7,6 +7,8 @@ import ch.jf.ipa.repository.CriterionProgressRepository
 import ch.jf.ipa.repository.PersonRepository
 import ch.jf.ipa.routes.personRoutes
 import ch.jf.ipa.routes.progressRoutes
+import ch.jf.ipa.routes.criteriaRoutes
+import ch.jf.ipa.routes.evaluationRoutes
 import ch.jf.ipa.routes.resultsRoutes
 import ch.jf.ipa.service.GradingService
 import io.ktor.serialization.kotlinx.json.json
@@ -18,6 +20,7 @@ import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.routing.routing
 import org.koin.ktor.ext.inject
 import org.koin.ktor.plugin.Koin
+import ch.jf.ipa.service.EvaluationService
 
 fun main(args: Array<String>) = EngineMain.main(args)
 
@@ -37,12 +40,14 @@ fun Application.module() {
 
     val personRepository by inject<PersonRepository>()
     val progressRepository by inject<CriterionProgressRepository>()
+    val evaluationService = EvaluationService(progressRepository)
     val gradingService by inject<GradingService>()
 
     routing {
         personRoutes(personRepository)
         progressRoutes(progressRepository)
+        criteriaRoutes()
+        evaluationRoutes(evaluationService)
         resultsRoutes(personRepository, gradingService)
     }
 }
-
