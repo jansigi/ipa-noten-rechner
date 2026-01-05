@@ -1,75 +1,91 @@
 <section class="page">
   <header class="page-header">
     <div>
-      <p class="eyebrow">Schritt 1</p>
-      <h1>Person</h1>
-      <p class="muted">Erfasse Stammdaten und stelle sicher, dass alle Pflichtfelder gepflegt sind.</p>
+      <p class="eyebrow">Stammdaten</p>
+      <h1>Personen verwalten</h1>
+      <p class="muted">Erfasse neue Kandidat:innen und behalte den Überblick über bestehende Profile.</p>
     </div>
     <div class="actions">
-      <button mat-stroked-button color="primary" (click)="loadData()">
+      <button mat-stroked-button color="primary" (click)="void store.loadPersons()" [disabled]="loading()">
         <mat-icon aria-hidden="true">refresh</mat-icon>
         <span>Neu laden</span>
-      </button>
-      <button mat-button color="accent" (click)="toggleError()">
-        <mat-icon aria-hidden="true">{{ forceError() ? 'bug_report' : 'shield_moon' }}</mat-icon>
-        <span>{{ forceError() ? 'Fehler simuliert' : 'Fehler simulieren' }}</span>
       </button>
     </div>
   </header>
 
-  <div class="stack">
-    <mat-card class="content-card">
-      <ng-container *ngIf="loading(); else loadedOrError">
-        <app-loading message="Personendaten werden geladen..."></app-loading>
-      </ng-container>
+  <div class="grid">
+    <mat-card class="list-card">
+      <div class="card-header">
+        <div class="icon-circle">
+          <mat-icon aria-hidden="true">group</mat-icon>
+        </div>
+        <div>
+          <p class="eyebrow">Registrierte Personen</p>
+          <p class="muted">Wähle eine Person aus, um zur Bewertung zu wechseln.</p>
+        </div>
+      </div>
 
-      <ng-template #loadedOrError>
-        <ng-container *ngIf="error(); else personContent">
-          <app-error-state
-            title="Personendaten nicht verfügbar"
-            [message]="error()!"
-            [retryLabel]="'Nochmal laden'"
-            (retry)="loadData()"
-          />
-        </ng-container>
+      <app-loading *ngIf="loading()" message="Personen werden geladen..."></app-loading>
 
-        <ng-template #personContent>
-          <div class="stack">
-            <div class="stat">
-              <div class="icon-circle">
-                <mat-icon aria-hidden="true">person</mat-icon>
-              </div>
-              <div>
-                <p class="eyebrow">Status</p>
-                <p class="muted">{{ data() }}</p>
-              </div>
+      <app-error-state
+        *ngIf="!loading() && error() as message"
+        title="Personendaten nicht verfügbar"
+        [message]="message"
+        retryLabel="Neu laden"
+        (retry)="void store.loadPersons()"
+      />
+
+      <ng-container *ngIf="!loading() && !error()">
+        <div class="person-list" *ngIf="persons().length; else emptyState">
+          <div class="person-item" *ngFor="let person of persons(); trackBy: trackPerson">
+            <div class="details">
+              <h3>{{ person.firstName }} {{ person.lastName }}</h3>
+              <p class="muted">{{ person.topic }}</p>
             </div>
-
-            <div class="pill-row">
-              <span class="pill success">Profil geprüft</span>
-              <span class="pill">Kontaktdaten</span>
-              <span class="pill">Zustimmung DSGVO</span>
-            </div>
-
-            <div class="stack light-card">
-              <div class="row">
-                <div>
-                  <p class="eyebrow">Nächste Schritte</p>
-                  <h3>Validiere die Angaben</h3>
-                  <p class="muted">
-                    Stelle sicher, dass alle Pflichtfelder vollständig sind und bereite die Bewertung
-                    vor.
-                  </p>
-                </div>
-                <a mat-flat-button color="primary" routerLink="/kriterien">
-                  <mat-icon aria-hidden="true">arrow_forward</mat-icon>
-                  <span>Weiter zu Kriterien</span>
-                </a>
-              </div>
-            </div>
+            <span class="pill">{{ person.submissionDate }}</span>
+          </div>
+        </div>
+        <ng-template #emptyState>
+          <div class="empty-state">
+            <mat-icon aria-hidden="true">person_add</mat-icon>
+            <p>Noch keine Personen erfasst.</p>
+            <span class="muted">Nutze das Formular rechts, um eine neue Person anzulegen.</span>
           </div>
         </ng-template>
-      </ng-template>
+      </ng-container>
+    </mat-card>
+
+    <mat-card class="form-card">
+      <p class="eyebrow">Neue Person erfassen</p>
+      <form [formGroup]="form" (ngSubmit)="submit()" class="stack">
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Vorname</mat-label>
+            <input matInput formControlName="firstName" required />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Nachname</mat-label>
+            <input matInput formControlName="lastName" required />
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Thema</mat-label>
+          <input matInput formControlName="topic" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Abgabedatum</mat-label>
+          <input matInput type="date" formControlName="submissionDate" required />
+        </mat-form-field>
+
+        <div class="actions">
+          <button mat-flat-button color="primary" type="submit">
+            <mat-icon aria-hidden="true">save</mat-icon>
+            <span>Speichern</span>
+          </button>
+        </div>
+      </form>
     </mat-card>
   </div>
 </section>

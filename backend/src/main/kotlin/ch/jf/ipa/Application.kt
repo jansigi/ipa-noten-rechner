@@ -11,12 +11,15 @@ import ch.jf.ipa.routes.criteriaRoutes
 import ch.jf.ipa.routes.evaluationRoutes
 import ch.jf.ipa.routes.resultsRoutes
 import ch.jf.ipa.service.GradingService
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.netty.EngineMain
 import io.ktor.server.plugins.callloging.CallLogging
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.routing.routing
 import org.koin.ktor.ext.inject
 import org.koin.ktor.plugin.Koin
@@ -32,6 +35,16 @@ fun Application.module() {
 
     install(ContentNegotiation) {
         json()
+    }
+
+    install(CORS) {
+        allowHost("localhost:4200", schemes = listOf("http"))
+        allowHeader(HttpHeaders.ContentType)
+        allowHeader(HttpHeaders.Authorization)
+        allowMethod(HttpMethod.Options)
+        allowMethod(HttpMethod.Get)
+        allowMethod(HttpMethod.Post)
+        allowCredentials = true
     }
 
     install(Koin) {

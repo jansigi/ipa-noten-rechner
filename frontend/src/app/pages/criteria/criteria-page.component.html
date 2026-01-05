@@ -1,79 +1,86 @@
 <section class="page">
   <header class="page-header">
     <div>
-      <p class="eyebrow">Schritt 2</p>
-      <h1>Kriterien</h1>
+      <p class="eyebrow">Kriterienkatalog</p>
+      <h1>Bewertungskriterien durchsuchen</h1>
       <p class="muted">
-        Definiere, priorisiere und gewichte die Bewertungs-Kriterien für die Auswertung.
+        Durchsuche alle Anforderungen und Module der offiziellen IPA-Kriterien. Nutze die Suche, um
+        gezielt nach Themen oder IDs zu filtern.
       </p>
     </div>
     <div class="actions">
-      <button mat-stroked-button color="primary" (click)="loadData()">
+      <button mat-stroked-button color="primary" (click)="void store.loadCriteria()" [disabled]="loading()">
         <mat-icon aria-hidden="true">refresh</mat-icon>
         <span>Neu laden</span>
-      </button>
-      <button mat-button color="accent" (click)="toggleError()">
-        <mat-icon aria-hidden="true">{{ forceError() ? 'bug_report' : 'flag' }}</mat-icon>
-        <span>{{ forceError() ? 'Fehler simuliert' : 'Fehler simulieren' }}</span>
       </button>
     </div>
   </header>
 
-  <div class="stack">
-    <mat-card class="content-card">
-      <ng-container *ngIf="loading(); else loadedOrError">
-        <app-loading message="Kriterien werden geladen..."></app-loading>
-      </ng-container>
+  <mat-card class="criteria-card">
+    <div class="card-header">
+      <div class="icon-circle">
+        <mat-icon aria-hidden="true">checklist</mat-icon>
+      </div>
+      <div>
+        <p class="eyebrow">Gesamt</p>
+        <p class="muted">
+          {{ filteredCriteria().length }} von {{ criteria().length }} Kriterien angezeigt
+        </p>
+      </div>
+    </div>
 
-      <ng-template #loadedOrError>
-        <ng-container *ngIf="error(); else criteriaContent">
-          <app-error-state
-            title="Kriterien nicht verfügbar"
-            [message]="error()!"
-            [retryLabel]="'Nochmal laden'"
-            (retry)="loadData()"
-          />
-        </ng-container>
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Nach Kriterien, Anforderungen oder Modulen suchen</mat-label>
+      <input
+        matInput
+        [value]="filter()"
+        (input)="updateFilter($any($event.target).value)"
+        placeholder="z. B. A01, Dokumentation, Modul BF"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        *ngIf="filter()"
+        aria-label="Filter löschen"
+        (click)="updateFilter('')"
+      >
+        <mat-icon aria-hidden="true">close</mat-icon>
+      </button>
+    </mat-form-field>
 
-        <ng-template #criteriaContent>
-          <div class="stack">
-            <div class="stat">
-              <div class="icon-circle">
-                <mat-icon aria-hidden="true">checklist</mat-icon>
-              </div>
-              <div>
-                <p class="eyebrow">Aktueller Stand</p>
-                <p class="muted">{{ data() }}</p>
-              </div>
-            </div>
+    <app-loading *ngIf="loading()" message="Kriterien werden geladen..."></app-loading>
 
-            <div class="grid">
-              <div class="light-card">
-                <h3>Kritische Faktoren</h3>
-                <p class="muted">Codequalität, Testabdeckung, Dokumentation</p>
-              </div>
-              <div class="light-card">
-                <h3>Team Fokus</h3>
-                <p class="muted">Pair-Programming, Wissens-Transfer, Architektur-Guides</p>
-              </div>
-            </div>
+    <app-error-state
+      *ngIf="!loading() && error() as message"
+      title="Kriterien nicht verfügbar"
+      [message]="message"
+      retryLabel="Neu laden"
+      (retry)="void store.loadCriteria()"
+    />
 
-            <div class="stack">
-              <p class="eyebrow">Nächste Aktion</p>
-              <div class="actions">
-                <button mat-flat-button color="primary">
-                  <mat-icon aria-hidden="true">tune</mat-icon>
-                  <span>Gewichte anpassen</span>
-                </button>
-                <button mat-stroked-button color="accent">
-                  <mat-icon aria-hidden="true">visibility</mat-icon>
-                  <span>Review starten</span>
-                </button>
-              </div>
-            </div>
+    <div class="criteria-list" *ngIf="!loading() && !error()">
+      <article class="criterion-card" *ngFor="let criterion of filteredCriteria(); trackBy: trackCriterion">
+        <header class="criterion-header">
+          <div class="criterion-meta">
+            <span class="criterion-id">{{ criterion.id }}</span>
+            <h2>{{ criterion.title }}</h2>
           </div>
-        </ng-template>
-      </ng-template>
-    </mat-card>
-  </div>
+          <p class="question">{{ criterion.question }}</p>
+        </header>
+
+        <div class="requirements">
+          <div class="requirement" *ngFor="let requirement of criterion.requirements">
+            <div class="requirement-text">
+              <strong>{{ requirement.id }}</strong>
+              <span>{{ requirement.description }}</span>
+            </div>
+            <mat-chip-set aria-label="Anforderungs-Tags">
+              <mat-chip color="primary" selected>{{ requirement.module }}</mat-chip>
+              <mat-chip>Teil {{ requirement.part }}</mat-chip>
+            </mat-chip-set>
+          </div>
+        </div>
+      </article>
+    </div>
+  </mat-card>
 </section>

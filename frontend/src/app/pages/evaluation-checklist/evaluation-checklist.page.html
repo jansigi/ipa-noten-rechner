@@ -4,159 +4,149 @@
       <div class="header-grid">
         <div class="title-block">
           <p class="eyebrow">Checkliste</p>
-          <h1>Grobentwurf</h1>
+          <h1>Bewertung</h1>
         </div>
-        <div class="meta-block">
-          <div><span class="label">Name:</span> <strong>Vorname Nachname</strong></div>
-          <div><span class="label">Titel:</span> <strong>Microservice für Auftragsauswertung</strong></div>
+        <div class="meta-block" *ngIf="store.selectedPerson() as person; else noPerson">
+          <div><span class="label">Name:</span> <strong>{{ person.firstName }} {{ person.lastName }}</strong></div>
+          <div><span class="label">Thema:</span> <strong>{{ person.topic }}</strong></div>
+          <div><span class="label">Abgabe:</span> <strong>{{ person.submissionDate }}</strong></div>
         </div>
+        <ng-template #noPerson>
+          <div class="meta-block muted">Keine Person ausgewählt</div>
+        </ng-template>
         <div class="jump-block">
-          <div class="compact-label">Springe zu Kriterium</div>
           <app-custom-dropdown
-            [label]="''"
-            [options]="dropdownOptions()"
-            [selected]="criteria()[0]?.id"
-            (selectionChange)="jumpTo($event)"
+            label="Person"
+            [placeholder]="personOptions().length ? 'Person wählen' : 'Keine Personen'"
+            [options]="personOptions()"
+            [selected]="store.selectedPersonId() ?? undefined"
+            (selectionChange)="selectPerson($event)"
           ></app-custom-dropdown>
         </div>
         <div class="actions-block">
-          <button mat-stroked-button color="primary" (click)="reset()">
-            <mat-icon aria-hidden="true">restart_alt</mat-icon>
-            <span>Reset</span>
-          </button>
-          <button mat-button (click)="adminMode.set(!adminMode())">
-            <mat-icon aria-hidden="true">{{ adminMode() ? 'lock_open' : 'lock' }}</mat-icon>
-            <span>Admin</span>
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="void store.refreshPersonData()"
+            [disabled]="store.personDataLoading()"
+          >
+            <mat-icon aria-hidden="true">refresh</mat-icon>
+            <span>Aktualisieren</span>
           </button>
         </div>
       </div>
-      <mat-progress-bar mode="determinate" [value]="overallRatio() * 100"></mat-progress-bar>
+      <mat-progress-bar mode="determinate" [value]="store.overallCompletionRatio() * 100"></mat-progress-bar>
     </header>
 
-    <div class="admin-panel" *ngIf="adminMode()">
-      <div class="admin-row">
-        <div class="jump-field">
-          <app-custom-dropdown
-            [label]="'Teil'"
-            [options]="partOptions()"
-            [selected]="newCriterionPart()"
-            (selectionChange)="newCriterionPart.set($event)"
-          ></app-custom-dropdown>
-        </div>
-        <mat-form-field appearance="outline">
-          <mat-label>Code</mat-label>
-          <input matInput [value]="newCriterionCode()" (input)="newCriterionCode.set($any($event.target).value)" />
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="full">
-          <mat-label>Titel</mat-label>
-          <input
-            matInput
-            [value]="newCriterionTitle()"
-            (input)="newCriterionTitle.set($any($event.target).value)"
-          />
-        </mat-form-field>
-        <button mat-flat-button color="primary" (click)="addCriterion()">Kriterium hinzufügen</button>
-      </div>
-
-      <div class="admin-row">
-        <div class="jump-field">
-          <app-custom-dropdown
-            [label]="'Kriterium'"
-            [options]="dropdownOptions()"
-            [selected]="targetCriterionForSub()"
-            (selectionChange)="targetCriterionForSub.set($event)"
-          ></app-custom-dropdown>
-        </div>
-        <mat-form-field appearance="outline" class="full">
-          <mat-label>Subkriterium</mat-label>
-          <input
-            matInput
-            [value]="newSubCriterionText()"
-            (input)="newSubCriterionText.set($any($event.target).value)"
-          />
-        </mat-form-field>
-        <button mat-stroked-button color="primary" (click)="addSubcriterion()">Sub hinzufügen</button>
-      </div>
+    <div class="status-row">
+      <app-error-state
+        *ngIf="store.error() as message"
+        title="Daten nicht verfügbar"
+        [message]="message"
+        retryLabel="Erneut versuchen"
+        (retry)="void store.refreshPersonData()"
+      />
     </div>
 
-    <div class="criteria-scroll">
-      <mat-card
-        *ngFor="let criterion of criteria(); trackBy: trackCriterion"
-        class="criterion-card"
-        #criterionCard
-        [attr.data-criterion-id]="criterion.id"
-      >
-        <div class="criterion-header">
-          <div class="code">{{ criterion.code }}</div>
-          <div class="titles">
-            <h3>{{ criterion.title }}</h3>
-            <p class="muted">Frage</p>
-          </div>
-          <span class="tag">Teil {{ criterion.partId === 'teil-1' ? '1' : '2' }}</span>
-        </div>
-
-        <div class="subcriteria">
-            <div class="subcriterion" *ngFor="let sub of criterion.subcriteria; let idx = index">
-            <div class="text">
-              <span class="number">{{ idx + 1 }}.</span>
-              <span>{{ sub.description }}</span>
+    <ng-container *ngIf="!store.personDataLoading() && !store.criteriaLoading(); else loadingState">
+      <ng-container *ngIf="store.criteria().length; else emptyCriteria">
+        <div class="criteria-scroll">
+          <mat-card
+            *ngFor="let criterion of store.criteria(); trackBy: trackCriterion"
+            class="criterion-card"
+            #criterionCard
+            [attr.data-criterion-id]="criterion.id"
+          >
+            <div class="criterion-header">
+              <div class="code">{{ criterion.id }}</div>
+              <div class="titles">
+                <h3>{{ criterion.title }}</h3>
+                <p class="muted">{{ criterion.question }}</p>
+              </div>
+              <div class="tag-group" *ngIf="store.resultFor(criterion.id) as result">
+                <span class="tag grade">Stufe {{ result.gradeLevel }}</span>
+              </div>
             </div>
-            <mat-checkbox
-              [checked]="isChecked(sub.id)"
-              (change)="toggle(sub.id)"
-              [aria-label]="'Subkriterium ' + (idx + 1) + ' ' + sub.description"
-            ></mat-checkbox>
-          </div>
+
+            <div class="subcriteria">
+              <div class="subcriterion" *ngFor="let requirement of criterion.requirements; let idx = index">
+                <div class="text">
+                  <span class="number">{{ idx + 1 }}.</span>
+                  <span>{{ requirement.description }}</span>
+                </div>
+                <mat-checkbox
+                  [checked]="isChecked(criterion.id, requirement.id)"
+                  (change)="toggleRequirement(criterion.id, requirement.id)"
+                  [aria-label]="'Anforderung ' + (idx + 1) + ' ' + requirement.description"
+                ></mat-checkbox>
+              </div>
+            </div>
+
+            <mat-form-field class="comment-field" appearance="outline">
+              <mat-label>Notiz</mat-label>
+              <textarea
+                matInput
+                rows="2"
+                [value]="noteFor(criterion.id)"
+                (blur)="updateNote(criterion.id, $any($event.target).value)"
+              ></textarea>
+            </mat-form-field>
+
+            <mat-divider></mat-divider>
+
+            <div class="criterion-footer">
+              <div class="evaluation-info" *ngIf="store.evaluationFor(criterion.id) as evaluation">
+                <span>Bewertung: {{ evaluation.grade }} / 3</span>
+                <span>
+                  Erfüllt: {{ evaluation.checkedRequirements }} von {{ evaluation.totalRequirements }}
+                </span>
+              </div>
+              <button mat-button color="warn" (click)="resetCriterion(criterion.id)">Kriterium zurücksetzen</button>
+            </div>
+          </mat-card>
         </div>
+      </ng-container>
+    </ng-container>
 
-        <mat-form-field class="comment-field" appearance="outline">
-          <mat-label>Kommentar</mat-label>
-          <textarea
-            matInput
-            rows="2"
-            [value]="commentFor(criterion.id)"
-            (input)="updateComment(criterion.id, $any($event.target).value)"
-          ></textarea>
-        </mat-form-field>
+    <ng-template #loadingState>
+      <div class="loading-panel">
+        <app-loading message="Bewertung wird geladen..."></app-loading>
+      </div>
+    </ng-template>
 
-        <mat-divider class="section-divider" *ngIf="adminMode()"></mat-divider>
-
-        <div class="admin-inline" *ngIf="adminMode()">
-          <button mat-button (click)="removeLastSub(criterion.id)">Letztes Sub entfernen</button>
-          <button mat-button color="warn" (click)="removeCriterion(criterion.id)">Kriterium löschen</button>
-        </div>
-      </mat-card>
-    </div>
+    <ng-template #emptyCriteria>
+      <div class="loading-panel muted">Keine Kriterien verfügbar.</div>
+    </ng-template>
   </div>
 
   <aside class="eval-column">
     <mat-card class="summary-card">
       <p class="eyebrow">Auswertung</p>
-      <h2>Berechnung</h2>
+      <h2>Übersicht</h2>
 
-      <div class="summary-line" *ngFor="let summary of partSummaries()">
-        <div class="summary-left">
-          <mat-icon
-            aria-hidden="true"
-            class="summary-icon"
-            *ngIf="summary.part.locked && summary.part.id !== 'teil-2'"
-          >
-            lock
-          </mat-icon>
-          <span class="label-text">{{ summary.part.name }}</span>
-          <span class="summary-badge" *ngIf="summary.part.badge && summary.part.id !== 'teil-2'">
-            {{ summary.part.badge }}
-          </span>
-        </div>
-        <div class="summary-right">
-          <div class="fraction">{{ summary.achieved }} / {{ summary.max }}</div>
-          <div class="grade">{{ formatDecimal(summary.grade) }}</div>
-        </div>
+      <div class="summary-line">
+        <span class="label-text">Gesamterfüllung</span>
+        <span class="grade">{{ formatPercent(store.overallCompletionRatio()) }}</span>
+      </div>
+      <div class="summary-line">
+        <span class="label-text">Ø Bewertungsstufe</span>
+        <span class="grade">{{ formatGrade(store.averageGradeLevel()) }}</span>
       </div>
 
-      <div class="summary-final">
-        <div class="label">mutmassliche Note</div>
-        <div class="final-grade">{{ formatDecimal(overallGrade()) }}</div>
+      <mat-divider></mat-divider>
+
+      <div class="summary-section" *ngIf="store.results() as results">
+        <p class="eyebrow">Kriterien (Top 5)</p>
+        <div class="summary-entry" *ngFor="let entry of results.results | slice: 0:5">
+          <div class="summary-left">
+            <span class="label-text">{{ entry.criterionId }}</span>
+            <span class="muted">{{ entry.title }}</span>
+          </div>
+          <div class="summary-right">
+            <div class="fraction">{{ entry.fulfilledCount }} / {{ entry.totalCount }}</div>
+            <div class="grade">Stufe {{ entry.gradeLevel }}</div>
+          </div>
+        </div>
       </div>
     </mat-card>
   </aside>

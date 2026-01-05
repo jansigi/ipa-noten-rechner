@@ -1,206 +1,246 @@
-import { Injectable, Signal, computed, effect, signal } from '@angular/core';
-import {
-  Criterion,
-  EvaluationDataset,
-  Part,
-  Subcriterion,
-  CriterionId,
-  PartId,
-  SubcriterionId,
-  defaultEvaluationDataset
-} from '../models/evaluation';
+import { inject, Injectable, computed, signal } from '@angular/core';
+import { BackendApiService } from './backend-api.service';
+import { Person, CreatePersonRequest } from '../models/person';
+import { Criterion } from '../models/criteria';
+import { CriterionProgress, CriterionProgressRequest } from '../models/progress';
+import { EvaluatedCriterion } from '../models/evaluation-result';
+import { CriterionResult, PersonResults } from '../models/results';
+import { firstValueFrom } from 'rxjs';
 
-interface EvaluationState {
-  checks: Record<SubcriterionId, boolean>;
-  comments: Record<CriterionId, string>;
-}
+type ProgressMap = Record<string, CriterionProgress>;
 
-const STORAGE_KEY = 'evaluation-store-v2';
-const DATASET_VERSION = 2;
-
-type StoredShape = {
-  dataset: EvaluationDataset;
-  state: EvaluationState;
-  datasetVersion: number;
-};
-
-const uid = () =>
-  typeof crypto !== 'undefined' && crypto.randomUUID
-    ? crypto.randomUUID()
-    : `id-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-
-function createEmptyState(dataset: EvaluationDataset): EvaluationState {
-  const allSubIds = dataset.criteria.flatMap((c) => c.subcriteria.map((s) => s.id));
-  const checks: Record<SubcriterionId, boolean> = {};
-  allSubIds.forEach((id) => (checks[id] = false));
-  return { checks, comments: {} };
-}
-
-function gradeFromRatio(ratio: number): number {
-  const clamped = Math.max(0, Math.min(1, ratio));
-  return Math.round((1 + clamped * 5) * 10) / 10;
-}
+const emptyProgressPayload = (criterionId: string): CriterionProgressRequest => ({
+  criterionId,
+  checkedRequirements: [],
+  note: null
+});
 
 @Injectable({ providedIn: 'root' })
 export class EvaluationStoreService {
-  private readonly dataset = signal<EvaluationDataset>(defaultEvaluationDataset);
-  private readonly state = signal<EvaluationState>(createEmptyState(defaultEvaluationDataset));
+  private readonly api = inject(BackendApiService);
 
-  readonly parts: Signal<Part[]> = computed(() => this.dataset().parts);
-  readonly criteria: Signal<Criterion[]> = computed(() => this.dataset().criteria);
+  readonly persons = signal<Person[]>([]);
+  readonly personsLoading = signal(false);
 
-  readonly partSummaries = computed(() =>
-    this.parts().map((part) => {
-      const criteria = this.criteria().filter((c) => c.partId === part.id);
-      const allSub = criteria.flatMap((c) => c.subcriteria);
-      const achieved = allSub.reduce((sum, sub) => (this.isChecked(sub.id) ? sum + (sub.points ?? 1) : sum), 0);
-      const max = allSub.reduce((sum, sub) => sum + (sub.points ?? 1), 0);
-      const ratio = max === 0 ? 0 : achieved / max;
-      return {
-        part,
-        achieved,
-        max,
-        ratio,
-        grade: gradeFromRatio(ratio)
-      };
-    })
-  );
+  readonly criteria = signal<Criterion[]>([]);
+  readonly criteriaLoading = signal(false);
 
-  readonly overallGrade = computed(() => {
-    const summaries = this.partSummaries();
-    if (!summaries.length) {
+  readonly selectedPersonId = signal<string | null>(null);
+  readonly progress = signal<ProgressMap>({});
+  readonly evaluation = signal<EvaluatedCriterion[]>([]);
+  readonly results = signal<PersonResults | null>(null);
+
+  readonly personDataLoading = signal(false);
+  readonly error = signal<string | null>(null);
+
+  readonly selectedPerson = computed<Person | null>(() => {
+    const id = this.selectedPersonId();
+    return this.persons().find((p) => p.id === id) ?? null;
+  });
+
+  readonly overallCompletionRatio = computed(() => {
+    const current = this.results();
+    if (!current || !current.results.length) {
       return 0;
     }
-    const totalWeight = summaries.reduce((sum, item) => sum + (item.part.weight ?? 1), 0);
-    const weighted = summaries.reduce((sum, item) => sum + item.grade * (item.part.weight ?? 1), 0);
-    return Math.round((weighted / totalWeight) * 10) / 10;
+    const totals = current.results.reduce(
+      (acc, item) => {
+        acc.fulfilled += item.fulfilledCount;
+        acc.total += item.totalCount;
+        return acc;
+      },
+      { fulfilled: 0, total: 0 }
+    );
+    return totals.total === 0 ? 0 : totals.fulfilled / totals.total;
+  });
+
+  readonly averageGradeLevel = computed(() => {
+    const current = this.results();
+    if (!current || !current.results.length) {
+      return 0;
+    }
+    const sum = current.results.reduce((acc, item) => acc + item.gradeLevel, 0);
+    return sum / current.results.length;
   });
 
   constructor() {
-    const restored = this.restoreFromStorage();
-    if (restored) {
-      this.dataset.set(restored.dataset);
-      this.state.set(restored.state);
-    }
-
-    effect(() => {
-      const payload: StoredShape = { dataset: this.dataset(), state: this.state(), datasetVersion: DATASET_VERSION };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-    });
+    void this.loadCriteria();
+    void this.loadPersons();
   }
 
-  isChecked(subId: SubcriterionId): boolean {
-    return !!this.state().checks[subId];
-  }
-
-  toggleSubcriterion(subId: SubcriterionId): void {
-    const current = this.state();
-    const nextChecks = { ...current.checks, [subId]: !current.checks[subId] };
-    this.state.set({ ...current, checks: nextChecks });
-  }
-
-  setComment(criterionId: CriterionId, value: string): void {
-    const current = this.state();
-    this.state.set({ ...current, comments: { ...current.comments, [criterionId]: value } });
-  }
-
-  commentFor(criterionId: CriterionId): string {
-    return this.state().comments[criterionId] ?? '';
-  }
-
-  addCriterion(partId: PartId, code: string, title: string): void {
-    const criteria = this.criteria();
-    const newId = uid();
-    const newCriterion: Criterion = {
-      id: newId,
-      code,
-      title,
-      partId,
-      subcriteria: []
-    };
-    const nextCriteria = [...criteria, newCriterion];
-    const parts = this.parts().map((p) =>
-      p.id === partId ? { ...p, criteriaIds: [...p.criteriaIds, newId] } : p
-    );
-    this.dataset.set({ parts, criteria: nextCriteria });
-    this.state.set({
-      ...this.state(),
-      checks: { ...this.state().checks }
-    });
-  }
-
-  removeCriterion(criterionId: CriterionId): void {
-    const criteria = this.criteria().filter((c) => c.id !== criterionId);
-    const parts = this.parts().map((p) => ({
-      ...p,
-      criteriaIds: p.criteriaIds.filter((id) => id !== criterionId)
-    }));
-    const nextChecks = { ...this.state().checks };
-    Object.keys(nextChecks).forEach((id) => {
-      if (id.startsWith(criterionId)) {
-        delete nextChecks[id];
-      }
-    });
-    const comments = { ...this.state().comments };
-    delete comments[criterionId];
-    this.dataset.set({ parts, criteria });
-    this.state.set({ checks: nextChecks, comments });
-  }
-
-  addSubcriterion(criterionId: CriterionId, description: string, points = 1): void {
-    const criteria = this.criteria().map((c) => {
-      if (c.id !== criterionId) return c;
-      const newSub: Subcriterion = {
-        id: `${criterionId}-s${c.subcriteria.length + 1}-${uid()}`,
-        description,
-        points
-      };
-      return { ...c, subcriteria: [...c.subcriteria, newSub] };
-    });
-    this.dataset.set({ ...this.dataset(), criteria });
-    const checks = { ...this.state().checks };
-    const added = criteria.find((c) => c.id === criterionId)?.subcriteria.at(-1);
-    if (added) {
-      checks[added.id] = false;
-    }
-    this.state.set({ ...this.state(), checks });
-  }
-
-  removeLastSubcriterion(criterionId: CriterionId): void {
-    let removedId: SubcriterionId | null = null;
-    const criteria = this.criteria().map((c) => {
-      if (c.id !== criterionId) return c;
-      const trimmed = [...c.subcriteria];
-      const removed = trimmed.pop();
-      if (removed) {
-        removedId = removed.id;
-      }
-      return { ...c, subcriteria: trimmed };
-    });
-    if (removedId) {
-      const checks = { ...this.state().checks };
-      delete checks[removedId];
-      this.state.set({ ...this.state(), checks });
-    }
-    this.dataset.set({ ...this.dataset(), criteria });
-  }
-
-  resetAll(): void {
-    this.dataset.set(defaultEvaluationDataset);
-    this.state.set(createEmptyState(defaultEvaluationDataset));
-  }
-
-  private restoreFromStorage(): StoredShape | null {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
+  async loadCriteria(): Promise<void> {
+    this.criteriaLoading.set(true);
     try {
-      const parsed = JSON.parse(raw) as StoredShape;
-      if (parsed.datasetVersion !== DATASET_VERSION) {
-        return null;
-      }
-      return parsed;
-    } catch {
-      return null;
+      const data = await firstValueFrom(this.api.getCriteria());
+      this.criteria.set(data);
+    } catch (err) {
+      this.error.set('Kriterien konnten nicht geladen werden.');
+    } finally {
+      this.criteriaLoading.set(false);
     }
+  }
+
+  async loadPersons(): Promise<void> {
+    this.personsLoading.set(true);
+    try {
+      const data = await firstValueFrom(this.api.getPersons());
+      this.persons.set(data);
+      if (!this.selectedPersonId() && data.length) {
+        this.selectPerson(data[0].id);
+      }
+    } catch (err) {
+      this.error.set('Personen konnten nicht geladen werden.');
+    } finally {
+      this.personsLoading.set(false);
+    }
+  }
+
+  async createPerson(payload: CreatePersonRequest): Promise<void> {
+    try {
+      const created = await firstValueFrom(this.api.createPerson(payload));
+      this.persons.update((current) => [created, ...current]);
+      this.selectPerson(created.id);
+    } catch (err) {
+      this.error.set('Person konnte nicht erstellt werden.');
+    }
+  }
+
+  selectPerson(personId: string): void {
+    if (!personId || this.selectedPersonId() === personId) {
+      return;
+    }
+    this.selectedPersonId.set(personId);
+    void this.refreshPersonData();
+  }
+
+  async refreshPersonData(): Promise<void> {
+    const personId = this.selectedPersonId();
+    if (!personId) {
+      return;
+    }
+    this.personDataLoading.set(true);
+    try {
+      const [progress, evaluation, results] = await Promise.all([
+        firstValueFrom(this.api.getProgress(personId)),
+        firstValueFrom(this.api.getEvaluation(personId)),
+        firstValueFrom(this.api.getResults(personId))
+      ]);
+      const progressMap = progress.reduce<ProgressMap>((acc, item) => {
+        acc[item.criterionId] = item;
+        return acc;
+      }, {});
+      this.progress.set(progressMap);
+      this.evaluation.set(evaluation);
+      this.results.set(results);
+      this.error.set(null);
+    } catch (err) {
+      this.error.set('Daten der Person konnten nicht geladen werden.');
+    } finally {
+      this.personDataLoading.set(false);
+    }
+  }
+
+  isRequirementChecked(criterionId: string, requirementId: string): boolean {
+    const current = this.progress()[criterionId];
+    return current?.checkedRequirements.includes(requirementId) ?? false;
+  }
+
+  noteFor(criterionId: string): string {
+    return this.progress()[criterionId]?.note ?? '';
+  }
+
+  evaluationFor(criterionId: string): EvaluatedCriterion | undefined {
+    return this.evaluation().find((item) => item.criterionId === criterionId);
+  }
+
+  resultFor(criterionId: string): CriterionResult | undefined {
+    return this.results()?.results.find((item) => item.criterionId === criterionId);
+  }
+
+  async toggleRequirement(criterionId: string, requirementId: string): Promise<void> {
+    const personId = this.selectedPersonId();
+    if (!personId) {
+      return;
+    }
+    const current = this.progress()[criterionId];
+    const nextChecked = new Set(current?.checkedRequirements ?? []);
+    if (nextChecked.has(requirementId)) {
+      nextChecked.delete(requirementId);
+    } else {
+      nextChecked.add(requirementId);
+    }
+    await this.persistProgress(criterionId, {
+      id: current?.id,
+      criterionId,
+      checkedRequirements: Array.from(nextChecked),
+      note: current?.note ?? null
+    });
+  }
+
+  async updateNote(criterionId: string, note: string): Promise<void> {
+    const current = this.progress()[criterionId];
+    await this.persistProgress(criterionId, {
+      id: current?.id,
+      criterionId,
+      checkedRequirements: current?.checkedRequirements ?? [],
+      note
+    });
+  }
+
+  private async persistProgress(
+    criterionId: string,
+    payload: CriterionProgressRequest
+  ): Promise<void> {
+    const personId = this.selectedPersonId();
+    if (!personId) {
+      return;
+    }
+    try {
+      const saved = await firstValueFrom(this.api.saveProgress(personId, payload));
+      this.progress.update((current) => ({ ...current, [criterionId]: saved }));
+      await this.refreshEvaluationForCriterion(criterionId);
+      await this.refreshResultForCriterion(criterionId);
+      this.error.set(null);
+    } catch (err) {
+      this.error.set('Fortschritt konnte nicht gespeichert werden.');
+    }
+  }
+
+  private async refreshEvaluationForCriterion(criterionId: string): Promise<void> {
+    const personId = this.selectedPersonId();
+    if (!personId) {
+      return;
+    }
+    try {
+      const latest = await firstValueFrom(this.api.getEvaluation(personId));
+      this.evaluation.set(latest);
+    } catch {
+      // keep previous evaluation if refresh fails
+    }
+  }
+
+  private async refreshResultForCriterion(criterionId: string): Promise<void> {
+    const personId = this.selectedPersonId();
+    if (!personId) {
+      return;
+    }
+    try {
+      const latest = await firstValueFrom(this.api.getCriterionResult(personId, criterionId));
+      this.results.update((current) => {
+        if (!current) {
+          return { personId, results: [latest] };
+        }
+        const nextResults = current.results.some((item) => item.criterionId === criterionId)
+          ? current.results.map((item) => (item.criterionId === criterionId ? latest : item))
+          : [...current.results, latest];
+        return { personId: current.personId, results: nextResults };
+      });
+    } catch {
+      // keep previous criterion result if refresh fails
+    }
+  }
+
+  async resetProgress(criterionId: string): Promise<void> {
+    await this.persistProgress(criterionId, emptyProgressPayload(criterionId));
   }
 }

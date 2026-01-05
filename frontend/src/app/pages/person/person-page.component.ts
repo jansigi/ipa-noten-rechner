@@ -1,59 +1,69 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgFor, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
-import { finalize, of, switchMap, throwError, timer } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
+import { EvaluationStoreService } from '../../services/evaluation-store.service';
+import { Person } from '../../models/person';
 import { AppLoadingComponent } from '../../shared/loading/app-loading.component';
 import { AppErrorStateComponent } from '../../shared/error-state/app-error-state.component';
-import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-person-page',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatIconModule, AppLoadingComponent, AppErrorStateComponent, NgIf, RouterLink],
+  imports: [
+    NgIf,
+    NgFor,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDividerModule,
+    AppLoadingComponent,
+    AppErrorStateComponent
+  ],
   templateUrl: './person-page.component.html',
   styleUrls: ['./person-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PersonPageComponent {
-  private readonly destroyRef = inject(DestroyRef);
+  protected readonly store = inject(EvaluationStoreService);
+  private readonly fb = inject(FormBuilder);
 
-  readonly loading = signal(false);
-  readonly error = signal<string | null>(null);
-  readonly forceError = signal(false);
-  readonly data = signal<string | null>(null);
+  readonly persons = this.store.persons;
+  readonly loading = this.store.personsLoading;
+  readonly error = this.store.error;
 
-  constructor() {
-    this.loadData();
+  readonly form = this.fb.nonNullable.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    topic: ['', Validators.required],
+    submissionDate: ['', Validators.required]
+  });
+
+  submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const value = this.form.getRawValue();
+    void this.store.createPerson({
+      firstName: value.firstName.trim(),
+      lastName: value.lastName.trim(),
+      topic: value.topic.trim(),
+      submissionDate: value.submissionDate
+    });
+    this.form.reset();
   }
 
-  toggleError(): void {
-    this.forceError.update((value) => !value);
-    this.loadData();
+  trackPerson(index: number, person: Person): string {
+    return person.id || `${index}`;
   }
-
-  loadData(): void {
-    this.loading.set(true);
-    this.error.set(null);
-    this.data.set(null);
-
-    timer(650)
-      .pipe(
-        switchMap(() =>
-          this.forceError()
-            ? throwError(() => new Error('Personendaten konnten nicht geladen werden.'))
-            : of('Personenprofil ist vollständig und ready to go.')
-        ),
-        takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.loading.set(false))
-      )
-      .subscribe({
-        next: (result) => this.data.set(result),
-        error: (err) => this.error.set(err.message ?? 'Unbekannter Fehler')
-      });
-  }
-
-  protected readonly navigator = navigator;
 }
