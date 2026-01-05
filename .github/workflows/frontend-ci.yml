@@ -10,9 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Check out repository contents.
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Set up Node.js and enable npm caching.
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -20,10 +22,70 @@ jobs:
           cache: "npm"
           cache-dependency-path: frontend/package-lock.json
 
+      # Install frontend dependencies.
       - name: Install dependencies
         run: npm ci
         working-directory: frontend
 
+      # Lint TypeScript sources with ESLint.
+      - name: Lint
+        run: >-
+          npx -y -p eslint -p @typescript-eslint/parser -p @typescript-eslint/eslint-plugin
+          eslint -c frontend/.eslintrc.cjs "frontend/src/**/*.ts"
+          || { echo "::error::Frontend lint failed."; exit 1; }
+
+      # Run unit tests and generate a JUnit report.
+      - name: Test
+        run: |
+          mkdir -p test-results
+          npm run test:ci || { echo "::error::Frontend tests failed."; exit 1; }
+        working-directory: frontend
+
+      # Enforce minimum test pass rate (>= 80%).
+      - name: Enforce test pass rate
+        run: |
+          python <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          report_path = Path("frontend/test-results/junit.xml")
+          if not report_path.exists():
+              print("::error::Frontend test report not found.")
+              raise SystemExit(1)
+
+          root = ET.parse(report_path).getroot()
+          suites = [root] if root.tag == "testsuite" else root.findall("testsuite")
+          total = failed = errors = skipped = 0
+          for suite in suites:
+              total += int(suite.attrib.get("tests", 0))
+              failed += int(suite.attrib.get("failures", 0))
+              errors += int(suite.attrib.get("errors", 0))
+              skipped += int(suite.attrib.get("skipped", 0))
+
+          if total == 0:
+              print("::error::No frontend tests were detected.")
+              raise SystemExit(1)
+
+          passed = total - failed - errors - skipped
+          rate = passed / total
+          print(f"Frontend test pass rate: {passed}/{total} ({rate:.0%})")
+
+          if rate < 0.8:
+              print("::error::Frontend test pass rate below 80%.")
+              raise SystemExit(1)
+          PY
+
+      # Publish the test report to the GitHub Actions summary.
+      - name: Publish test report
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Frontend Tests
+          path: frontend/test-results/junit.xml
+          reporter: java-junit
+          fail-on-error: false
+
+      # Build the production bundle.
       - name: Build
-        run: npm run build
+        run: npm run build || { echo "::error::Frontend build failed."; exit 1; }
         working-directory: frontend

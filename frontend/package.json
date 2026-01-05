@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:ci": "vitest --run --passWithNoTests --reporter=junit --outputFile=./test-results/junit.xml"
   },
   "prettier": {
     "printWidth": 100,
