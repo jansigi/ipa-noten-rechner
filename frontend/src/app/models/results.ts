@@ -12,5 +12,3 @@ export interface PersonResults {
   personId: string;
   results: CriterionResult[];
 }
-
-

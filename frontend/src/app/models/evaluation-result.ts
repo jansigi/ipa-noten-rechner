@@ -4,5 +4,3 @@ export interface EvaluatedCriterion {
   checkedRequirements: number;
   grade: number;
 }
-
-
