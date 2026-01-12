@@ -1,6 +1,5 @@
 package ch.jf.ipa.routes
 
-import ch.jf.ipa.dto.CriterionResultDto
 import ch.jf.ipa.repository.PersonRepository
 import ch.jf.ipa.service.GradingService
 import io.ktor.http.HttpStatusCode
@@ -11,13 +10,17 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 import java.util.UUID
 
-fun Route.resultsRoutes(personRepository: PersonRepository, gradingService: GradingService) {
+fun Route.resultsRoutes(
+    personRepository: PersonRepository,
+    gradingService: GradingService,
+) {
     route("/results") {
         get("{personId}") {
-            val personId = call.parameters["personId"]?.toUUIDOrNull() ?: return@get call.respond(
-                HttpStatusCode.BadRequest,
-                "Invalid person id",
-            )
+            val personId =
+                call.parameters["personId"]?.toUUIDOrNull() ?: return@get call.respond(
+                    HttpStatusCode.BadRequest,
+                    "Invalid person id",
+                )
 
             val personExists = personRepository.getById(personId) != null
             if (!personExists) {
@@ -30,10 +33,11 @@ fun Route.resultsRoutes(personRepository: PersonRepository, gradingService: Grad
         }
 
         get("{personId}/{criterionId}") {
-            val personId = call.parameters["personId"]?.toUUIDOrNull() ?: return@get call.respond(
-                HttpStatusCode.BadRequest,
-                "Invalid person id",
-            )
+            val personId =
+                call.parameters["personId"]?.toUUIDOrNull() ?: return@get call.respond(
+                    HttpStatusCode.BadRequest,
+                    "Invalid person id",
+                )
             val criterionId = call.parameters["criterionId"]
             if (criterionId.isNullOrBlank()) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid criterion id")
@@ -59,4 +63,3 @@ fun Route.resultsRoutes(personRepository: PersonRepository, gradingService: Grad
 }
 
 private fun String.toUUIDOrNull(): UUID? = runCatching { UUID.fromString(this) }.getOrNull()
-

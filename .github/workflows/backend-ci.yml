@@ -1,0 +1,120 @@
+name: Backend CI
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    steps:
+      # Check out repository contents.
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Set up the JDK and Gradle cache.
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+          cache: "gradle"
+
+      # Lint Kotlin sources with ktlint.
+      - name: Lint
+        run: ./gradlew ktlintCheck || { echo "::error::Backend lint failed."; exit 1; }
+
+      # Run unit and integration tests.
+      - name: Test
+        id: tests
+        run: ./gradlew test || { echo "::error::Backend tests failed."; exit 1; }
+
+      # Enforce minimum test pass rate (>= 80%).
+      - name: Enforce test pass rate
+        run: |
+          python <<'PY'
+          import glob
+          import xml.etree.ElementTree as ET
+
+          total = failed = errors = skipped = 0
+          report_paths = glob.glob("build/test-results/test/*.xml")
+          if not report_paths:
+              print("::error::Backend test reports not found.")
+              raise SystemExit(1)
+
+          for path in report_paths:
+              root = ET.parse(path).getroot()
+              suites = [root] if root.tag == "testsuite" else root.findall("testsuite")
+              for suite in suites:
+                  total += int(suite.attrib.get("tests", 0))
+                  failed += int(suite.attrib.get("failures", 0))
+                  errors += int(suite.attrib.get("errors", 0))
+                  skipped += int(suite.attrib.get("skipped", 0))
+
+          if total == 0:
+              print("::error::No backend tests were detected.")
+              raise SystemExit(1)
+
+          passed = total - failed - errors - skipped
+          rate = passed / total
+          print(f"Backend test pass rate: {passed}/{total} ({rate:.0%})")
+
+          if rate < 0.8:
+              print("::error::Backend test pass rate below 80%.")
+              raise SystemExit(1)
+          PY
+
+      # Publish the test report to the GitHub Actions summary.
+      - name: Publish test report
+        if: >
+          always() &&
+          hashFiles('backend/build/test-results/test/*.xml') != '' &&
+          (github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false)
+        uses: dorny/test-reporter@v1
+        with:
+          name: Backend Tests
+          path: backend/build/test-results/test/*.xml
+          reporter: java-junit
+          fail-on-error: false
+
+      # Build and push the Docker image after successful tests (push events only).
+      - name: Set up Docker Buildx
+        if: github.event_name == 'push'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Validate Docker Hub secrets
+        if: github.event_name == 'push'
+        run: |
+          if [ -z "${DOCKERHUB_USERNAME}" ] || [ -z "${DOCKERHUB_TOKEN}" ]; then
+            echo "::error::Docker Hub secrets are not set."
+            exit 1
+          fi
+
+      - name: Log in to Docker Hub
+        if: github.event_name == 'push'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_TOKEN }}
+
+      - name: Build and push staging image
+        if: github.event_name == 'push'
+        uses: docker/build-push-action@v6
+        with:
+          context: backend
+          file: backend/docker/Dockerfile
+          push: true
+          tags: |
+            ${{ env.DOCKERHUB_USERNAME }}/ipa-noten-rechner-backend:staging
+            ${{ env.DOCKERHUB_USERNAME }}/ipa-noten-rechner-backend:${{ github.sha }}

@@ -12,4 +12,3 @@ class CriteriaLoaderTest {
         assertTrue { criteria.size == 100 }
     }
 }
-

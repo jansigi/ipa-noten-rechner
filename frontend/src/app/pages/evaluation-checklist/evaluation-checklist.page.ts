@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { NgFor, NgIf, SlicePipe } from '@angular/common';
+import { SlicePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,7 +9,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { EvaluationStoreService } from '../../services/evaluation-store.service';
-import { Criterion } from '../../models/criteria';
 import { CustomDropdownComponent, DropdownOption } from '../../shared/custom-dropdown/custom-dropdown.component';
 import { AppLoadingComponent } from '../../shared/loading/app-loading.component';
 import { AppErrorStateComponent } from '../../shared/error-state/app-error-state.component';
@@ -18,8 +17,6 @@ import { AppErrorStateComponent } from '../../shared/error-state/app-error-state
   selector: 'app-evaluation-checklist-page',
   standalone: true,
   imports: [
-    NgFor,
-    NgIf,
     MatCardModule,
     MatCheckboxModule,
     MatButtonModule,
@@ -51,10 +48,6 @@ export class EvaluationChecklistPageComponent {
 
   selectPerson(personId: string): void {
     this.store.selectPerson(personId);
-  }
-
-  trackCriterion(index: number, item: Criterion): string {
-    return item.id;
   }
 
   isChecked(criterionId: string, requirementId: string): boolean {

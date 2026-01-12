@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgFor, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,7 +7,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { EvaluationStoreService } from '../../services/evaluation-store.service';
-import { Person } from '../../models/person';
 import { AppLoadingComponent } from '../../shared/loading/app-loading.component';
 import { AppErrorStateComponent } from '../../shared/error-state/app-error-state.component';
 
@@ -16,8 +14,6 @@ import { AppErrorStateComponent } from '../../shared/error-state/app-error-state
   selector: 'app-person-page',
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
@@ -63,7 +59,4 @@ export class PersonPageComponent {
     this.form.reset();
   }
 
-  trackPerson(index: number, person: Person): string {
-    return person.id || `${index}`;
-  }
 }

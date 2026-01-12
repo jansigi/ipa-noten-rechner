@@ -9,4 +9,3 @@ data class EvaluatedCriterionDto(
     val checkedRequirements: Int,
     val grade: Int,
 )
-

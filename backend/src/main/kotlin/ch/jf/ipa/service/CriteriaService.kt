@@ -14,4 +14,3 @@ class CriteriaService : CriteriaProvider {
 
     override fun getAllCriteria(): List<CriterionDto> = criteria
 }
-

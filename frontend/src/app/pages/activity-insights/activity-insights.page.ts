@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { NgFor, DatePipe, DecimalPipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,7 +13,6 @@ import { ActivityDetailDialogComponent } from './activity-detail-dialog.componen
   selector: 'app-activity-insights-page',
   standalone: true,
   imports: [
-    NgFor,
     DatePipe,
     DecimalPipe,
     MatCardModule,
@@ -109,5 +108,4 @@ export class ActivityInsightsPageComponent {
     return Math.round(value * 100);
   }
 }
-
 

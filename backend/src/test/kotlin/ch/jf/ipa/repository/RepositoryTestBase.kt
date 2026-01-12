@@ -22,4 +22,3 @@ abstract class RepositoryTestBase {
         DatabaseFactory.close()
     }
 }
-

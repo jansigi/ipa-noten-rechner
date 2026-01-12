@@ -19,4 +19,3 @@ object PersonsTable : UUIDTable("persons") {
     val topic = varchar("topic", 255)
     val submissionDate = date("submission_date")
 }
-

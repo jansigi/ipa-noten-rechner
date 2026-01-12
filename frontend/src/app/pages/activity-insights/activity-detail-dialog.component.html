@@ -68,15 +68,20 @@
       <span class="muted">Owner: {{ activity.owner }}</span>
     </header>
     <div class="phase-list">
-      <div class="phase" *ngFor="let phase of activity.phases">
-        <div class="phase-meta">
-          <strong>{{ phase.name }}</strong>
-          <span class="phase-status" [class]="phase.status">{{ phase.status }}</span>
+      @for (phase of activity.phases; track phase.name) {
+        <div class="phase">
+          <div class="phase-meta">
+            <strong>{{ phase.name }}</strong>
+            <span class="phase-status" [class]="phase.status">{{ phase.status }}</span>
+          </div>
+          <p class="phase-goal muted">{{ phase.goal }}</p>
+          <mat-progress-bar
+            mode="determinate"
+            [value]="completionPercent(phase.completionRatio)"
+          ></mat-progress-bar>
+          <div class="phase-percent">{{ completionPercent(phase.completionRatio) }}%</div>
         </div>
-        <p class="phase-goal muted">{{ phase.goal }}</p>
-        <mat-progress-bar mode="determinate" [value]="completionPercent(phase.completionRatio)"></mat-progress-bar>
-        <div class="phase-percent">{{ completionPercent(phase.completionRatio) }}%</div>
-      </div>
+      }
     </div>
   </section>
 
@@ -88,27 +93,37 @@
       <span class="muted">Basislinie: {{ baselineSnapshot?.speed | number: '1.0-1' }} Story-Punkte/Woche</span>
     </header>
     <mat-list>
-      <mat-list-item *ngFor="let snapshot of activity.snapshots">
-        <div matListItemTitle>{{ snapshot.date | date: 'EEE, dd.MM.yyyy' }}</div>
-        <div matListItemLine>
-          Speed: {{ snapshot.speed | number: '1.0-1' }} • Durchsatz: {{ snapshot.throughput | number: '1.0-0' }}
-        </div>
-        <div matListItemLine>Qualität: {{ snapshot.quality | number: '1.0-0' }} % • Fokus: {{ snapshot.focus | number: '1.0-0' }} %</div>
-      </mat-list-item>
+      @for (snapshot of activity.snapshots; track snapshot.date) {
+        <mat-list-item>
+          <div matListItemTitle>{{ snapshot.date | date: 'EEE, dd.MM.yyyy' }}</div>
+          <div matListItemLine>
+            Speed: {{ snapshot.speed | number: '1.0-1' }} • Durchsatz:
+            {{ snapshot.throughput | number: '1.0-0' }}
+          </div>
+          <div matListItemLine>
+            Qualität: {{ snapshot.quality | number: '1.0-0' }} % • Fokus:
+            {{ snapshot.focus | number: '1.0-0' }} %
+          </div>
+        </mat-list-item>
+      }
     </mat-list>
   </section>
 
-  <section class="highlights" *ngIf="activity.achievements.length">
-    <header class="section-header">
-      <h3>Highlights & Erkenntnisse</h3>
-    </header>
-    <mat-chip-set>
-      <mat-chip *ngFor="let highlight of activity.achievements">
-        <mat-icon aria-hidden="true">star</mat-icon>
-        {{ highlight }}
-      </mat-chip>
-    </mat-chip-set>
-  </section>
+  @if (activity.achievements.length) {
+    <section class="highlights">
+      <header class="section-header">
+        <h3>Highlights & Erkenntnisse</h3>
+      </header>
+      <mat-chip-set>
+        @for (highlight of activity.achievements; track highlight) {
+          <mat-chip>
+            <mat-icon aria-hidden="true">star</mat-icon>
+            {{ highlight }}
+          </mat-chip>
+        }
+      </mat-chip-set>
+    </section>
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
@@ -117,5 +132,4 @@
     Schliessen
   </button>
 </mat-dialog-actions>
-
 

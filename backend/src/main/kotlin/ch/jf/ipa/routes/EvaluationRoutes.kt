@@ -12,11 +12,12 @@ import java.util.UUID
 fun Route.evaluationRoutes(evaluationService: EvaluationService) {
     route("/evaluation") {
         get("{personId}") {
-            val personId = call.parameters["personId"]?.toUUIDOrNull()
-                ?: run {
-                    call.respond(HttpStatusCode.BadRequest, "Invalid person id")
-                    return@get
-                }
+            val personId =
+                call.parameters["personId"]?.toUUIDOrNull()
+                    ?: run {
+                        call.respond(HttpStatusCode.BadRequest, "Invalid person id")
+                        return@get
+                    }
 
             val result = evaluationService.evaluate(personId)
             call.respond(result)
@@ -25,4 +26,3 @@ fun Route.evaluationRoutes(evaluationService: EvaluationService) {
 }
 
 private fun String.toUUIDOrNull(): UUID? = runCatching { UUID.fromString(this) }.getOrNull()
-

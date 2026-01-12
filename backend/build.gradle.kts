@@ -6,6 +6,7 @@ val coroutinesVersion = "1.8.1"
 plugins {
     kotlin("jvm") version "2.0.21"
     kotlin("plugin.serialization") version "2.0.21"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
     application
 }
 

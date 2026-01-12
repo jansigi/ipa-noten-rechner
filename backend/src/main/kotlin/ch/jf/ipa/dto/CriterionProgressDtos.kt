@@ -21,19 +21,20 @@ data class CriterionProgressRequest(
     val note: String? = null,
 )
 
-fun CriterionProgress.toResponseDto(): CriterionProgressResponseDto = CriterionProgressResponseDto(
-    id = id.toString(),
-    personId = personId.toString(),
-    criterionId = criterionId,
-    checkedRequirements = checkedRequirements,
-    note = note,
-)
+fun CriterionProgress.toResponseDto(): CriterionProgressResponseDto =
+    CriterionProgressResponseDto(
+        id = id.toString(),
+        personId = personId.toString(),
+        criterionId = criterionId,
+        checkedRequirements = checkedRequirements,
+        note = note,
+    )
 
-fun CriterionProgressRequest.toDomain(personId: UUID): CriterionProgress = CriterionProgress(
-    id = id?.let(UUID::fromString) ?: UUID.randomUUID(),
-    personId = personId,
-    criterionId = criterionId,
-    checkedRequirements = checkedRequirements,
-    note = note,
-)
-
+fun CriterionProgressRequest.toDomain(personId: UUID): CriterionProgress =
+    CriterionProgress(
+        id = id?.let(UUID::fromString) ?: UUID.randomUUID(),
+        personId = personId,
+        criterionId = criterionId,
+        checkedRequirements = checkedRequirements,
+        note = note,
+    )

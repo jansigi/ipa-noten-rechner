@@ -37,50 +37,57 @@
         (input)="updateFilter($any($event.target).value)"
         placeholder="z. B. A01, Dokumentation, Modul BF"
       />
-      <button
-        mat-icon-button
-        matSuffix
-        *ngIf="filter()"
-        aria-label="Filter löschen"
-        (click)="updateFilter('')"
-      >
-        <mat-icon aria-hidden="true">close</mat-icon>
-      </button>
+      @if (filter()) {
+        <button mat-icon-button matSuffix aria-label="Filter löschen" (click)="updateFilter('')">
+          <mat-icon aria-hidden="true">close</mat-icon>
+        </button>
+      }
     </mat-form-field>
 
-    <app-loading *ngIf="loading()" message="Kriterien werden geladen..."></app-loading>
+    @if (loading()) {
+      <app-loading message="Kriterien werden geladen..."></app-loading>
+    }
 
-    <app-error-state
-      *ngIf="!loading() && error() as message"
-      title="Kriterien nicht verfügbar"
-      [message]="message"
-      retryLabel="Neu laden"
-      (retry)="void store.loadCriteria()"
-    />
+    @if (!loading()) {
+      @if (error(); as message) {
+        <app-error-state
+          title="Kriterien nicht verfügbar"
+          [message]="message"
+          retryLabel="Neu laden"
+          (retry)="void store.loadCriteria()"
+        />
+      }
+    }
 
-    <div class="criteria-list" *ngIf="!loading() && !error()">
-      <article class="criterion-card" *ngFor="let criterion of filteredCriteria(); trackBy: trackCriterion">
-        <header class="criterion-header">
-          <div class="criterion-meta">
-            <span class="criterion-id">{{ criterion.id }}</span>
-            <h2>{{ criterion.title }}</h2>
-          </div>
-          <p class="question">{{ criterion.question }}</p>
-        </header>
+    @if (!loading() && !error()) {
+      <div class="criteria-list">
+        @for (criterion of filteredCriteria(); track criterion.id) {
+          <article class="criterion-card">
+            <header class="criterion-header">
+              <div class="criterion-meta">
+                <span class="criterion-id">{{ criterion.id }}</span>
+                <h2>{{ criterion.title }}</h2>
+              </div>
+              <p class="question">{{ criterion.question }}</p>
+            </header>
 
-        <div class="requirements">
-          <div class="requirement" *ngFor="let requirement of criterion.requirements">
-            <div class="requirement-text">
-              <strong>{{ requirement.id }}</strong>
-              <span>{{ requirement.description }}</span>
+            <div class="requirements">
+              @for (requirement of criterion.requirements; track requirement.id) {
+                <div class="requirement">
+                  <div class="requirement-text">
+                    <strong>{{ requirement.id }}</strong>
+                    <span>{{ requirement.description }}</span>
+                  </div>
+                  <mat-chip-set aria-label="Anforderungs-Tags">
+                    <mat-chip color="primary" selected>{{ requirement.module }}</mat-chip>
+                    <mat-chip>Teil {{ requirement.part }}</mat-chip>
+                  </mat-chip-set>
+                </div>
+              }
             </div>
-            <mat-chip-set aria-label="Anforderungs-Tags">
-              <mat-chip color="primary" selected>{{ requirement.module }}</mat-chip>
-              <mat-chip>Teil {{ requirement.part }}</mat-chip>
-            </mat-chip-set>
-          </div>
-        </div>
-      </article>
-    </div>
+          </article>
+        }
+      </div>
+    }
   </mat-card>
 </section>

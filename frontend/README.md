@@ -36,12 +36,12 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-## Running unit tests
+## Running tests
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+To execute end-to-end tests with [Playwright](https://playwright.dev/), use the following command:
 
 ```bash
-ng test
+npm run test
 ```
 
 ## Running end-to-end tests
