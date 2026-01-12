@@ -1,6 +1,10 @@
 package ch.jf.ipa.config
 
+import ch.jf.ipa.model.CriteriaTable
 import ch.jf.ipa.model.CriterionProgressTable
+import ch.jf.ipa.model.CriterionRequirementsTable
+import ch.jf.ipa.model.IpaDatasetsTable
+import ch.jf.ipa.model.MetadataTable
 import ch.jf.ipa.model.PersonsTable
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -41,7 +45,14 @@ object DatabaseFactory {
         dataSource = hikariDataSource
         database = Database.connect(hikariDataSource)
         transaction(database) {
-            SchemaUtils.create(PersonsTable, CriterionProgressTable)
+            SchemaUtils.create(
+                PersonsTable,
+                CriterionProgressTable,
+                CriteriaTable,
+                CriterionRequirementsTable,
+                IpaDatasetsTable,
+                MetadataTable,
+            )
         }
     }
 

@@ -7,6 +7,8 @@ import { Criterion } from '../models/criteria';
 import { CriterionProgress, CriterionProgressRequest } from '../models/progress';
 import { EvaluatedCriterion } from '../models/evaluation-result';
 import { PersonResults, CriterionResult } from '../models/results';
+import { IpaDataset } from '../models/ipa';
+import { AppMetadata, IpaImportResponse } from '../models/metadata';
 
 @Injectable({ providedIn: 'root' })
 export class BackendApiService {
@@ -43,6 +45,20 @@ export class BackendApiService {
 
   getCriterionResult(personId: string, criterionId: string): Observable<CriterionResult> {
     return this.http.get<CriterionResult>(`${this.baseUrl}/results/${personId}/${criterionId}`);
+  }
+
+  getMetadata(): Observable<AppMetadata> {
+    return this.http.get<AppMetadata>(`${this.baseUrl}/metadata`);
+  }
+
+  uploadIpaPdf(file: File): Observable<IpaImportResponse> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post<IpaImportResponse>(`${this.baseUrl}/imports/ipa`, formData);
+  }
+
+  getIpaDataset(): Observable<IpaDataset> {
+    return this.http.get<IpaDataset>(`${this.baseUrl}/ipa`);
   }
 }
 

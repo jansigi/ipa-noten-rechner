@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -45,6 +45,53 @@ export class PersonPageComponent {
     lastName: ['', Validators.required],
     topic: ['', Validators.required],
     submissionDate: ['', Validators.required]
+  });
+
+  private topicPrefilled = false;
+  private firstNamePrefilled = false;
+  private lastNamePrefilled = false;
+  private lastDatasetId: string | null = null;
+
+  private readonly syncMetadataWithForm = effect(() => {
+    const activeDatasetId = this.store.activeDatasetId();
+    if (activeDatasetId !== this.lastDatasetId) {
+      this.topicPrefilled = false;
+      this.firstNamePrefilled = false;
+      this.lastNamePrefilled = false;
+      this.lastDatasetId = activeDatasetId ?? null;
+    }
+
+    const topic = this.store.topic();
+    if (topic && !this.topicPrefilled && !this.form.controls.topic.value) {
+      this.form.controls.topic.setValue(topic);
+      this.topicPrefilled = true;
+    }
+
+    const candidateFirst = this.store.candidateFirstName();
+    const candidateLast = this.store.candidateLastName();
+    const candidateFull = this.store.candidateFullName();
+
+    if (candidateFirst && !this.firstNamePrefilled && !this.form.controls.firstName.value) {
+      this.form.controls.firstName.setValue(candidateFirst);
+      this.firstNamePrefilled = true;
+    } else if (!this.firstNamePrefilled && !this.form.controls.firstName.value && candidateFull) {
+      const parts = candidateFull.split(' ').filter(Boolean);
+      if (parts.length >= 1) {
+        this.form.controls.firstName.setValue(parts[parts.length - 1]);
+        this.firstNamePrefilled = true;
+      }
+    }
+
+    if (candidateLast && !this.lastNamePrefilled && !this.form.controls.lastName.value) {
+      this.form.controls.lastName.setValue(candidateLast);
+      this.lastNamePrefilled = true;
+    } else if (!this.lastNamePrefilled && !this.form.controls.lastName.value && candidateFull) {
+      const parts = candidateFull.split(' ').filter(Boolean);
+      if (parts.length > 1) {
+        this.form.controls.lastName.setValue(parts.slice(0, -1).join(' '));
+        this.lastNamePrefilled = true;
+      }
+    }
   });
 
   submit(): void {

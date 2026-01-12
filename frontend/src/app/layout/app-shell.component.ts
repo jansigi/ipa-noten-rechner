@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewChild } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,6 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgFor } from '@angular/common';
+import { EvaluationStoreService } from '../services/evaluation-store.service';
 
 type NavItem = {
   label: string;
@@ -34,7 +35,9 @@ type NavItem = {
 export class AppShellComponent {
   @ViewChild(MatSidenav) private sidenav?: MatSidenav;
 
-  readonly appTitle = signal('IPA Noten Rechner');
+  private readonly store = inject(EvaluationStoreService);
+
+  readonly appTitle = computed(() => this.store.ipaName() ?? 'IPA Noten Rechner');
   readonly navItems = signal<NavItem[]>([
     { label: 'Personen', path: '/personen', icon: 'group' },
     { label: 'Kriterien', path: '/kriterien', icon: 'rule' },

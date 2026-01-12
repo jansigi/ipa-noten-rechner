@@ -102,7 +102,7 @@ class GradingServiceIntegrationTest : RepositoryTestBase() {
             ),
         )
 
-        override fun getAllCriteria(): List<CriterionDto> = criteria
+        override suspend fun getAllCriteria(): List<CriterionDto> = criteria
     }
 }
 

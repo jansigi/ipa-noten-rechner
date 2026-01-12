@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, computed, inject, signal } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,10 +32,20 @@ import { Criterion } from '../../models/criteria';
 })
 export class CriteriaPageComponent {
   protected readonly store = inject(EvaluationStoreService);
+  @ViewChild('fileInput') private fileInput?: ElementRef<HTMLInputElement>;
 
   readonly loading = this.store.criteriaLoading;
   readonly error = this.store.error;
   readonly criteria = this.store.criteria;
+  readonly candidateName = computed(() => {
+    const full = this.store.candidateFullName();
+    if (full) {
+      return full;
+    }
+    const first = this.store.candidateFirstName();
+    const last = this.store.candidateLastName();
+    return [first, last].filter((value): value is string => !!value && value.trim().length > 0).join(' ').trim();
+  });
 
   readonly filter = signal('');
   readonly filteredCriteria = computed<Criterion[]>(() => {
@@ -60,6 +70,22 @@ export class CriteriaPageComponent {
 
   updateFilter(value: string): void {
     this.filter.set(value);
+  }
+
+  uploadPdf(): void {
+    this.fileInput?.nativeElement.click();
+  }
+
+  onFileSelected(event: Event): void {
+    const element = event.target as HTMLInputElement | null;
+    const file = element?.files?.item(0);
+    if (!file) {
+      return;
+    }
+    void this.store.importIpaPdf(file);
+    if (element) {
+      element.value = '';
+    }
   }
 
   trackCriterion(index: number, criterion: Criterion): string {

@@ -6,6 +6,7 @@ import { CriterionProgress, CriterionProgressRequest } from '../models/progress'
 import { EvaluatedCriterion } from '../models/evaluation-result';
 import { CriterionResult, PersonResults } from '../models/results';
 import { firstValueFrom } from 'rxjs';
+import { IpaDataset } from '../models/ipa';
 
 type ProgressMap = Record<string, CriterionProgress>;
 
@@ -29,6 +30,15 @@ export class EvaluationStoreService {
   readonly progress = signal<ProgressMap>({});
   readonly evaluation = signal<EvaluatedCriterion[]>([]);
   readonly results = signal<PersonResults | null>(null);
+
+  readonly ipaName = signal<string | null>(null);
+  readonly topic = signal<string | null>(null);
+  readonly candidateFullName = signal<string | null>(null);
+  readonly candidateFirstName = signal<string | null>(null);
+  readonly candidateLastName = signal<string | null>(null);
+  readonly activeDatasetId = signal<string | null>(null);
+  readonly ipaDataset = signal<IpaDataset | null>(null);
+  readonly metadataLoading = signal(false);
 
   readonly personDataLoading = signal(false);
   readonly error = signal<string | null>(null);
@@ -66,6 +76,8 @@ export class EvaluationStoreService {
   constructor() {
     void this.loadCriteria();
     void this.loadPersons();
+    void this.loadMetadata();
+    void this.loadIpaDataset();
   }
 
   async loadCriteria(): Promise<void> {
@@ -102,6 +114,60 @@ export class EvaluationStoreService {
       this.selectPerson(created.id);
     } catch (err) {
       this.error.set('Person konnte nicht erstellt werden.');
+    }
+  }
+
+  async loadMetadata(): Promise<void> {
+    this.metadataLoading.set(true);
+    try {
+      const data = await firstValueFrom(this.api.getMetadata());
+      this.ipaName.set(data.ipaName ?? null);
+      this.topic.set(data.topic ?? null);
+      this.candidateFullName.set(data.candidateFullName ?? null);
+      this.candidateFirstName.set(data.candidateFirstName ?? null);
+      this.candidateLastName.set(data.candidateLastName ?? null);
+      this.activeDatasetId.set(data.activeDatasetId ?? null);
+    } catch {
+      this.ipaName.set(null);
+      this.topic.set(null);
+      this.candidateFullName.set(null);
+      this.candidateFirstName.set(null);
+      this.candidateLastName.set(null);
+      this.activeDatasetId.set(null);
+    } finally {
+      this.metadataLoading.set(false);
+    }
+  }
+
+  async loadIpaDataset(): Promise<void> {
+    try {
+      const dataset = await firstValueFrom(this.api.getIpaDataset());
+      this.ipaDataset.set(dataset);
+    } catch {
+      this.ipaDataset.set(null);
+    }
+  }
+
+  async importIpaPdf(file: File): Promise<void> {
+    this.criteriaLoading.set(true);
+    this.metadataLoading.set(true);
+    try {
+      await firstValueFrom(this.api.uploadIpaPdf(file));
+      await this.loadMetadata();
+      await this.loadCriteria();
+      await this.loadIpaDataset();
+      this.selectedPersonId.set(null);
+      this.persons.set([]);
+      this.progress.set({});
+      this.evaluation.set([]);
+      this.results.set(null);
+      await this.loadPersons();
+      this.error.set(null);
+    } catch (err) {
+      this.error.set('Die Kriterien konnten nicht importiert werden.');
+    } finally {
+      this.criteriaLoading.set(false);
+      this.metadataLoading.set(false);
     }
   }
 
