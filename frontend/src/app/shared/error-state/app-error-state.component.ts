@@ -2,12 +2,11 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-error-state',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatIconModule, NgIf],
+  imports: [MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './app-error-state.component.html',
   styleUrls: ['./app-error-state.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

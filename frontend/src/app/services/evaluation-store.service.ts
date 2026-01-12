@@ -73,7 +73,7 @@ export class EvaluationStoreService {
     try {
       const data = await firstValueFrom(this.api.getCriteria());
       this.criteria.set(data);
-    } catch (err) {
+    } catch {
       this.error.set('Kriterien konnten nicht geladen werden.');
     } finally {
       this.criteriaLoading.set(false);
@@ -88,7 +88,7 @@ export class EvaluationStoreService {
       if (!this.selectedPersonId() && data.length) {
         this.selectPerson(data[0].id);
       }
-    } catch (err) {
+    } catch {
       this.error.set('Personen konnten nicht geladen werden.');
     } finally {
       this.personsLoading.set(false);
@@ -100,7 +100,7 @@ export class EvaluationStoreService {
       const created = await firstValueFrom(this.api.createPerson(payload));
       this.persons.update((current) => [created, ...current]);
       this.selectPerson(created.id);
-    } catch (err) {
+    } catch {
       this.error.set('Person konnte nicht erstellt werden.');
     }
   }
@@ -133,7 +133,7 @@ export class EvaluationStoreService {
       this.evaluation.set(evaluation);
       this.results.set(results);
       this.error.set(null);
-    } catch (err) {
+    } catch {
       this.error.set('Daten der Person konnten nicht geladen werden.');
     } finally {
       this.personDataLoading.set(false);
@@ -198,15 +198,15 @@ export class EvaluationStoreService {
     try {
       const saved = await firstValueFrom(this.api.saveProgress(personId, payload));
       this.progress.update((current) => ({ ...current, [criterionId]: saved }));
-      await this.refreshEvaluationForCriterion(criterionId);
+      await this.refreshEvaluation();
       await this.refreshResultForCriterion(criterionId);
       this.error.set(null);
-    } catch (err) {
+    } catch {
       this.error.set('Fortschritt konnte nicht gespeichert werden.');
     }
   }
 
-  private async refreshEvaluationForCriterion(criterionId: string): Promise<void> {
+  private async refreshEvaluation(): Promise<void> {
     const personId = this.selectedPersonId();
     if (!personId) {
       return;

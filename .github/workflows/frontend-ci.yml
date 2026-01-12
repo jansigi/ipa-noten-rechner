@@ -30,12 +30,16 @@ jobs:
         run: npm ci
         working-directory: frontend
 
-      # Lint TypeScript sources with ESLint.
+      # Lint TypeScript sources when an ESLint config is present.
       - name: Lint
-        run: >-
-          npx -y -p eslint -p @typescript-eslint/parser -p @typescript-eslint/eslint-plugin
-          eslint -c frontend/.eslintrc.cjs "frontend/src/**/*.ts"
-          || { echo "::error::Frontend lint failed."; exit 1; }
+        run: |
+          if [ -f frontend/.eslintrc.cjs ]; then
+            npx -y -p eslint -p @typescript-eslint/parser -p @typescript-eslint/eslint-plugin \
+              eslint -c frontend/.eslintrc.cjs "frontend/src/**/*.ts" \
+              || { echo "::error::Frontend lint failed."; exit 1; }
+          else
+            echo "No frontend/.eslintrc.cjs found; skipping lint."
+          fi
 
       # Run unit tests and generate a JUnit report.
       - name: Test

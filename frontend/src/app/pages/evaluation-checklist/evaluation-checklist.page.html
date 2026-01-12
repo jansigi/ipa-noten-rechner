@@ -6,14 +6,15 @@
           <p class="eyebrow">Checkliste</p>
           <h1>Bewertung</h1>
         </div>
-        <div class="meta-block" *ngIf="store.selectedPerson() as person; else noPerson">
-          <div><span class="label">Name:</span> <strong>{{ person.firstName }} {{ person.lastName }}</strong></div>
-          <div><span class="label">Thema:</span> <strong>{{ person.topic }}</strong></div>
-          <div><span class="label">Abgabe:</span> <strong>{{ person.submissionDate }}</strong></div>
-        </div>
-        <ng-template #noPerson>
+        @if (store.selectedPerson(); as person) {
+          <div class="meta-block">
+            <div><span class="label">Name:</span> <strong>{{ person.firstName }} {{ person.lastName }}</strong></div>
+            <div><span class="label">Thema:</span> <strong>{{ person.topic }}</strong></div>
+            <div><span class="label">Abgabe:</span> <strong>{{ person.submissionDate }}</strong></div>
+          </div>
+        } @else {
           <div class="meta-block muted">Keine Person ausgewählt</div>
-        </ng-template>
+        }
         <div class="jump-block">
           <app-custom-dropdown
             label="Person"
@@ -39,84 +40,90 @@
     </header>
 
     <div class="status-row">
-      <app-error-state
-        *ngIf="store.error() as message"
-        title="Daten nicht verfügbar"
-        [message]="message"
-        retryLabel="Erneut versuchen"
-        (retry)="void store.refreshPersonData()"
-      />
+      @if (store.error(); as message) {
+        <app-error-state
+          title="Daten nicht verfügbar"
+          [message]="message"
+          retryLabel="Erneut versuchen"
+          (retry)="void store.refreshPersonData()"
+        />
+      }
     </div>
 
-    <ng-container *ngIf="!store.personDataLoading() && !store.criteriaLoading(); else loadingState">
-      <ng-container *ngIf="store.criteria().length; else emptyCriteria">
+    @if (!store.personDataLoading() && !store.criteriaLoading()) {
+      @if (store.criteria().length) {
         <div class="criteria-scroll">
-          <mat-card
-            *ngFor="let criterion of store.criteria(); trackBy: trackCriterion"
-            class="criterion-card"
-            #criterionCard
-            [attr.data-criterion-id]="criterion.id"
-          >
-            <div class="criterion-header">
-              <div class="code">{{ criterion.id }}</div>
-              <div class="titles">
-                <h3>{{ criterion.title }}</h3>
-                <p class="muted">{{ criterion.question }}</p>
-              </div>
-              <div class="tag-group" *ngIf="store.resultFor(criterion.id) as result">
-                <span class="tag grade">Stufe {{ result.gradeLevel }}</span>
-              </div>
-            </div>
-
-            <div class="subcriteria">
-              <div class="subcriterion" *ngFor="let requirement of criterion.requirements; let idx = index">
-                <div class="text">
-                  <span class="number">{{ idx + 1 }}.</span>
-                  <span>{{ requirement.description }}</span>
+          @for (criterion of store.criteria(); track criterion.id) {
+            <mat-card
+              class="criterion-card"
+              #criterionCard
+              [attr.data-criterion-id]="criterion.id"
+            >
+              <div class="criterion-header">
+                <div class="code">{{ criterion.id }}</div>
+                <div class="titles">
+                  <h3>{{ criterion.title }}</h3>
+                  <p class="muted">{{ criterion.question }}</p>
                 </div>
-                <mat-checkbox
-                  [checked]="isChecked(criterion.id, requirement.id)"
-                  (change)="toggleRequirement(criterion.id, requirement.id)"
-                  [aria-label]="'Anforderung ' + (idx + 1) + ' ' + requirement.description"
-                ></mat-checkbox>
+                @if (store.resultFor(criterion.id); as result) {
+                  <div class="tag-group">
+                    <span class="tag grade">Stufe {{ result.gradeLevel }}</span>
+                  </div>
+                }
               </div>
-            </div>
 
-            <mat-form-field class="comment-field" appearance="outline">
-              <mat-label>Notiz</mat-label>
-              <textarea
-                matInput
-                rows="2"
-                [value]="noteFor(criterion.id)"
-                (blur)="updateNote(criterion.id, $any($event.target).value)"
-              ></textarea>
-            </mat-form-field>
-
-            <mat-divider></mat-divider>
-
-            <div class="criterion-footer">
-              <div class="evaluation-info" *ngIf="store.evaluationFor(criterion.id) as evaluation">
-                <span>Bewertung: {{ evaluation.grade }} / 3</span>
-                <span>
-                  Erfüllt: {{ evaluation.checkedRequirements }} von {{ evaluation.totalRequirements }}
-                </span>
+              <div class="subcriteria">
+                @for (requirement of criterion.requirements; track requirement.id; let idx = $index) {
+                  <div class="subcriterion">
+                    <div class="text">
+                      <span class="number">{{ idx + 1 }}.</span>
+                      <span>{{ requirement.description }}</span>
+                    </div>
+                    <mat-checkbox
+                      [checked]="isChecked(criterion.id, requirement.id)"
+                      (change)="toggleRequirement(criterion.id, requirement.id)"
+                      [aria-label]="'Anforderung ' + (idx + 1) + ' ' + requirement.description"
+                    ></mat-checkbox>
+                  </div>
+                }
               </div>
-              <button mat-button color="warn" (click)="resetCriterion(criterion.id)">Kriterium zurücksetzen</button>
-            </div>
-          </mat-card>
+
+              <mat-form-field class="comment-field" appearance="outline">
+                <mat-label>Notiz</mat-label>
+                <textarea
+                  matInput
+                  rows="2"
+                  [value]="noteFor(criterion.id)"
+                  (blur)="updateNote(criterion.id, $any($event.target).value)"
+                ></textarea>
+              </mat-form-field>
+
+              <mat-divider></mat-divider>
+
+              <div class="criterion-footer">
+                @if (store.evaluationFor(criterion.id); as evaluation) {
+                  <div class="evaluation-info">
+                    <span>Bewertung: {{ evaluation.grade }} / 3</span>
+                    <span>
+                      Erfüllt: {{ evaluation.checkedRequirements }} von {{ evaluation.totalRequirements }}
+                    </span>
+                  </div>
+                }
+                <button mat-button color="warn" (click)="resetCriterion(criterion.id)">
+                  Kriterium zurücksetzen
+                </button>
+              </div>
+            </mat-card>
+          }
         </div>
-      </ng-container>
-    </ng-container>
-
-    <ng-template #loadingState>
+      } @else {
+        <div class="loading-panel muted">Keine Kriterien verfügbar.</div>
+      }
+    } @else {
       <div class="loading-panel">
         <app-loading message="Bewertung wird geladen..."></app-loading>
       </div>
-    </ng-template>
-
-    <ng-template #emptyCriteria>
-      <div class="loading-panel muted">Keine Kriterien verfügbar.</div>
-    </ng-template>
+    }
   </div>
 
   <aside class="eval-column">
@@ -135,19 +142,23 @@
 
       <mat-divider></mat-divider>
 
-      <div class="summary-section" *ngIf="store.results() as results">
-        <p class="eyebrow">Kriterien (Top 5)</p>
-        <div class="summary-entry" *ngFor="let entry of results.results | slice: 0:5">
-          <div class="summary-left">
-            <span class="label-text">{{ entry.criterionId }}</span>
-            <span class="muted">{{ entry.title }}</span>
-          </div>
-          <div class="summary-right">
-            <div class="fraction">{{ entry.fulfilledCount }} / {{ entry.totalCount }}</div>
-            <div class="grade">Stufe {{ entry.gradeLevel }}</div>
-          </div>
+      @if (store.results(); as results) {
+        <div class="summary-section">
+          <p class="eyebrow">Kriterien (Top 5)</p>
+          @for (entry of results.results | slice: 0:5; track entry.criterionId) {
+            <div class="summary-entry">
+              <div class="summary-left">
+                <span class="label-text">{{ entry.criterionId }}</span>
+                <span class="muted">{{ entry.title }}</span>
+              </div>
+              <div class="summary-right">
+                <div class="fraction">{{ entry.fulfilledCount }} / {{ entry.totalCount }}</div>
+                <div class="grade">Stufe {{ entry.gradeLevel }}</div>
+              </div>
+            </div>
+          }
         </div>
-      </div>
+      }
     </mat-card>
   </aside>
 </section>
