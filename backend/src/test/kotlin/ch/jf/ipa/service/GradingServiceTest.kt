@@ -4,7 +4,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class GradingServiceTest {
-
     @Test
     fun `grade levels for six requirements`() {
         val total = 6
@@ -30,4 +29,3 @@ class GradingServiceTest {
         assertEquals(0, GradingService.calculateGradeLevel(3, 0))
     }
 }
-

@@ -19,26 +19,27 @@ class PersonRepositoryTest : RepositoryTestBase() {
     }
 
     @Test
-    fun createAndRetrievePerson() = runTest {
-        val id = UUID.randomUUID()
-        val person = Person(
-            id = id,
-            firstName = "Ada",
-            lastName = "Lovelace",
-            topic = "Analytical Engine",
-            submissionDate = LocalDate.of(2025, 5, 1),
-        )
+    fun createAndRetrievePerson() =
+        runTest {
+            val id = UUID.randomUUID()
+            val person =
+                Person(
+                    id = id,
+                    firstName = "Ada",
+                    lastName = "Lovelace",
+                    topic = "Analytical Engine",
+                    submissionDate = LocalDate.of(2025, 5, 1),
+                )
 
-        val created = repository.create(person)
-        assertEquals(person, created)
+            val created = repository.create(person)
+            assertEquals(person, created)
 
-        val allPersons = repository.getAll()
-        assertEquals(1, allPersons.size)
-        assertEquals(person, allPersons.first())
+            val allPersons = repository.getAll()
+            assertEquals(1, allPersons.size)
+            assertEquals(person, allPersons.first())
 
-        val byId = repository.getById(id)
-        assertNotNull(byId)
-        assertEquals(person, byId)
-    }
+            val byId = repository.getById(id)
+            assertNotNull(byId)
+            assertEquals(person, byId)
+        }
 }
-

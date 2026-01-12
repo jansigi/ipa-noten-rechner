@@ -21,42 +21,45 @@ class CriterionProgressRepositoryTest : RepositoryTestBase() {
     }
 
     @Test
-    fun createAndUpdateProgress() = runTest {
-        val personId = UUID.randomUUID()
-        val person = Person(
-            id = personId,
-            firstName = "Grace",
-            lastName = "Hopper",
-            topic = "Compilers",
-            submissionDate = LocalDate.of(2025, 6, 1),
-        )
-        personRepository.create(person)
+    fun createAndUpdateProgress() =
+        runTest {
+            val personId = UUID.randomUUID()
+            val person =
+                Person(
+                    id = personId,
+                    firstName = "Grace",
+                    lastName = "Hopper",
+                    topic = "Compilers",
+                    submissionDate = LocalDate.of(2025, 6, 1),
+                )
+            personRepository.create(person)
 
-        val progressId = UUID.randomUUID()
-        val initialProgress = CriterionProgress(
-            id = progressId,
-            personId = personId,
-            criterionId = "criterion-1",
-            checkedRequirements = listOf("req-1"),
-            note = "Initial",
-        )
+            val progressId = UUID.randomUUID()
+            val initialProgress =
+                CriterionProgress(
+                    id = progressId,
+                    personId = personId,
+                    criterionId = "criterion-1",
+                    checkedRequirements = listOf("req-1"),
+                    note = "Initial",
+                )
 
-        val created = progressRepository.createOrUpdate(initialProgress)
-        assertEquals(initialProgress, created)
+            val created = progressRepository.createOrUpdate(initialProgress)
+            assertEquals(initialProgress, created)
 
-        val stored = progressRepository.getByPersonId(personId)
-        assertEquals(listOf(initialProgress), stored)
+            val stored = progressRepository.getByPersonId(personId)
+            assertEquals(listOf(initialProgress), stored)
 
-        val updatedProgress = initialProgress.copy(
-            checkedRequirements = listOf("req-1", "req-2"),
-            note = "Updated",
-        )
+            val updatedProgress =
+                initialProgress.copy(
+                    checkedRequirements = listOf("req-1", "req-2"),
+                    note = "Updated",
+                )
 
-        val updated = progressRepository.createOrUpdate(updatedProgress)
-        assertEquals(updatedProgress, updated)
+            val updated = progressRepository.createOrUpdate(updatedProgress)
+            assertEquals(updatedProgress, updated)
 
-        val afterUpdate = progressRepository.getByPersonId(personId)
-        assertEquals(listOf(updatedProgress), afterUpdate)
-    }
+            val afterUpdate = progressRepository.getByPersonId(personId)
+            assertEquals(listOf(updatedProgress), afterUpdate)
+        }
 }
-

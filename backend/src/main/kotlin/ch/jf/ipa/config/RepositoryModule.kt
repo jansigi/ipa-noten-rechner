@@ -6,8 +6,8 @@ import ch.jf.ipa.repository.PersonRepository
 import ch.jf.ipa.repository.PersonRepositoryImpl
 import org.koin.dsl.module
 
-val repositoryModule = module {
-    single<PersonRepository> { PersonRepositoryImpl() }
-    single<CriterionProgressRepository> { CriterionProgressRepositoryImpl() }
-}
-
+val repositoryModule =
+    module {
+        single<PersonRepository> { PersonRepositoryImpl() }
+        single<CriterionProgressRepository> { CriterionProgressRepositoryImpl() }
+    }

@@ -5,6 +5,6 @@ import java.util.UUID
 
 interface CriterionProgressRepository {
     suspend fun createOrUpdate(progress: CriterionProgress): CriterionProgress
+
     suspend fun getByPersonId(personId: UUID): List<CriterionProgress>
 }
-

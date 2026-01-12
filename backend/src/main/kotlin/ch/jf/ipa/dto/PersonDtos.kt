@@ -23,19 +23,20 @@ data class CreatePersonRequest(
     val id: String? = null,
 )
 
-fun Person.toResponseDto(): PersonResponseDto = PersonResponseDto(
-    id = id.toString(),
-    firstName = firstName,
-    lastName = lastName,
-    topic = topic,
-    submissionDate = submissionDate.toString(),
-)
+fun Person.toResponseDto(): PersonResponseDto =
+    PersonResponseDto(
+        id = id.toString(),
+        firstName = firstName,
+        lastName = lastName,
+        topic = topic,
+        submissionDate = submissionDate.toString(),
+    )
 
-fun CreatePersonRequest.toPerson(): Person = Person(
-    id = id?.let(UUID::fromString) ?: UUID.randomUUID(),
-    firstName = firstName,
-    lastName = lastName,
-    topic = topic,
-    submissionDate = LocalDate.parse(submissionDate),
-)
-
+fun CreatePersonRequest.toPerson(): Person =
+    Person(
+        id = id?.let(UUID::fromString) ?: UUID.randomUUID(),
+        firstName = firstName,
+        lastName = lastName,
+        topic = topic,
+        submissionDate = LocalDate.parse(submissionDate),
+    )
