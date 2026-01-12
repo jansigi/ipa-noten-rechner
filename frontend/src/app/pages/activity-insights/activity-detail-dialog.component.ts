@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { NgFor, DatePipe, DecimalPipe, NgIf, NgClass } from '@angular/common';
+import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -9,9 +9,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { Activity } from '../../models/activity';
 
-type ActivityDialogData = {
+interface ActivityDialogData {
   activity: Activity;
-};
+}
 
 type NumericActivityMetric = 'speed' | 'throughput' | 'quality' | 'focus';
 
@@ -26,9 +26,7 @@ type NumericActivityMetric = 'speed' | 'throughput' | 'quality' | 'focus';
     MatButtonModule,
     MatDividerModule,
     MatListModule,
-    NgFor,
     NgClass,
-    NgIf,
     DatePipe,
     DecimalPipe
   ],
@@ -100,5 +98,4 @@ export class ActivityDetailDialogComponent {
     return 'trend-neutral';
   }
 }
-
 
