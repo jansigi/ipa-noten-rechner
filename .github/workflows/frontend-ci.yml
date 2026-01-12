@@ -44,7 +44,12 @@ jobs:
         run: |
           mkdir -p test-results
           printf '<testsuite tests="0"></testsuite>' > test-results/junit.xml
-          npm run test:ci || { echo "::error::Frontend tests failed."; exit 1; }
+          if ! npx vitest --run --passWithNoTests --reporter=default --reporter=junit --outputFile=./test-results/junit.xml; then
+            echo "::error::Frontend tests failed."
+            echo "---- junit ----"
+            cat test-results/junit.xml || true
+            exit 1
+          fi
         working-directory: frontend
 
       # Enforce minimum test pass rate (>= 80%).
