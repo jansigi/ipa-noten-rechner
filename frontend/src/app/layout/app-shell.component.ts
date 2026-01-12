@@ -36,7 +36,6 @@ export class AppShellComponent {
 
   readonly appTitle = signal('IPA Noten Rechner');
   readonly navItems = signal<NavItem[]>([
-    { label: 'Aktivitäten', path: '/aktivitaeten', icon: 'insights' },
     { label: 'Personen', path: '/personen', icon: 'group' },
     { label: 'Kriterien', path: '/kriterien', icon: 'rule' },
     { label: 'Checkliste', path: '/checklist', icon: 'checklist' }
