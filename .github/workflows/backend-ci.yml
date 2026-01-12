@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
     defaults:
       run:
         working-directory: backend
@@ -74,7 +77,10 @@ jobs:
 
       # Publish the test report to the GitHub Actions summary.
       - name: Publish test report
-        if: always() && hashFiles('backend/build/test-results/test/*.xml') != ''
+        if: >
+          always() &&
+          hashFiles('backend/build/test-results/test/*.xml') != '' &&
+          (github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false)
         uses: dorny/test-reporter@v1
         with:
           name: Backend Tests
@@ -82,14 +88,18 @@ jobs:
           reporter: java-junit
           fail-on-error: false
 
-      # Build the application.
-      - name: Build
-        run: ./gradlew build -x test || { echo "::error::Backend build failed."; exit 1; }
-
       # Build and push the Docker image after successful tests (push events only).
       - name: Set up Docker Buildx
         if: github.event_name == 'push'
         uses: docker/setup-buildx-action@v3
+
+      - name: Validate Docker Hub secrets
+        if: github.event_name == 'push'
+        run: |
+          if [ -z "${DOCKERHUB_USERNAME}" ] || [ -z "${DOCKERHUB_TOKEN}" ]; then
+            echo "::error::Docker Hub secrets are not set."
+            exit 1
+          fi
 
       - name: Log in to Docker Hub
         if: github.event_name == 'push'
@@ -98,7 +108,7 @@ jobs:
           username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ env.DOCKERHUB_TOKEN }}
 
-      - name: Build and push image
+      - name: Build and push staging image
         if: github.event_name == 'push'
         uses: docker/build-push-action@v6
         with:
@@ -106,5 +116,5 @@ jobs:
           file: backend/docker/Dockerfile
           push: true
           tags: |
-            ${{ env.DOCKERHUB_USERNAME }}/ipa-noten-rechner-backend:latest
+            ${{ env.DOCKERHUB_USERNAME }}/ipa-noten-rechner-backend:staging
             ${{ env.DOCKERHUB_USERNAME }}/ipa-noten-rechner-backend:${{ github.sha }}
