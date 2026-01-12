@@ -12,5 +12,3 @@ export interface CriterionProgressRequest {
   checkedRequirements: string[];
   note?: string | null;
 }
-
-
