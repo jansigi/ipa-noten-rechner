@@ -121,7 +121,7 @@ export class CustomDropdownComponent {
   }
 
   @HostListener('document:keydown.escape', ['$event'])
-  onEscape(event: KeyboardEvent): void {
+  onEscape(event: Event): void {
     if (this.open()) {
       event.stopPropagation();
       this.close();
