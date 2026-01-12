@@ -1,0 +1,76 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Aktivitäts-Monitoring</p>
+      <h1>Insights & Geschwindigkeitstrends</h1>
+      <p class="muted">
+        Vergleiche die wichtigsten Aktivitäten und öffne Detailauswertungen mit Verlauf, Fokus und Qualitätskennzahlen.
+      </p>
+    </div>
+    <div class="summary-chip">
+      <mat-icon aria-hidden="true">timeline</mat-icon>
+      <span>Aktualisiert am {{ generatedAt | date: 'dd.MM.yyyy' }}</span>
+    </div>
+  </header>
+
+  <div class="dashboard-overview">
+    <div class="highlight-card">
+      <div class="label">Durchschnittlicher Phasenfortschritt</div>
+      <div class="value">{{ completionPercent(averageCompletion()) }}%</div>
+      <mat-progress-bar mode="determinate" [value]="completionPercent(averageCompletion())"></mat-progress-bar>
+      <span class="hint">Alle Aktivitäten kombiniert</span>
+    </div>
+  </div>
+
+  <div class="activities-grid">
+    <mat-card
+      class="activity-card"
+      role="button"
+      tabindex="0"
+      *ngFor="let activity of activities(); trackBy: trackActivity"
+      (click)="openDetails(activity)"
+      (keyup.enter)="openDetails(activity)"
+    >
+      <div class="card-header">
+        <div>
+          <span class="category">{{ activity.category }}</span>
+          <h2>{{ activity.name }}</h2>
+          <p class="muted">{{ activity.description }}</p>
+        </div>
+        <button mat-icon-button color="primary" (click)="openDetails(activity); $event.stopPropagation()" aria-label="Details anzeigen">
+          <mat-icon aria-hidden="true">open_in_new</mat-icon>
+        </button>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <span class="label">Aktuelle Geschwindigkeit</span>
+          <strong>{{ currentSpeed(activity) | number: '1.0-1' }} Story-Punkte/Woche</strong>
+          <span class="delta" [class]="trendClass(speedDelta(activity))">
+            {{ formatDelta(speedDelta(activity)) }} vs. Start
+          </span>
+        </div>
+
+        <div class="metric">
+          <span class="label">Durchsatz</span>
+          <strong>{{ (latestSnapshot(activity)?.throughput ?? activity.baselineSpeed) | number: '1.0-0' }} Tickets/Woche</strong>
+          <span class="delta" [class]="trendClass(throughputDelta(activity))">
+            {{ formatDelta(throughputDelta(activity)) }} vs. Start
+          </span>
+        </div>
+
+        <div class="metric">
+          <span class="label">Phasenfortschritt</span>
+          <strong>{{ completionPercent(overallCompletionRatio(activity)) }}%</strong>
+          <mat-progress-bar mode="determinate" [value]="completionPercent(overallCompletionRatio(activity))"></mat-progress-bar>
+        </div>
+      </div>
+
+      <mat-chip-set class="achievements" aria-label="Highlights">
+        <mat-chip *ngFor="let highlight of activity.achievements">{{ highlight }}</mat-chip>
+      </mat-chip-set>
+    </mat-card>
+  </div>
+</section>
+
+

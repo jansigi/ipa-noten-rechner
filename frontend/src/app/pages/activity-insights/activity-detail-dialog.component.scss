@@ -1,0 +1,141 @@
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  max-height: 70vh;
+}
+
+.subtitle {
+  margin: 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  padding: 1.25rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.12), rgba(15, 23, 42, 0.12));
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stat-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(15, 23, 42, 0.7);
+}
+
+.stat-card .value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.stat-card .delta {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.trend-positive {
+  color: #047857;
+}
+
+.trend-negative {
+  color: #dc2626;
+}
+
+.trend-neutral {
+  color: #475569;
+}
+
+.phases,
+.history,
+.highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.phase-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.phase {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.phase-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.phase-status {
+  padding: 0.125rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.phase-status.completed {
+  background: rgba(4, 120, 87, 0.14);
+  color: #047857;
+}
+
+.phase-status.in-progress {
+  background: rgba(29, 78, 216, 0.16);
+  color: #1d4ed8;
+}
+
+.phase-status.upcoming {
+  background: rgba(79, 70, 229, 0.14);
+  color: #4f46e5;
+}
+
+.phase-goal {
+  margin: 0;
+}
+
+.phase-percent {
+  align-self: flex-end;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.highlights mat-chip {
+  font-weight: 600;
+  gap: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .dialog-content {
+    max-height: none;
+  }
+}
+
+

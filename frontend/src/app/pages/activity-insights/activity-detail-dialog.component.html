@@ -1,0 +1,121 @@
+<h2 mat-dialog-title>
+  <mat-icon aria-hidden="true">insights</mat-icon>
+  {{ activity.name }}
+</h2>
+
+<mat-dialog-content class="dialog-content">
+  <p class="muted subtitle">{{ activity.description }}</p>
+
+  <section class="stats-grid">
+    <article class="stat-card">
+      <header>
+        <span class="label">Aktuelle Geschwindigkeit</span>
+        <mat-icon [ngClass]="trendClass(speedTrend)" aria-hidden="true">{{ trendIcon(speedTrend) }}</mat-icon>
+      </header>
+      <div class="value">
+        {{ latestSnapshot?.speed ?? activity.baselineSpeed | number: '1.0-1' }} Story-Punkte/Woche
+      </div>
+      <p class="delta" [ngClass]="trendClass(speedTrend)">
+        {{ formatDelta(speedTrend) }} seit Start
+      </p>
+    </article>
+
+    <article class="stat-card">
+      <header>
+        <span class="label">Durchsatz</span>
+        <mat-icon [ngClass]="trendClass(throughputTrend)" aria-hidden="true">{{ trendIcon(throughputTrend) }}</mat-icon>
+      </header>
+      <div class="value">
+        {{ latestSnapshot?.throughput ?? activity.baselineSpeed | number: '1.0-0' }} Tickets/Woche
+      </div>
+      <p class="delta" [ngClass]="trendClass(throughputTrend)">
+        {{ formatDelta(throughputTrend) }} seit Start
+      </p>
+    </article>
+
+    <article class="stat-card">
+      <header>
+        <span class="label">Qualität</span>
+        <mat-icon [ngClass]="trendClass(qualityTrend)" aria-hidden="true">{{ trendIcon(qualityTrend) }}</mat-icon>
+      </header>
+      <div class="value">
+        {{ latestSnapshot?.quality ?? 0 | number: '1.0-0' }} %
+      </div>
+      <p class="delta" [ngClass]="trendClass(qualityTrend)">
+        {{ formatDelta(qualityTrend) }} seit Start
+      </p>
+    </article>
+
+    <article class="stat-card">
+      <header>
+        <span class="label">Fokus-Index</span>
+        <mat-icon [ngClass]="trendClass(focusTrend)" aria-hidden="true">{{ trendIcon(focusTrend) }}</mat-icon>
+      </header>
+      <div class="value">
+        {{ latestSnapshot?.focus ?? 0 | number: '1.0-0' }} %
+      </div>
+      <p class="delta" [ngClass]="trendClass(focusTrend)">
+        {{ formatDelta(focusTrend) }} seit Start
+      </p>
+    </article>
+  </section>
+
+  <mat-divider></mat-divider>
+
+  <section class="phases">
+    <header class="section-header">
+      <h3>Phasenfortschritt</h3>
+      <span class="muted">Owner: {{ activity.owner }}</span>
+    </header>
+    <div class="phase-list">
+      <div class="phase" *ngFor="let phase of activity.phases">
+        <div class="phase-meta">
+          <strong>{{ phase.name }}</strong>
+          <span class="phase-status" [class]="phase.status">{{ phase.status }}</span>
+        </div>
+        <p class="phase-goal muted">{{ phase.goal }}</p>
+        <mat-progress-bar mode="determinate" [value]="completionPercent(phase.completionRatio)"></mat-progress-bar>
+        <div class="phase-percent">{{ completionPercent(phase.completionRatio) }}%</div>
+      </div>
+    </div>
+  </section>
+
+  <mat-divider></mat-divider>
+
+  <section class="history">
+    <header class="section-header">
+      <h3>Geschwindigkeitsverlauf</h3>
+      <span class="muted">Basislinie: {{ baselineSnapshot?.speed | number: '1.0-1' }} Story-Punkte/Woche</span>
+    </header>
+    <mat-list>
+      <mat-list-item *ngFor="let snapshot of activity.snapshots">
+        <div matListItemTitle>{{ snapshot.date | date: 'EEE, dd.MM.yyyy' }}</div>
+        <div matListItemLine>
+          Speed: {{ snapshot.speed | number: '1.0-1' }} • Durchsatz: {{ snapshot.throughput | number: '1.0-0' }}
+        </div>
+        <div matListItemLine>Qualität: {{ snapshot.quality | number: '1.0-0' }} % • Fokus: {{ snapshot.focus | number: '1.0-0' }} %</div>
+      </mat-list-item>
+    </mat-list>
+  </section>
+
+  <section class="highlights" *ngIf="activity.achievements.length">
+    <header class="section-header">
+      <h3>Highlights & Erkenntnisse</h3>
+    </header>
+    <mat-chip-set>
+      <mat-chip *ngFor="let highlight of activity.achievements">
+        <mat-icon aria-hidden="true">star</mat-icon>
+        {{ highlight }}
+      </mat-chip>
+    </mat-chip-set>
+  </section>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button mat-dialog-close>
+    <mat-icon aria-hidden="true">close</mat-icon>
+    Schliessen
+  </button>
+</mat-dialog-actions>
+
+
