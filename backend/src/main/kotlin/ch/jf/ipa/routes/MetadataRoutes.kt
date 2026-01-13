@@ -15,4 +15,3 @@ fun Route.metadataRoutes(metadataService: MetadataService) {
         }
     }
 }
-

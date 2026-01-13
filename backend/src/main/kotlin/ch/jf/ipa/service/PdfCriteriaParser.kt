@@ -42,14 +42,18 @@ open class PdfCriteriaParser {
     }
 
     private fun extractIpaName(lines: List<String>): String? {
-        val heading = lines
-            .map { it.trim() }
-            .firstOrNull { it.startsWith("# ") }
-            ?: return null
+        val heading =
+            lines
+                .map { it.trim() }
+                .firstOrNull { it.startsWith("# ") }
+                ?: return null
         return heading.removePrefix("#").trim()
     }
 
-    private fun extractTopic(lines: List<String>, fallback: String?): String? {
+    private fun extractTopic(
+        lines: List<String>,
+        fallback: String?,
+    ): String? {
         val trimmed = lines.map { it.trim() }
         val headingIndex = trimmed.indexOfFirst { it.startsWith("## Detaillierte Aufgabenstellung", ignoreCase = true) }
         if (headingIndex == -1) {
@@ -57,10 +61,11 @@ open class PdfCriteriaParser {
         }
 
         val heading = trimmed[headingIndex]
-        val inline = heading
-            .substringAfter("## Detaillierte Aufgabenstellung", missingDelimiterValue = "")
-            .trim()
-            .takeIf { it.isNotEmpty() }
+        val inline =
+            heading
+                .substringAfter("## Detaillierte Aufgabenstellung", missingDelimiterValue = "")
+                .trim()
+                .takeIf { it.isNotEmpty() }
         if (inline != null) {
             return inline
         }
@@ -71,12 +76,13 @@ open class PdfCriteriaParser {
 
     private fun extractCandidate(lines: List<String>): CandidateDto? {
         val regex = Regex("Kandidat/in\\s*:\\s*(.+)", RegexOption.IGNORE_CASE)
-        val fullName = lines
-            .asSequence()
-            .mapNotNull { line -> regex.find(line)?.groupValues?.getOrNull(1)?.trim() }
-            .firstOrNull()
-            ?.takeIf { it.isNotBlank() }
-            ?: return null
+        val fullName =
+            lines
+                .asSequence()
+                .mapNotNull { line -> regex.find(line)?.groupValues?.getOrNull(1)?.trim() }
+                .firstOrNull()
+                ?.takeIf { it.isNotBlank() }
+                ?: return null
 
         val parts = fullName.split(" ").filter { it.isNotBlank() }
         if (parts.isEmpty()) {
@@ -93,11 +99,12 @@ open class PdfCriteriaParser {
     }
 
     private fun extractDateRange(lines: List<String>): Pair<String?, String?> {
-        val match = lines
-            .asSequence()
-            .mapNotNull { DATE_RANGE_REGEX.find(it) }
-            .firstOrNull()
-            ?: return null to null
+        val match =
+            lines
+                .asSequence()
+                .mapNotNull { DATE_RANGE_REGEX.find(it) }
+                .firstOrNull()
+                ?: return null to null
 
         val start = match.groupValues.getOrNull(1)?.parseDateToIso()
         val end = match.groupValues.getOrNull(2)?.parseDateToIso()
@@ -122,29 +129,32 @@ open class PdfCriteriaParser {
             if (stufe.kriterien.isEmpty()) {
                 val content = stufe.regel.trim()
                 if (content.isNotEmpty()) {
-                    requirements += RequirementDto(
-                        id = "$id-${counter++}",
-                        description = content,
-                        module = moduleLabel,
-                        part = 1,
-                    )
+                    requirements +=
+                        RequirementDto(
+                            id = "$id-${counter++}",
+                            description = content,
+                            module = moduleLabel,
+                            part = 1,
+                        )
                 }
             } else {
                 stufe.kriterien.forEachIndexed { index, raw ->
-                    val combined = listOf(
-                        if (index == 0) stufe.regel else "",
-                        raw,
-                    )
-                        .map { it.trim() }
-                        .filter { it.isNotEmpty() }
-                        .joinToString(" ")
+                    val combined =
+                        listOf(
+                            if (index == 0) stufe.regel else "",
+                            raw,
+                        )
+                            .map { it.trim() }
+                            .filter { it.isNotEmpty() }
+                            .joinToString(" ")
                     val numbered = "${index + 1}. ${combined.trim()}"
-                    requirements += RequirementDto(
-                        id = "$id-${counter++}",
-                        description = numbered,
-                        module = moduleLabel,
-                        part = index + 1,
-                    )
+                    requirements +=
+                        RequirementDto(
+                            id = "$id-${counter++}",
+                            description = numbered,
+                            module = moduleLabel,
+                            part = index + 1,
+                        )
                 }
             }
         }
@@ -165,4 +175,3 @@ open class PdfCriteriaParser {
         }
     }
 }
-

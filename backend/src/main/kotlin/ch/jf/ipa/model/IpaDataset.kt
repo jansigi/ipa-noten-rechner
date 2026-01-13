@@ -27,4 +27,3 @@ object IpaDatasetsTable : UUIDTable("ipa_datasets") {
     val rawJson = text("raw_json")
     val createdAt = timestamp("created_at").index()
 }
-

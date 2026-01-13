@@ -10,7 +10,8 @@ class PdfCriteriaParserTest {
 
     @Test
     fun `parseText extracts metadata dates and criteria`() {
-        val content = """
+        val content =
+            """
             # Rest-API erweitern
             Kandidat/in: Rutschmann Testkandidat
             28.01.2026 – 06.02.2026
@@ -23,7 +24,7 @@ class PdfCriteriaParserTest {
             Gütestufe 2 Drei Punkte sind erfüllt.
             Gütestufe 1 Zwei Punkte sind erfüllt.
             Gütestufe 0 Weniger als zwei Punkte sind erfüllt.
-        """.trimIndent()
+            """.trimIndent()
 
         val dataset = parser.parseText(content)
 
@@ -52,5 +53,3 @@ class PdfCriteriaParserTest {
         assertTrue(firstRequirement.description.contains("Der Projektauftrag wurde analysiert."))
     }
 }
-
-

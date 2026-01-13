@@ -52,12 +52,13 @@ object KriterienParser {
     }
 
     fun parseBlock(block: String): Kriterium? {
-        val lines = block.lineSequence()
-            .map { sanitizeLine(it) }
-            .map { it.replace("|", " ").trim() }
-            .filter { it.isNotBlank() && it.any { ch -> !ch.isWhitespace() } }
-            .filterNot { it.replace("-", "").isBlank() }
-            .toList()
+        val lines =
+            block.lineSequence()
+                .map { sanitizeLine(it) }
+                .map { it.replace("|", " ").trim() }
+                .filter { it.isNotBlank() && it.any { ch -> !ch.isWhitespace() } }
+                .filterNot { it.replace("-", "").isBlank() }
+                .toList()
 
         if (lines.isEmpty()) return null
 
@@ -65,8 +66,9 @@ object KriterienParser {
         val headerToken = firstToken(header)?.trimEnd(':') ?: return null
         if (!isBlockToken(headerToken)) return null
 
-        val titlePart = header.removePrefix(lines.first().split("\\s+".toRegex(), limit = 2).first())
-            .trim()
+        val titlePart =
+            header.removePrefix(lines.first().split("\\s+".toRegex(), limit = 2).first())
+                .trim()
         val title = titlePart.substringAfter(":", titlePart).trim()
 
         val bodyLines = lines.drop(1)
@@ -99,12 +101,13 @@ object KriterienParser {
 
         fun flush() {
             if (currentStufe != null) {
-                result += Guetestufe(
-                    stufe = currentStufe!!,
-                    bezeichnung = currentBezeichnung.ifBlank { "Gütestufe ${currentStufe!!}" },
-                    regel = currentRegel.trim(),
-                    kriterien = currentKriterien.map { it.trim() }.filter { it.isNotEmpty() },
-                )
+                result +=
+                    Guetestufe(
+                        stufe = currentStufe!!,
+                        bezeichnung = currentBezeichnung.ifBlank { "Gütestufe ${currentStufe!!}" },
+                        regel = currentRegel.trim(),
+                        kriterien = currentKriterien.map { it.trim() }.filter { it.isNotEmpty() },
+                    )
             }
             currentStufe = null
             currentBezeichnung = ""
@@ -206,9 +209,10 @@ object KriterienParser {
 
     private fun firstToken(line: String): String? {
         if (line.isBlank()) return null
-        val token = line
-            .takeWhile { !it.isWhitespace() }
-            .trimEnd(':')
+        val token =
+            line
+                .takeWhile { !it.isWhitespace() }
+                .trimEnd(':')
         return token.ifEmpty { null }
     }
 
@@ -222,14 +226,15 @@ object KriterienParser {
         return blockTokenRegex.matches(stripped)
     }
 
-    private fun buildExtendedText(base: String, addition: String): String =
+    private fun buildExtendedText(
+        base: String,
+        addition: String,
+    ): String =
         listOf(base, addition)
             .map { it.trim() }
             .filter { it.isNotEmpty() }
             .joinToString(" ")
             .trim()
 
-    private fun cleanRequirementText(text: String): String =
-        text.replace(Regex("\\s+"), " ").trim()
+    private fun cleanRequirementText(text: String): String = text.replace(Regex("\\s+"), " ").trim()
 }
-

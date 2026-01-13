@@ -8,4 +8,3 @@ object MetadataTable : Table("metadata") {
 
     override val primaryKey = PrimaryKey(key)
 }
-

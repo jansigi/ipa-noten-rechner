@@ -9,9 +9,10 @@ import kotlinx.serialization.json.Json
 class IpaService(
     private val ipaRepository: IpaRepository,
 ) {
-    private val json = Json {
-        ignoreUnknownKeys = true
-    }
+    private val json =
+        Json {
+            ignoreUnknownKeys = true
+        }
 
     suspend fun getDatasetForPerson(personId: UUID): IpaDatasetDto? {
         val stored = ipaRepository.getForPerson(personId) ?: return null

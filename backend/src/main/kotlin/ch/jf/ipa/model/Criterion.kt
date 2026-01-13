@@ -28,15 +28,15 @@ object CriteriaTable : Table("criteria") {
 
 object CriterionRequirementsTable : Table("criterion_requirements") {
     val id = varchar("id", length = 64)
-    val criterionId = varchar("criterion_id", length = 32).references(
-        ref = CriteriaTable.id,
-        onDelete = ReferenceOption.CASCADE,
-        onUpdate = ReferenceOption.CASCADE,
-    )
+    val criterionId =
+        varchar("criterion_id", length = 32).references(
+            ref = CriteriaTable.id,
+            onDelete = ReferenceOption.CASCADE,
+            onUpdate = ReferenceOption.CASCADE,
+        )
     val description = text("description")
     val module = varchar("module", length = 32)
     val part = integer("part")
 
     override val primaryKey = PrimaryKey(id)
 }
-

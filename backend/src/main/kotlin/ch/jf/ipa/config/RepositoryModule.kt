@@ -12,10 +12,11 @@ import ch.jf.ipa.repository.PersonRepository
 import ch.jf.ipa.repository.PersonRepositoryImpl
 import org.koin.dsl.module
 
-val repositoryModule = module {
-    single<PersonRepository> { PersonRepositoryImpl() }
-    single<CriterionProgressRepository> { CriterionProgressRepositoryImpl() }
-    single<CriteriaRepository> { CriteriaRepositoryImpl() }
-    single<MetadataRepository> { MetadataRepositoryImpl() }
-    single<IpaRepository> { IpaRepositoryImpl() }
-}
+val repositoryModule =
+    module {
+        single<PersonRepository> { PersonRepositoryImpl() }
+        single<CriterionProgressRepository> { CriterionProgressRepositoryImpl() }
+        single<CriteriaRepository> { CriteriaRepositoryImpl() }
+        single<MetadataRepository> { MetadataRepositoryImpl() }
+        single<IpaRepository> { IpaRepositoryImpl() }
+    }

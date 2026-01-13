@@ -9,5 +9,6 @@ interface PersonRepository {
     suspend fun getAll(): List<Person>
 
     suspend fun getById(id: UUID): Person?
+
     suspend fun clearAll()
 }

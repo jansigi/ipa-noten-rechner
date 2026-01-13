@@ -48,9 +48,11 @@ class CriteriaRepositoryImpl : CriteriaRepository {
             this[CriteriaTable.question] = criterion.question
         }
 
-        CriterionRequirementsTable.batchInsert(criteria.flatMap { criterion ->
-            criterion.requirements.map { criterion.id to it }
-        }) { (criterionId, requirement) ->
+        CriterionRequirementsTable.batchInsert(
+            criteria.flatMap { criterion ->
+                criterion.requirements.map { criterion.id to it }
+            },
+        ) { (criterionId, requirement) ->
             this[CriterionRequirementsTable.id] = requirement.id
             this[CriterionRequirementsTable.criterionId] = criterionId
             this[CriterionRequirementsTable.description] = requirement.description

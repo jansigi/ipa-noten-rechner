@@ -13,14 +13,15 @@ import ch.jf.ipa.service.PersonCriteriaProvider
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val serviceModule = module {
-    single { CriteriaService(get()) } bind CriteriaProvider::class
-    single { MetadataService(get()) }
-    single { IpaService(get()) }
-    single { PdfCriteriaParser() }
-    single { PdfImportService(get(), get(), get(), get()) }
+val serviceModule =
+    module {
+        single { CriteriaService(get()) } bind CriteriaProvider::class
+        single { MetadataService(get()) }
+        single { IpaService(get()) }
+        single { PdfCriteriaParser() }
+        single { PdfImportService(get(), get(), get(), get()) }
 
-    single { IpaPersonCriteriaProvider(get()) } bind PersonCriteriaProvider::class
-    single { EvaluationService(get(), get()) }
-    single { GradingService(get(), get()) }
-}
+        single { IpaPersonCriteriaProvider(get()) } bind PersonCriteriaProvider::class
+        single { EvaluationService(get(), get()) }
+        single { GradingService(get(), get()) }
+    }

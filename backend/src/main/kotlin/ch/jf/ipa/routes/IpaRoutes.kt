@@ -12,8 +12,9 @@ import java.util.UUID
 fun Route.ipaRoutes(ipaService: IpaService) {
     route("/ipa") {
         get("{personId}") {
-            val personId = call.parameters["personId"]?.toUUIDOrNull()
-                ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid person id")
+            val personId =
+                call.parameters["personId"]?.toUUIDOrNull()
+                    ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid person id")
 
             val dataset = ipaService.getDatasetForPerson(personId)
             if (dataset == null) {

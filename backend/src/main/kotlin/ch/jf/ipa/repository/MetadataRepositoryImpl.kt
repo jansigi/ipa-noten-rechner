@@ -9,20 +9,25 @@ import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class MetadataRepositoryImpl : MetadataRepository {
-    override suspend fun getValue(key: String): String? = DatabaseFactory.dbQuery {
-        MetadataTable
-            .select { MetadataTable.key eq key }
-            .limit(1)
-            .singleOrNull()
-            ?.get(MetadataTable.value)
-    }
-
-    override suspend fun setValue(key: String, value: String?) {
+    override suspend fun getValue(key: String): String? =
         DatabaseFactory.dbQuery {
-            val existing = MetadataTable
+            MetadataTable
                 .select { MetadataTable.key eq key }
                 .limit(1)
                 .singleOrNull()
+                ?.get(MetadataTable.value)
+        }
+
+    override suspend fun setValue(
+        key: String,
+        value: String?,
+    ) {
+        DatabaseFactory.dbQuery {
+            val existing =
+                MetadataTable
+                    .select { MetadataTable.key eq key }
+                    .limit(1)
+                    .singleOrNull()
 
             if (existing == null) {
                 MetadataTable.insert {
@@ -41,4 +46,3 @@ class MetadataRepositoryImpl : MetadataRepository {
         }
     }
 }
-

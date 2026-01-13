@@ -37,9 +37,10 @@ class PdfImportService(
 
     private suspend fun createPersonForDataset(dataset: IpaDatasetDto): Person {
         val (firstName, lastName) = resolveCandidateName(dataset)
-        val topic = dataset.topic?.takeIf { it.isNotBlank() }
-            ?: dataset.ipaName?.takeIf { it.isNotBlank() }
-            ?: "IPA"
+        val topic =
+            dataset.topic?.takeIf { it.isNotBlank() }
+                ?: dataset.ipaName?.takeIf { it.isNotBlank() }
+                ?: "IPA"
 
         val submissionDate = parseSubmissionDate(dataset)
 
@@ -72,10 +73,11 @@ class PdfImportService(
             return first to last
         }
 
-        val parts = candidate?.fullName
-            ?.split(" ")
-            ?.mapNotNull { it.trim().takeIf(String::isNotEmpty) }
-            .orEmpty()
+        val parts =
+            candidate?.fullName
+                ?.split(" ")
+                ?.mapNotNull { it.trim().takeIf(String::isNotEmpty) }
+                .orEmpty()
 
         if (parts.isNotEmpty()) {
             val resolvedFirst = first ?: parts.last()

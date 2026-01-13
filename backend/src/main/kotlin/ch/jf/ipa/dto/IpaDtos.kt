@@ -18,4 +18,3 @@ data class IpaDatasetDto(
     val endDate: String? = null,
     val criteria: List<CriterionDto> = emptyList(),
 )
-

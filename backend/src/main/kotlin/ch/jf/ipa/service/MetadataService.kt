@@ -14,14 +14,15 @@ private const val ACTIVE_DATASET_ID_KEY = "active_dataset_id"
 class MetadataService(
     private val metadataRepository: MetadataRepository,
 ) {
-    suspend fun getMetadata(): AppMetadataDto = AppMetadataDto(
-        ipaName = metadataRepository.getValue(IPA_NAME_KEY),
-        topic = metadataRepository.getValue(IPA_TOPIC_KEY),
-        candidateFullName = metadataRepository.getValue(CANDIDATE_FULL_NAME_KEY),
-        candidateFirstName = metadataRepository.getValue(CANDIDATE_FIRST_NAME_KEY),
-        candidateLastName = metadataRepository.getValue(CANDIDATE_LAST_NAME_KEY),
-        activeDatasetId = metadataRepository.getValue(ACTIVE_DATASET_ID_KEY),
-    )
+    suspend fun getMetadata(): AppMetadataDto =
+        AppMetadataDto(
+            ipaName = metadataRepository.getValue(IPA_NAME_KEY),
+            topic = metadataRepository.getValue(IPA_TOPIC_KEY),
+            candidateFullName = metadataRepository.getValue(CANDIDATE_FULL_NAME_KEY),
+            candidateFirstName = metadataRepository.getValue(CANDIDATE_FIRST_NAME_KEY),
+            candidateLastName = metadataRepository.getValue(CANDIDATE_LAST_NAME_KEY),
+            activeDatasetId = metadataRepository.getValue(ACTIVE_DATASET_ID_KEY),
+        )
 
     suspend fun setActiveDataset(dataset: IpaDataset) {
         metadataRepository.setValue(ACTIVE_DATASET_ID_KEY, dataset.id.toString())
@@ -41,4 +42,3 @@ class MetadataService(
         metadataRepository.setValue(CANDIDATE_LAST_NAME_KEY, null)
     }
 }
-
