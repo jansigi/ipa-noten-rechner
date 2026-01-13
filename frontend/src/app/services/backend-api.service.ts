@@ -57,8 +57,8 @@ export class BackendApiService {
     return this.http.post<IpaImportResponse>(`${this.baseUrl}/imports/ipa`, formData);
   }
 
-  getIpaDataset(): Observable<IpaDataset> {
-    return this.http.get<IpaDataset>(`${this.baseUrl}/ipa`);
+  getIpaDataset(personId: string): Observable<IpaDataset> {
+    return this.http.get<IpaDataset>(`${this.baseUrl}/ipa/${personId}`);
   }
 }
 

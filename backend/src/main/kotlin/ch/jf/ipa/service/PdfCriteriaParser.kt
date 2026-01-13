@@ -5,11 +5,17 @@ import ch.jf.ipa.dto.CriterionDto
 import ch.jf.ipa.dto.IpaDatasetDto
 import ch.jf.ipa.dto.RequirementDto
 import java.io.InputStream
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
 
-class PdfCriteriaParser {
-    fun parse(input: InputStream): IpaDatasetDto {
+private val DATE_RANGE_REGEX = Regex("(\\d{1,2}\\.\\d{1,2}\\.\\d{4})\\s*[–-]\\s*(\\d{1,2}\\.\\d{1,2}\\.\\d{4})")
+private val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+
+open class PdfCriteriaParser {
+    open fun parse(input: InputStream): IpaDatasetDto {
         val text = extractTextFromPdf(input)
         return parseText(text)
     }
@@ -23,11 +29,14 @@ class PdfCriteriaParser {
         val ipaName = extractIpaName(lines)
         val candidate = extractCandidate(lines)
         val topic = extractTopic(lines, ipaName)
+        val (startDate, endDate) = extractDateRange(lines)
 
         return IpaDatasetDto(
             ipaName = ipaName,
             topic = topic,
             candidate = candidate,
+            startDate = startDate,
+            endDate = endDate,
             criteria = criteria,
         )
     }
@@ -41,14 +50,23 @@ class PdfCriteriaParser {
     }
 
     private fun extractTopic(lines: List<String>, fallback: String?): String? {
-        val topicLine = lines
-            .map { it.trim() }
-            .firstOrNull { it.startsWith("## Detaillierte Aufgabenstellung", ignoreCase = true) }
-            ?.substringAfter("## Detaillierte Aufgabenstellung", missingDelimiterValue = "")
-            ?.trim()
-            ?.takeIf { it.isNotBlank() }
+        val trimmed = lines.map { it.trim() }
+        val headingIndex = trimmed.indexOfFirst { it.startsWith("## Detaillierte Aufgabenstellung", ignoreCase = true) }
+        if (headingIndex == -1) {
+            return fallback
+        }
 
-        return topicLine ?: fallback
+        val heading = trimmed[headingIndex]
+        val inline = heading
+            .substringAfter("## Detaillierte Aufgabenstellung", missingDelimiterValue = "")
+            .trim()
+            .takeIf { it.isNotEmpty() }
+        if (inline != null) {
+            return inline
+        }
+
+        val nextLine = trimmed.getOrNull(headingIndex + 1)?.takeIf { it.isNotBlank() }
+        return nextLine ?: fallback
     }
 
     private fun extractCandidate(lines: List<String>): CandidateDto? {
@@ -74,40 +92,67 @@ class PdfCriteriaParser {
         )
     }
 
+    private fun extractDateRange(lines: List<String>): Pair<String?, String?> {
+        val match = lines
+            .asSequence()
+            .mapNotNull { DATE_RANGE_REGEX.find(it) }
+            .firstOrNull()
+            ?: return null to null
+
+        val start = match.groupValues.getOrNull(1)?.parseDateToIso()
+        val end = match.groupValues.getOrNull(2)?.parseDateToIso()
+        return start to end
+    }
+
+    private fun String.parseDateToIso(): String? =
+        try {
+            LocalDate.parse(this, DATE_FORMATTER).toString()
+        } catch (_: DateTimeParseException) {
+            null
+        }
+
     private fun Kriterium.toCriterionDto(): CriterionDto {
+        val displayTitle = frage.ifBlank { titel }.ifBlank { id }
+        val secondary = titel.takeIf { it.isNotBlank() && it != displayTitle } ?: ""
+
         val requirements = mutableListOf<RequirementDto>()
         var counter = 1
         guetestufen.forEach { stufe ->
-            val moduleLabel = stufe.bezeichnung.ifBlank { "G${stufe.stufe}" }
+            val moduleLabel = stufe.bezeichnung.ifBlank { "Gütestufe ${stufe.stufe}" }
             if (stufe.kriterien.isEmpty()) {
-                if (stufe.regel.isNotBlank()) {
+                val content = stufe.regel.trim()
+                if (content.isNotEmpty()) {
                     requirements += RequirementDto(
                         id = "$id-${counter++}",
-                        description = stufe.regel,
+                        description = content,
                         module = moduleLabel,
                         part = 1,
                     )
                 }
             } else {
-                stufe.kriterien.forEachIndexed { index, text ->
-                    val description = if (index == 0 && stufe.regel.isNotBlank()) {
-                        "${stufe.regel} $text".trim()
-                    } else {
-                        text
-                    }
+                stufe.kriterien.forEachIndexed { index, raw ->
+                    val combined = listOf(
+                        if (index == 0) stufe.regel else "",
+                        raw,
+                    )
+                        .map { it.trim() }
+                        .filter { it.isNotEmpty() }
+                        .joinToString(" ")
+                    val numbered = "${index + 1}. ${combined.trim()}"
                     requirements += RequirementDto(
                         id = "$id-${counter++}",
-                        description = description,
+                        description = numbered,
                         module = moduleLabel,
                         part = index + 1,
                     )
                 }
             }
         }
+
         return CriterionDto(
             id = id,
-            title = titel,
-            question = frage,
+            title = displayTitle,
+            question = secondary,
             requirements = requirements,
         )
     }

@@ -15,6 +15,7 @@ data class AppMetadataDto(
 @Serializable
 data class IpaImportResponseDto(
     val datasetId: String,
+    val personId: String,
     val ipaName: String?,
     val topic: String?,
     val candidateFullName: String?,

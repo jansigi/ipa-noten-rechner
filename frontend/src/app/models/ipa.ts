@@ -10,6 +10,8 @@ export interface IpaDataset {
   ipaName: string | null;
   topic: string | null;
   candidate: Candidate | null;
+  startDate: string | null;
+  endDate: string | null;
   criteria: Criterion[];
 }
 

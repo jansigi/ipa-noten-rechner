@@ -1,13 +1,17 @@
 package ch.jf.ipa.routes
 
+import ch.jf.ipa.dto.CriterionDto
+import ch.jf.ipa.dto.EvaluatedCriterionDto
+import ch.jf.ipa.dto.IpaDatasetDto
+import ch.jf.ipa.dto.RequirementDto
 import ch.jf.ipa.model.Person
 import ch.jf.ipa.module
-import ch.jf.ipa.repository.CriterionProgressRepository
-import ch.jf.ipa.repository.CriterionProgressRepositoryImpl
+import ch.jf.ipa.repository.IpaRepository
+import ch.jf.ipa.repository.IpaRepositoryImpl
 import ch.jf.ipa.repository.PersonRepository
 import ch.jf.ipa.repository.PersonRepositoryImpl
-import io.ktor.client.statement.bodyAsText
 import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.config.MapApplicationConfig
 import io.ktor.server.testing.testApplication
@@ -16,8 +20,12 @@ import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.json.Json
 
 class EvaluationRoutesTest {
+    private val json = Json { ignoreUnknownKeys = true }
+
     @Test
     fun evaluateReturnsGrades() = testApplication {
         environment {
@@ -31,27 +39,53 @@ class EvaluationRoutesTest {
 
         application { module() }
 
+        // Ensure the application (and DatabaseFactory) is initialized.
+        client.get("/persons")
+
         val personRepository: PersonRepository = PersonRepositoryImpl()
-        val progressRepository: CriterionProgressRepository = CriterionProgressRepositoryImpl()
+        val ipaRepository: IpaRepository = IpaRepositoryImpl()
 
         val personId = UUID.randomUUID()
-        val person = Person(
-            id = personId,
-            firstName = "Test",
-            lastName = "User",
-            topic = "Eval",
-            submissionDate = LocalDate.now(),
-        )
+        runBlocking {
+            personRepository.create(
+                Person(
+                    id = personId,
+                    firstName = "Test",
+                    lastName = "User",
+                    topic = "Eval",
+                    submissionDate = LocalDate.now(),
+                ),
+            )
+            ipaRepository.createForPerson(
+                personId,
+                IpaDatasetDto(
+                    ipaName = "Test IPA",
+                    topic = "Eval",
+                    criteria = listOf(
+                        CriterionDto(
+                            id = "A01",
+                            title = "Criterion A01",
+                            question = "Question A01",
+                            requirements = listOf(
+                                RequirementDto("A01-1", "Desc", "BF", 1),
+                                RequirementDto("A01-2", "Desc", "BF", 2),
+                            ),
+                        ),
+                    ),
+                ),
+            )
+        }
 
-        // Create person in DB
-        runBlocking { personRepository.create(person) }
-
-        // No progress yet -> all grades should be 0
         val response = client.get("/evaluation/$personId")
         assertEquals(HttpStatusCode.OK, response.status)
-        val body = response.bodyAsText()
-        // Ensure some criteria are returned and grade 0 appears
-        assert(body.contains("\"criterionId\""))
-        assert(body.contains("\"grade\":0"))
+
+        val evaluated = json.decodeFromString(
+            ListSerializer(EvaluatedCriterionDto.serializer()),
+            response.bodyAsText(),
+        )
+
+        assertEquals(1, evaluated.size)
+        assertEquals("A01", evaluated.first().criterionId)
+        assertEquals(0, evaluated.first().grade)
     }
 }

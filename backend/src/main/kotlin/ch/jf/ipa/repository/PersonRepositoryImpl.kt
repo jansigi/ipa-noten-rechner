@@ -9,6 +9,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.deleteAll
 
 class PersonRepositoryImpl : PersonRepository {
     override suspend fun create(person: Person): Person = DatabaseFactory.dbQuery {
@@ -30,6 +31,12 @@ class PersonRepositoryImpl : PersonRepository {
         PersonsTable.select { PersonsTable.id eq id }
             .singleOrNull()
             ?.toPerson()
+    }
+
+    override suspend fun clearAll() {
+        DatabaseFactory.dbQuery {
+            PersonsTable.deleteAll()
+        }
     }
 
     private fun ResultRow.toPerson(): Person = Person(

@@ -9,28 +9,17 @@
       </p>
       <p class="metadata-line">
         <strong>Aktuelle IPA:</strong>
-        <span *ngIf="store.ipaName(); else fallbackName">{{ store.ipaName() }}</span>
+        <span *ngIf="store.selectedIpaName(); else fallbackName">{{ store.selectedIpaName() }}</span>
         <ng-template #fallbackName>Keine Angaben</ng-template>
       </p>
       <p class="metadata-line" *ngIf="candidateName()">
         <strong>Kandidat/in:</strong> {{ candidateName() }}
       </p>
-      <p class="metadata-line" *ngIf="store.topic()">
-        <strong>Projekt:</strong> {{ store.topic() }}
+      <p class="metadata-line" *ngIf="store.selectedTopic()">
+        <strong>Projekt:</strong> {{ store.selectedTopic() }}
       </p>
     </div>
     <div class="actions">
-      <input
-        #fileInput
-        type="file"
-        accept="application/pdf"
-        hidden
-        (change)="onFileSelected($event)"
-      />
-      <button mat-flat-button color="primary" (click)="uploadPdf()" [disabled]="loading()">
-        <mat-icon aria-hidden="true">upload</mat-icon>
-        <span>PDF importieren</span>
-      </button>
       <button mat-stroked-button color="primary" (click)="void store.loadCriteria()" [disabled]="loading()">
         <mat-icon aria-hidden="true">refresh</mat-icon>
         <span>Neu laden</span>

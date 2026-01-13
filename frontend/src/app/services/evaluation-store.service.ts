@@ -23,22 +23,18 @@ export class EvaluationStoreService {
   readonly persons = signal<Person[]>([]);
   readonly personsLoading = signal(false);
 
+  // Full catalog (Kriterien tab)
   readonly criteria = signal<Criterion[]>([]);
   readonly criteriaLoading = signal(false);
+
+  // Per-person imported dataset (Checkliste tab)
+  readonly personIpaDataset = signal<IpaDataset | null>(null);
+  readonly personIpaDatasetLoading = signal(false);
 
   readonly selectedPersonId = signal<string | null>(null);
   readonly progress = signal<ProgressMap>({});
   readonly evaluation = signal<EvaluatedCriterion[]>([]);
   readonly results = signal<PersonResults | null>(null);
-
-  readonly ipaName = signal<string | null>(null);
-  readonly topic = signal<string | null>(null);
-  readonly candidateFullName = signal<string | null>(null);
-  readonly candidateFirstName = signal<string | null>(null);
-  readonly candidateLastName = signal<string | null>(null);
-  readonly activeDatasetId = signal<string | null>(null);
-  readonly ipaDataset = signal<IpaDataset | null>(null);
-  readonly metadataLoading = signal(false);
 
   readonly personDataLoading = signal(false);
   readonly error = signal<string | null>(null);
@@ -46,6 +42,18 @@ export class EvaluationStoreService {
   readonly selectedPerson = computed<Person | null>(() => {
     const id = this.selectedPersonId();
     return this.persons().find((p) => p.id === id) ?? null;
+  });
+
+  readonly checklistCriteria = computed<Criterion[]>(() => this.personIpaDataset()?.criteria ?? []);
+
+  readonly selectedIpaName = computed(() => this.personIpaDataset()?.ipaName ?? null);
+  readonly selectedTopic = computed(() => this.personIpaDataset()?.topic ?? null);
+  readonly selectedCandidateName = computed(() => {
+    const candidate = this.personIpaDataset()?.candidate;
+    if (!candidate) {
+      return '';
+    }
+    return candidate.fullName?.trim() || [candidate.firstName, candidate.lastName].filter(Boolean).join(' ').trim();
   });
 
   readonly overallCompletionRatio = computed(() => {
@@ -76,8 +84,6 @@ export class EvaluationStoreService {
   constructor() {
     void this.loadCriteria();
     void this.loadPersons();
-    void this.loadMetadata();
-    void this.loadIpaDataset();
   }
 
   async loadCriteria(): Promise<void> {
@@ -85,7 +91,8 @@ export class EvaluationStoreService {
     try {
       const data = await firstValueFrom(this.api.getCriteria());
       this.criteria.set(data);
-    } catch (err) {
+      this.error.set(null);
+    } catch {
       this.error.set('Kriterien konnten nicht geladen werden.');
     } finally {
       this.criteriaLoading.set(false);
@@ -97,10 +104,13 @@ export class EvaluationStoreService {
     try {
       const data = await firstValueFrom(this.api.getPersons());
       this.persons.set(data);
+
       if (!this.selectedPersonId() && data.length) {
         this.selectPerson(data[0].id);
       }
-    } catch (err) {
+
+      this.error.set(null);
+    } catch {
       this.error.set('Personen konnten nicht geladen werden.');
     } finally {
       this.personsLoading.set(false);
@@ -112,62 +122,23 @@ export class EvaluationStoreService {
       const created = await firstValueFrom(this.api.createPerson(payload));
       this.persons.update((current) => [created, ...current]);
       this.selectPerson(created.id);
-    } catch (err) {
+      this.error.set(null);
+    } catch {
       this.error.set('Person konnte nicht erstellt werden.');
     }
   }
 
-  async loadMetadata(): Promise<void> {
-    this.metadataLoading.set(true);
-    try {
-      const data = await firstValueFrom(this.api.getMetadata());
-      this.ipaName.set(data.ipaName ?? null);
-      this.topic.set(data.topic ?? null);
-      this.candidateFullName.set(data.candidateFullName ?? null);
-      this.candidateFirstName.set(data.candidateFirstName ?? null);
-      this.candidateLastName.set(data.candidateLastName ?? null);
-      this.activeDatasetId.set(data.activeDatasetId ?? null);
-    } catch {
-      this.ipaName.set(null);
-      this.topic.set(null);
-      this.candidateFullName.set(null);
-      this.candidateFirstName.set(null);
-      this.candidateLastName.set(null);
-      this.activeDatasetId.set(null);
-    } finally {
-      this.metadataLoading.set(false);
-    }
-  }
-
-  async loadIpaDataset(): Promise<void> {
-    try {
-      const dataset = await firstValueFrom(this.api.getIpaDataset());
-      this.ipaDataset.set(dataset);
-    } catch {
-      this.ipaDataset.set(null);
-    }
-  }
-
   async importIpaPdf(file: File): Promise<void> {
-    this.criteriaLoading.set(true);
-    this.metadataLoading.set(true);
+    this.personIpaDatasetLoading.set(true);
     try {
-      await firstValueFrom(this.api.uploadIpaPdf(file));
-      await this.loadMetadata();
-      await this.loadCriteria();
-      await this.loadIpaDataset();
-      this.selectedPersonId.set(null);
-      this.persons.set([]);
-      this.progress.set({});
-      this.evaluation.set([]);
-      this.results.set(null);
+      const response = await firstValueFrom(this.api.uploadIpaPdf(file));
       await this.loadPersons();
+      this.selectPerson(response.personId);
       this.error.set(null);
-    } catch (err) {
+    } catch {
       this.error.set('Die Kriterien konnten nicht importiert werden.');
     } finally {
-      this.criteriaLoading.set(false);
-      this.metadataLoading.set(false);
+      this.personIpaDatasetLoading.set(false);
     }
   }
 
@@ -175,8 +146,29 @@ export class EvaluationStoreService {
     if (!personId || this.selectedPersonId() === personId) {
       return;
     }
+
     this.selectedPersonId.set(personId);
+
+    // Reset per-person state while switching
+    this.personIpaDataset.set(null);
+    this.progress.set({});
+    this.evaluation.set([]);
+    this.results.set(null);
+
+    void this.loadPersonIpaDataset(personId);
     void this.refreshPersonData();
+  }
+
+  async loadPersonIpaDataset(personId: string): Promise<void> {
+    this.personIpaDatasetLoading.set(true);
+    try {
+      const dataset = await firstValueFrom(this.api.getIpaDataset(personId));
+      this.personIpaDataset.set(dataset);
+    } catch {
+      this.personIpaDataset.set(null);
+    } finally {
+      this.personIpaDatasetLoading.set(false);
+    }
   }
 
   async refreshPersonData(): Promise<void> {
@@ -199,7 +191,7 @@ export class EvaluationStoreService {
       this.evaluation.set(evaluation);
       this.results.set(results);
       this.error.set(null);
-    } catch (err) {
+    } catch {
       this.error.set('Daten der Person konnten nicht geladen werden.');
     } finally {
       this.personDataLoading.set(false);
@@ -253,10 +245,7 @@ export class EvaluationStoreService {
     });
   }
 
-  private async persistProgress(
-    criterionId: string,
-    payload: CriterionProgressRequest
-  ): Promise<void> {
+  private async persistProgress(criterionId: string, payload: CriterionProgressRequest): Promise<void> {
     const personId = this.selectedPersonId();
     if (!personId) {
       return;
@@ -267,7 +256,7 @@ export class EvaluationStoreService {
       await this.refreshEvaluationForCriterion(criterionId);
       await this.refreshResultForCriterion(criterionId);
       this.error.set(null);
-    } catch (err) {
+    } catch {
       this.error.set('Fortschritt konnte nicht gespeichert werden.');
     }
   }

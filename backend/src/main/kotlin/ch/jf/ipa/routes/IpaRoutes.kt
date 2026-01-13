@@ -7,11 +7,24 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
+import java.util.UUID
 
 fun Route.ipaRoutes(ipaService: IpaService) {
     route("/ipa") {
+        get("{personId}") {
+            val personId = call.parameters["personId"]?.toUUIDOrNull()
+                ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid person id")
+
+            val dataset = ipaService.getDatasetForPerson(personId)
+            if (dataset == null) {
+                call.respond(HttpStatusCode.NotFound, "Keine IPA für diese Person importiert.")
+            } else {
+                call.respond(dataset)
+            }
+        }
+
         get {
-            val dataset = ipaService.getActiveDataset()
+            val dataset = ipaService.getLatestDataset()
             if (dataset == null) {
                 call.respond(HttpStatusCode.NotFound, "Keine IPA importiert.")
             } else {
@@ -21,3 +34,4 @@ fun Route.ipaRoutes(ipaService: IpaService) {
     }
 }
 
+private fun String.toUUIDOrNull(): UUID? = runCatching { UUID.fromString(this) }.getOrNull()

@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { NgFor, NgIf, SlicePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, computed, inject } from '@angular/core';
+import { NgFor, NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,8 +30,7 @@ import { AppErrorStateComponent } from '../../shared/error-state/app-error-state
     MatDividerModule,
     CustomDropdownComponent,
     AppLoadingComponent,
-    AppErrorStateComponent,
-    SlicePipe
+    AppErrorStateComponent
   ],
   templateUrl: './evaluation-checklist.page.html',
   styleUrls: ['./evaluation-checklist.page.scss'],
@@ -39,6 +38,9 @@ import { AppErrorStateComponent } from '../../shared/error-state/app-error-state
 })
 export class EvaluationChecklistPageComponent {
   protected readonly store = inject(EvaluationStoreService);
+  @ViewChild('fileInput') private fileInput?: ElementRef<HTMLInputElement>;
+
+  readonly checklistCriteria = this.store.checklistCriteria;
 
   readonly personOptions = computed<DropdownOption[]>(() =>
     this.store
@@ -49,8 +51,28 @@ export class EvaluationChecklistPageComponent {
       }))
   );
 
+  readonly loading = computed(
+    () => this.store.personDataLoading() || this.store.personIpaDatasetLoading() || this.store.personsLoading()
+  );
+
   selectPerson(personId: string): void {
     this.store.selectPerson(personId);
+  }
+
+  uploadPdf(): void {
+    this.fileInput?.nativeElement.click();
+  }
+
+  onFileSelected(event: Event): void {
+    const element = event.target as HTMLInputElement | null;
+    const file = element?.files?.item(0);
+    if (!file) {
+      return;
+    }
+    void this.store.importIpaPdf(file);
+    if (element) {
+      element.value = '';
+    }
   }
 
   trackCriterion(index: number, item: Criterion): string {

@@ -9,8 +9,11 @@ import java.util.UUID
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 
 class IpaRepositoryImpl : IpaRepository {
@@ -19,14 +22,15 @@ class IpaRepositoryImpl : IpaRepository {
         ignoreUnknownKeys = true
     }
 
-    override suspend fun replaceActiveDataset(dataset: IpaDatasetDto): IpaDataset {
+    override suspend fun createForPerson(personId: UUID, dataset: IpaDatasetDto): IpaDataset {
         return DatabaseFactory.dbQuery {
-            clearInternal()
             val id = UUID.randomUUID()
             val now = Instant.now()
             val serialized = json.encodeToString(dataset)
+
             IpaDatasetsTable.insert {
                 it[IpaDatasetsTable.id] = id
+                it[IpaDatasetsTable.personId] = personId
                 it[ipaName] = dataset.ipaName
                 it[topic] = dataset.topic
                 it[candidateFullName] = dataset.candidate?.fullName
@@ -38,6 +42,7 @@ class IpaRepositoryImpl : IpaRepository {
 
             IpaDataset(
                 id = id,
+                personId = personId,
                 ipaName = dataset.ipaName,
                 topic = dataset.topic,
                 candidateFullName = dataset.candidate?.fullName,
@@ -49,25 +54,33 @@ class IpaRepositoryImpl : IpaRepository {
         }
     }
 
-    override suspend fun getActiveDataset(): IpaDataset? = DatabaseFactory.dbQuery {
-        IpaDatasetsTable.selectAll()
+    override suspend fun getForPerson(personId: UUID): IpaDataset? = DatabaseFactory.dbQuery {
+        IpaDatasetsTable
+            .select { IpaDatasetsTable.personId eq personId }
+            .orderBy(IpaDatasetsTable.createdAt to SortOrder.DESC)
             .limit(1)
             .singleOrNull()
             ?.toDataset()
     }
 
-    override suspend fun clear() {
-        DatabaseFactory.dbQuery {
-            clearInternal()
-        }
+    override suspend fun getLatest(): IpaDataset? = DatabaseFactory.dbQuery {
+        IpaDatasetsTable
+            .selectAll()
+            .orderBy(IpaDatasetsTable.createdAt to SortOrder.DESC)
+            .limit(1)
+            .singleOrNull()
+            ?.toDataset()
     }
 
-    private fun clearInternal() {
-        IpaDatasetsTable.deleteAll()
+    override suspend fun clearAll() {
+        DatabaseFactory.dbQuery {
+            IpaDatasetsTable.deleteAll()
+        }
     }
 
     private fun ResultRow.toDataset(): IpaDataset = IpaDataset(
         id = this[IpaDatasetsTable.id].value,
+        personId = this[IpaDatasetsTable.personId],
         ipaName = this[IpaDatasetsTable.ipaName],
         topic = this[IpaDatasetsTable.topic],
         candidateFullName = this[IpaDatasetsTable.candidateFullName],
@@ -77,4 +90,3 @@ class IpaRepositoryImpl : IpaRepository {
         createdAt = this[IpaDatasetsTable.createdAt],
     )
 }
-

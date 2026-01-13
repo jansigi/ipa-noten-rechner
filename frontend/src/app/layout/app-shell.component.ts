@@ -37,7 +37,7 @@ export class AppShellComponent {
 
   private readonly store = inject(EvaluationStoreService);
 
-  readonly appTitle = computed(() => this.store.ipaName() ?? 'IPA Noten Rechner');
+  readonly appTitle = computed(() => this.store.selectedIpaName() ?? 'IPA Noten Rechner');
   readonly navItems = signal<NavItem[]>([
     { label: 'Personen', path: '/personen', icon: 'group' },
     { label: 'Kriterien', path: '/kriterien', icon: 'rule' },

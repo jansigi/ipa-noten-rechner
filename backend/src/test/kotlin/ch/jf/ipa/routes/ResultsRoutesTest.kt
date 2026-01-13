@@ -1,7 +1,12 @@
 package ch.jf.ipa.routes
 
+import ch.jf.ipa.dto.CriterionDto
+import ch.jf.ipa.dto.IpaDatasetDto
 import ch.jf.ipa.dto.PersonResultsDto
+import ch.jf.ipa.dto.RequirementDto
 import ch.jf.ipa.module
+import ch.jf.ipa.repository.IpaRepository
+import ch.jf.ipa.repository.IpaRepositoryImpl
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -11,12 +16,13 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.server.config.MapApplicationConfig
 import io.ktor.server.testing.testApplication
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 class ResultsRoutesTest {
 
@@ -52,6 +58,30 @@ class ResultsRoutesTest {
         }
         assertEquals(HttpStatusCode.Created, personResponse.status)
         val createdPersonId = json.parseToJsonElement(personResponse.bodyAsText()).jsonObject["id"]!!.jsonPrimitive.content
+
+        val ipaRepository: IpaRepository = IpaRepositoryImpl()
+        runBlocking {
+            ipaRepository.createForPerson(
+                UUID.fromString(createdPersonId),
+                IpaDatasetDto(
+                    ipaName = "Test IPA",
+                    topic = "Compilers",
+                    criteria = listOf(
+                        CriterionDto(
+                            id = "A01",
+                            title = "Criterion A01",
+                            question = "Question A01",
+                            requirements = listOf(
+                                RequirementDto("A01-1", "Desc", "BF", 1),
+                                RequirementDto("A01-2", "Desc", "BF", 2),
+                                RequirementDto("A01-3", "Desc", "BF", 3),
+                                RequirementDto("A01-4", "Desc", "BF", 4),
+                            ),
+                        ),
+                    ),
+                ),
+            )
+        }
 
         val progressResponse = client.post("/progress/$createdPersonId") {
             contentType(ContentType.Application.Json)
@@ -98,4 +128,3 @@ class ResultsRoutesTest {
         assertEquals(HttpStatusCode.NotFound, response.status)
     }
 }
-

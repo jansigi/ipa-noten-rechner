@@ -24,6 +24,17 @@
           ></app-custom-dropdown>
         </div>
         <div class="actions-block">
+          <input
+            #fileInput
+            type="file"
+            accept="application/pdf"
+            hidden
+            (change)="onFileSelected($event)"
+          />
+          <button mat-flat-button color="primary" (click)="uploadPdf()" [disabled]="loading()">
+            <mat-icon aria-hidden="true">upload</mat-icon>
+            <span>PDF importieren</span>
+          </button>
           <button
             mat-stroked-button
             color="primary"
@@ -48,11 +59,11 @@
       />
     </div>
 
-    <ng-container *ngIf="!store.personDataLoading() && !store.criteriaLoading(); else loadingState">
-      <ng-container *ngIf="store.criteria().length; else emptyCriteria">
+    <ng-container *ngIf="!store.personDataLoading() && !store.personIpaDatasetLoading(); else loadingState">
+      <ng-container *ngIf="checklistCriteria().length; else emptyCriteria">
         <div class="criteria-scroll">
           <mat-card
-            *ngFor="let criterion of store.criteria(); trackBy: trackCriterion"
+            *ngFor="let criterion of checklistCriteria(); trackBy: trackCriterion"
             class="criterion-card"
             #criterionCard
             [attr.data-criterion-id]="criterion.id"
@@ -115,7 +126,13 @@
     </ng-template>
 
     <ng-template #emptyCriteria>
-      <div class="loading-panel muted">Keine Kriterien verfügbar.</div>
+      <div class="loading-panel muted">
+        <p>Für die ausgewählte Person ist noch keine IPA importiert.</p>
+        <button mat-stroked-button color="primary" (click)="uploadPdf()" [disabled]="loading()">
+          <mat-icon aria-hidden="true">upload</mat-icon>
+          <span>PDF importieren</span>
+        </button>
+      </div>
     </ng-template>
   </div>
 
@@ -133,21 +150,7 @@
         <span class="grade">{{ formatGrade(store.averageGradeLevel()) }}</span>
       </div>
 
-      <mat-divider></mat-divider>
 
-      <div class="summary-section" *ngIf="store.results() as results">
-        <p class="eyebrow">Kriterien (Top 5)</p>
-        <div class="summary-entry" *ngFor="let entry of results.results | slice: 0:5">
-          <div class="summary-left">
-            <span class="label-text">{{ entry.criterionId }}</span>
-            <span class="muted">{{ entry.title }}</span>
-          </div>
-          <div class="summary-right">
-            <div class="fraction">{{ entry.fulfilledCount }} / {{ entry.totalCount }}</div>
-            <div class="grade">Stufe {{ entry.gradeLevel }}</div>
-          </div>
-        </div>
-      </div>
     </mat-card>
   </aside>
 </section>

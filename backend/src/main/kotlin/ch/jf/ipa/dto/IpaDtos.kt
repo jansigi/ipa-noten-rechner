@@ -14,6 +14,8 @@ data class IpaDatasetDto(
     val ipaName: String? = null,
     val topic: String? = null,
     val candidate: CandidateDto? = null,
+    val startDate: String? = null,
+    val endDate: String? = null,
     val criteria: List<CriterionDto> = emptyList(),
 )
 

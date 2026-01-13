@@ -9,6 +9,7 @@ export interface AppMetadata {
 
 export interface IpaImportResponse {
   datasetId: string;
+  personId: string;
   ipaName: string | null;
   topic: string | null;
   candidateFullName: string | null;

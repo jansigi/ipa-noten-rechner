@@ -6,6 +6,17 @@
       <p class="muted">Erfasse neue Kandidat:innen und behalte den Überblick über bestehende Profile.</p>
     </div>
     <div class="actions">
+      <input
+        #fileInput
+        type="file"
+        accept="application/pdf"
+        hidden
+        (change)="onFileSelected($event)"
+      />
+      <button mat-flat-button color="primary" (click)="uploadPdf()" [disabled]="loading()">
+        <mat-icon aria-hidden="true">upload</mat-icon>
+        <span>PDF importieren</span>
+      </button>
       <button mat-stroked-button color="primary" (click)="void store.loadPersons()" [disabled]="loading()">
         <mat-icon aria-hidden="true">refresh</mat-icon>
         <span>Neu laden</span>

@@ -7,12 +7,12 @@ import java.util.UUID
 import kotlin.math.ceil
 
 class GradingService(
-    private val criteriaProvider: CriteriaProvider,
+    private val criteriaProvider: PersonCriteriaProvider,
     private val progressRepository: CriterionProgressRepository,
 ) {
 
     suspend fun calculateResultsForPerson(personId: UUID): PersonResultsDto {
-        val criteria = criteriaProvider.getAllCriteria()
+        val criteria = criteriaProvider.getCriteriaForPerson(personId)
         val progressByCriterion = progressRepository.getByPersonId(personId).associateBy { it.criterionId }
 
         val results = criteria.map { criterion ->

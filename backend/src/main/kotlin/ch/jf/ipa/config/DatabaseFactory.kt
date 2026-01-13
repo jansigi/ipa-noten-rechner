@@ -45,7 +45,7 @@ object DatabaseFactory {
         dataSource = hikariDataSource
         database = Database.connect(hikariDataSource)
         transaction(database) {
-            SchemaUtils.create(
+            SchemaUtils.createMissingTablesAndColumns(
                 PersonsTable,
                 CriterionProgressTable,
                 CriteriaTable,

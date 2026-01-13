@@ -6,10 +6,10 @@ import java.util.UUID
 
 class EvaluationService(
     private val progressRepository: CriterionProgressRepository,
-    private val criteriaProvider: CriteriaProvider,
+    private val criteriaProvider: PersonCriteriaProvider,
 ) {
     suspend fun evaluate(personId: UUID): List<EvaluatedCriterionDto> {
-        val criteria = criteriaProvider.getAllCriteria()
+        val criteria = criteriaProvider.getCriteriaForPerson(personId)
         val progressByCriterion = progressRepository
             .getByPersonId(personId)
             .associateBy { it.criterionId }
