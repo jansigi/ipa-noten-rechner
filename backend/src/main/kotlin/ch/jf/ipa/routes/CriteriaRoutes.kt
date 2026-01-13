@@ -15,4 +15,3 @@ fun Route.criteriaRoutes(criteriaProvider: CriteriaProvider) {
         }
     }
 }
-

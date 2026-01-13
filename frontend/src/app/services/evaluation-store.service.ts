@@ -253,7 +253,7 @@ export class EvaluationStoreService {
     try {
       const saved = await firstValueFrom(this.api.saveProgress(personId, payload));
       this.progress.update((current) => ({ ...current, [criterionId]: saved }));
-      await this.refreshEvaluationForCriterion(criterionId);
+      await this.refreshEvaluation();
       await this.refreshResultForCriterion(criterionId);
       this.error.set(null);
     } catch {
@@ -261,7 +261,7 @@ export class EvaluationStoreService {
     }
   }
 
-  private async refreshEvaluationForCriterion(criterionId: string): Promise<void> {
+  private async refreshEvaluation(): Promise<void> {
     const personId = this.selectedPersonId();
     if (!personId) {
       return;

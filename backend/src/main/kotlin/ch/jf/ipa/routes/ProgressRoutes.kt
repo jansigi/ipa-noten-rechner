@@ -17,22 +17,24 @@ import java.util.UUID
 fun Route.progressRoutes(progressRepository: CriterionProgressRepository) {
     route("/progress") {
         get("{personId}") {
-            val personId = call.parameters["personId"]?.toUUIDOrNull()
-                ?: run {
-                    call.respond(HttpStatusCode.BadRequest, "Invalid person id")
-                    return@get
-                }
+            val personId =
+                call.parameters["personId"]?.toUUIDOrNull()
+                    ?: run {
+                        call.respond(HttpStatusCode.BadRequest, "Invalid person id")
+                        return@get
+                    }
 
             val progress = progressRepository.getByPersonId(personId).map { it.toResponseDto() }
             call.respond(progress)
         }
 
         post("{personId}") {
-            val personId = call.parameters["personId"]?.toUUIDOrNull()
-                ?: run {
-                    call.respond(HttpStatusCode.BadRequest, "Invalid person id")
-                    return@post
-                }
+            val personId =
+                call.parameters["personId"]?.toUUIDOrNull()
+                    ?: run {
+                        call.respond(HttpStatusCode.BadRequest, "Invalid person id")
+                        return@post
+                    }
 
             val request = call.receive<CriterionProgressRequest>()
             val domain = request.toDomain(personId)
@@ -43,4 +45,3 @@ fun Route.progressRoutes(progressRepository: CriterionProgressRepository) {
 }
 
 private fun String.toUUIDOrNull(): UUID? = runCatching { UUID.fromString(this) }.getOrNull()
-

@@ -6,7 +6,6 @@ import {
   HostListener,
   Input,
   Output,
-  Signal,
   ViewChild,
   signal
 } from '@angular/core';
@@ -33,6 +32,9 @@ export class CustomDropdownComponent {
   @Input() options: DropdownOption[] = [];
   @Input() selected?: string;
   @Output() readonly selectionChange = new EventEmitter<string>();
+
+  readonly labelId = `dropdown-label-${Math.random().toString(36).slice(2, 9)}`;
+  readonly triggerId = `dropdown-trigger-${Math.random().toString(36).slice(2, 9)}`;
 
   @ViewChild(CdkOverlayOrigin, { static: true }) origin!: CdkOverlayOrigin;
   @ViewChild('listbox') listboxRef?: ElementRef<HTMLDivElement>;
@@ -119,7 +121,7 @@ export class CustomDropdownComponent {
   }
 
   @HostListener('document:keydown.escape', ['$event'])
-  onEscape(event: any): void {
+  onEscape(event: Event): void {
     if (this.open()) {
       event.stopPropagation();
       this.close();

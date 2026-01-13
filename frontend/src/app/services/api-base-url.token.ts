@@ -1,12 +1,12 @@
 import { InjectionToken } from '@angular/core';
 
-type GlobalConfig = {
+interface GlobalConfig {
   IPA_NOTEN_RECHNER_API_URL?: string;
   process?: {
     env?: Record<string, string | undefined>;
   };
   NG_APP_API_URL?: string;
-};
+}
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL', {
   providedIn: 'root',
@@ -29,4 +29,3 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL', {
     return 'http://localhost:8080';
   }
 });
-

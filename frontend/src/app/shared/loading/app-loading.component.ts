@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-loading',
   standalone: true,
-  imports: [MatProgressSpinnerModule, NgIf],
+  imports: [MatProgressSpinnerModule],
   templateUrl: './app-loading.component.html',
   styleUrls: ['./app-loading.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -19,4 +19,3 @@ val repositoryModule = module {
     single<MetadataRepository> { MetadataRepositoryImpl() }
     single<IpaRepository> { IpaRepositoryImpl() }
 }
-

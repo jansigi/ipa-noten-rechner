@@ -30,12 +30,13 @@ object DatabaseFactory {
 
     fun init(environment: ApplicationEnvironment) {
         val config = environment.config.config("ktor.database")
-        val settings = Settings(
-            url = config.property("url").getString(),
-            driver = config.property("driver").getString(),
-            user = config.property("user").getString(),
-            password = config.propertyOrNull("password")?.getString().orEmpty(),
-        )
+        val settings =
+            Settings(
+                url = config.property("url").getString(),
+                driver = config.property("driver").getString(),
+                user = config.property("user").getString(),
+                password = config.propertyOrNull("password")?.getString().orEmpty(),
+            )
         init(settings)
     }
 
@@ -57,16 +58,17 @@ object DatabaseFactory {
     }
 
     private fun createDataSource(settings: Settings): HikariDataSource {
-        val config = HikariConfig().apply {
-            jdbcUrl = settings.url
-            driverClassName = settings.driver
-            username = settings.user
-            password = settings.password
-            maximumPoolSize = 5
-            isAutoCommit = false
-            transactionIsolation = "TRANSACTION_REPEATABLE_READ"
-            validate()
-        }
+        val config =
+            HikariConfig().apply {
+                jdbcUrl = settings.url
+                driverClassName = settings.driver
+                username = settings.user
+                password = settings.password
+                maximumPoolSize = 5
+                isAutoCommit = false
+                transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+                validate()
+            }
         return HikariDataSource(config)
     }
 
@@ -85,4 +87,3 @@ object DatabaseFactory {
         dataSource = null
     }
 }
-

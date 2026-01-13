@@ -17,4 +17,3 @@ object CriterionProgressTable : UUIDTable("criterion_progress") {
     val checkedRequirements = text("checked_requirements")
     val note = text("note").nullable()
 }
-

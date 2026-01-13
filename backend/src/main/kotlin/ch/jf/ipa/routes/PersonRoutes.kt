@@ -22,15 +22,15 @@ fun Route.personRoutes(personRepository: PersonRepository) {
 
         post {
             val request = call.receive<CreatePersonRequest>()
-            val person = runCatching { request.toPerson() }
-                .getOrElse {
-                    call.respond(HttpStatusCode.BadRequest, "Invalid person payload")
-                    return@post
-                }
+            val person =
+                runCatching { request.toPerson() }
+                    .getOrElse {
+                        call.respond(HttpStatusCode.BadRequest, "Invalid person payload")
+                        return@post
+                    }
 
             val created = personRepository.create(person)
             call.respond(HttpStatusCode.Created, created.toResponseDto())
         }
     }
 }
-

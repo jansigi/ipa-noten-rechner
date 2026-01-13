@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,8 +14,6 @@ import { Criterion } from '../../models/criteria';
   selector: 'app-criteria-page',
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     MatCardModule,
     MatIconModule,
     MatFormFieldModule,
@@ -64,7 +61,4 @@ export class CriteriaPageComponent {
     this.filter.set(value);
   }
 
-  trackCriterion(index: number, criterion: Criterion): string {
-    return criterion.id || `${index}`;
-  }
 }

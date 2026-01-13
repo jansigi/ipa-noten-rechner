@@ -12,4 +12,3 @@ class CriteriaService(
 ) : CriteriaProvider {
     override suspend fun getAllCriteria(): List<CriterionDto> = repository.getAll()
 }
-

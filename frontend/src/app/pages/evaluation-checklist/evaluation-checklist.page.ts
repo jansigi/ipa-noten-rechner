@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, computed, inject } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,8 +17,6 @@ import { AppErrorStateComponent } from '../../shared/error-state/app-error-state
   selector: 'app-evaluation-checklist-page',
   standalone: true,
   imports: [
-    NgFor,
-    NgIf,
     MatCardModule,
     MatCheckboxModule,
     MatButtonModule,
@@ -76,7 +73,7 @@ export class EvaluationChecklistPageComponent {
   }
 
   trackCriterion(index: number, item: Criterion): string {
-    return item.id;
+    return item.id || `${index}`;
   }
 
   isChecked(criterionId: string, requirementId: string): boolean {

@@ -10,9 +10,10 @@ class EvaluationService(
 ) {
     suspend fun evaluate(personId: UUID): List<EvaluatedCriterionDto> {
         val criteria = criteriaProvider.getCriteriaForPerson(personId)
-        val progressByCriterion = progressRepository
-            .getByPersonId(personId)
-            .associateBy { it.criterionId }
+        val progressByCriterion =
+            progressRepository
+                .getByPersonId(personId)
+                .associateBy { it.criterionId }
 
         return criteria.map { criterion ->
             val totalCount = criterion.requirements.size
@@ -31,7 +32,10 @@ class EvaluationService(
         }
     }
 
-    private fun calculateGrade(checked: Int, total: Int): Int {
+    private fun calculateGrade(
+        checked: Int,
+        total: Int,
+    ): Int {
         if (total <= 0) return 0
         if (checked >= total) return 3
 
@@ -43,4 +47,3 @@ class EvaluationService(
         }
     }
 }
-

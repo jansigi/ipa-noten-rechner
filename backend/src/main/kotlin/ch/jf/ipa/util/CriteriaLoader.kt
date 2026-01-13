@@ -6,13 +6,15 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 
 object CriteriaLoader {
-    private val json = Json {
-        ignoreUnknownKeys = true
-    }
+    private val json =
+        Json {
+            ignoreUnknownKeys = true
+        }
 
     fun loadCriteria(): List<CriterionDto> {
-        val resource = CriteriaLoader::class.java.classLoader?.getResource("criteria.json")
-            ?: return emptyList()
+        val resource =
+            CriteriaLoader::class.java.classLoader?.getResource("criteria.json")
+                ?: return emptyList()
 
         resource.openStream().use { stream ->
             InputStreamReader(stream).use { reader ->
@@ -25,4 +27,3 @@ object CriteriaLoader {
         }
     }
 }
-

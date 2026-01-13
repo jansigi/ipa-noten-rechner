@@ -5,8 +5,9 @@ import java.util.UUID
 
 interface PersonRepository {
     suspend fun create(person: Person): Person
+
     suspend fun getAll(): List<Person>
+
     suspend fun getById(id: UUID): Person?
     suspend fun clearAll()
 }
-
