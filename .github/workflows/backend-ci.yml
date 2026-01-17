@@ -1,47 +1,67 @@
 name: Backend CI
 
 on:
-  push:
-    branches:
-      - "**"
   pull_request:
+  push:
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      checks: write
+
     defaults:
       run:
         working-directory: backend
-    env:
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
     steps:
-      # Check out repository contents.
+      # 1) Fetch repository contents
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Set up the JDK and Gradle cache.
+      # 2) Set up the JDK and Gradle cache
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: "temurin"
-          java-version: "21"
-          cache: "gradle"
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
 
-      # Lint Kotlin sources with ktlint.
+      # 3) Lint Kotlin sources with ktlint
       - name: Lint
         run: ./gradlew ktlintCheck || { echo "::error::Backend lint failed."; exit 1; }
 
-      # Run unit and integration tests.
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    permissions:
+      contents: read
+      checks: write
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      # 1) Fetch repository contents
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2) Set up the JDK and Gradle cache
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      # 3) Run unit and integration tests
       - name: Test
-        id: tests
         run: ./gradlew test || { echo "::error::Backend tests failed."; exit 1; }
 
-      # Enforce minimum test pass rate (>= 80%).
+      # 4) Enforce minimum test pass rate (>= 80%)
       - name: Enforce test pass rate
+        if: always()
         run: |
           python <<'PY'
           import glob
@@ -75,7 +95,7 @@ jobs:
               raise SystemExit(1)
           PY
 
-      # Publish the test report to the GitHub Actions summary.
+      # 5) Publish the test report to the GitHub Actions summary
       - name: Publish test report
         if: >
           always() &&
@@ -88,28 +108,48 @@ jobs:
           reporter: java-junit
           fail-on-error: false
 
-      # Build and push the Docker image after successful tests (push events only).
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push'
+
+    permissions:
+      contents: read
+
+    defaults:
+      run:
+        working-directory: backend
+
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    steps:
+      # 1) Fetch repository contents
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2) Prepare multi-platform Docker builds
       - name: Set up Docker Buildx
-        if: github.event_name == 'push'
         uses: docker/setup-buildx-action@v3
 
+      # 3) Fail fast with a clear error when secrets are missing
       - name: Validate Docker Hub secrets
-        if: github.event_name == 'push'
         run: |
           if [ -z "${DOCKERHUB_USERNAME}" ] || [ -z "${DOCKERHUB_TOKEN}" ]; then
             echo "::error::Docker Hub secrets are not set."
             exit 1
           fi
 
+      # 4) Authenticate against Docker Hub before pushing
       - name: Log in to Docker Hub
-        if: github.event_name == 'push'
         uses: docker/login-action@v3
         with:
           username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ env.DOCKERHUB_TOKEN }}
 
+      # 5) Build and push the staging image ("deploy" step for the backend)
       - name: Build and push staging image
-        if: github.event_name == 'push'
         uses: docker/build-push-action@v6
         with:
           context: backend
