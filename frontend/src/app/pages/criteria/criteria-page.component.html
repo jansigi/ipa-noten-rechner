@@ -9,15 +9,22 @@
       </p>
       <p class="metadata-line">
         <strong>Aktuelle IPA:</strong>
-        <span *ngIf="store.selectedIpaName(); else fallbackName">{{ store.selectedIpaName() }}</span>
-        <ng-template #fallbackName>Keine Angaben</ng-template>
+        @if (store.selectedIpaName()) {
+          <span>{{ store.selectedIpaName() }}</span>
+        } @else {
+          <span>Keine Angaben</span>
+        }
       </p>
-      <p class="metadata-line" *ngIf="candidateName()">
-        <strong>Kandidat/in:</strong> {{ candidateName() }}
-      </p>
-      <p class="metadata-line" *ngIf="store.selectedTopic()">
-        <strong>Projekt:</strong> {{ store.selectedTopic() }}
-      </p>
+      @if (candidateName()) {
+        <p class="metadata-line">
+          <strong>Kandidat/in:</strong> {{ candidateName() }}
+        </p>
+      }
+      @if (store.selectedTopic()) {
+        <p class="metadata-line">
+          <strong>Projekt:</strong> {{ store.selectedTopic() }}
+        </p>
+      }
     </div>
     <div class="actions">
       <button mat-stroked-button color="primary" (click)="void store.loadCriteria()" [disabled]="loading()">
