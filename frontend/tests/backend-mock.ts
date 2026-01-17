@@ -40,10 +40,10 @@ type Progress = {
 };
 
 type BackendState = {
-  person: Person;
+  persons: Person[];
   criteria: Criterion[];
-  ipaDataset: IpaDataset;
-  progressByCriterionId: Record<string, Progress>;
+  ipaDatasetByPersonId: Record<string, IpaDataset>;
+  progressByPersonId: Record<string, Record<string, Progress>>;
 };
 
 const json = async (route: Route, payload: unknown, status = 200) => {
@@ -79,42 +79,87 @@ export const createDefaultBackendState = (): BackendState => {
     }
   ];
 
+  const dataset: IpaDataset = {
+    ipaName: 'QV BiVo 2021',
+    topic: person.topic,
+    candidate: { fullName: `${person.firstName} ${person.lastName}`, firstName: person.firstName, lastName: person.lastName },
+    startDate: null,
+    endDate: null,
+    criteria
+  };
+
   return {
-    person,
+    persons: [person],
     criteria,
-    ipaDataset: {
-      ipaName: 'QV BiVo 2021',
-      topic: 'Notenrechner',
-      candidate: { fullName: 'Max Muster', firstName: 'Max', lastName: 'Muster' },
-      startDate: null,
-      endDate: null,
-      criteria
+    ipaDatasetByPersonId: {
+      [person.id]: dataset
     },
-    progressByCriterionId: {}
+    progressByPersonId: {
+      [person.id]: {}
+    }
   };
 };
 
-export const mockBackend = async (page: Page, initialState: BackendState = createDefaultBackendState()): Promise<void> => {
+export const mockBackend = async (
+  page: Page,
+  initialState: BackendState = createDefaultBackendState()
+): Promise<void> => {
   const state = initialState;
-  const personId = state.person.id;
+
+  const getPersonIdFromUrl = (url: string): string => {
+    const clean = url.split('?')[0];
+    const parts = clean.split('/').filter(Boolean);
+    return parts[parts.length - 1] ?? '';
+  };
+
+  const getPersonIdAndCriterionIdFromUrl = (url: string): { personId: string; criterionId: string } => {
+    const clean = url.split('?')[0];
+    const parts = clean.split('/').filter(Boolean);
+    return {
+      criterionId: parts[parts.length - 1] ?? '',
+      personId: parts[parts.length - 2] ?? ''
+    };
+  };
+
+  const ensurePersonData = (person: Person): void => {
+    if (!state.ipaDatasetByPersonId[person.id]) {
+      state.ipaDatasetByPersonId[person.id] = {
+        ipaName: state.ipaDatasetByPersonId[state.persons[0].id]?.ipaName ?? 'QV BiVo 2021',
+        topic: person.topic,
+        candidate: {
+          fullName: `${person.firstName} ${person.lastName}`,
+          firstName: person.firstName,
+          lastName: person.lastName
+        },
+        startDate: null,
+        endDate: null,
+        criteria: state.criteria
+      };
+    }
+
+    state.progressByPersonId[person.id] ??= {};
+  };
 
   await page.route('**/persons', async (route) => {
     const request = route.request();
 
     if (request.method() === 'GET') {
-      return json(route, [state.person]);
+      return json(route, state.persons);
     }
 
     if (request.method() === 'POST') {
       const body = request.postDataJSON() as Partial<Person>;
       const created: Person = {
-        id: 'p2',
+        id: `p${state.persons.length + 1}`,
         firstName: (body.firstName ?? '').toString(),
         lastName: (body.lastName ?? '').toString(),
         topic: (body.topic ?? '').toString(),
         submissionDate: (body.submissionDate ?? '').toString()
       };
-      state.person = created;
+
+      state.persons = [created, ...state.persons];
+      ensurePersonData(created);
+
       return json(route, created, 201);
     }
 
@@ -128,63 +173,55 @@ export const mockBackend = async (page: Page, initialState: BackendState = creat
     return json(route, state.criteria);
   });
 
-  await page.route(`**/ipa/${personId}`, async (route) => {
-    if (route.request().method() !== 'GET') {
-      return route.fallback();
-    }
-    return json(route, state.ipaDataset);
-  });
-
-  await page.route(`**/progress/${personId}`, async (route) => {
-    const request = route.request();
-
-    if (request.method() === 'GET') {
-      return json(route, Object.values(state.progressByCriterionId));
-    }
-
-    if (request.method() === 'POST') {
-      const body = request.postDataJSON() as { criterionId: string; checkedRequirements: string[]; note?: string | null; id?: string };
-      const saved: Progress = {
-        id: body.id ?? `${personId}-${body.criterionId}`,
-        personId,
-        criterionId: body.criterionId,
-        checkedRequirements: body.checkedRequirements ?? [],
-        note: body.note ?? null
-      };
-      state.progressByCriterionId[body.criterionId] = saved;
-      return json(route, saved);
-    }
-
-    return route.fallback();
-  });
-
-  await page.route(`**/evaluation/${personId}`, async (route) => {
+  // More specific route first: /results/{personId}/{criterionId}
+  await page.route('**/results/*/*', async (route) => {
     if (route.request().method() !== 'GET') {
       return route.fallback();
     }
 
-    const evaluations = state.ipaDataset.criteria.map((criterion) => {
-      const progress = state.progressByCriterionId[criterion.id];
-      const checked = progress?.checkedRequirements?.length ?? 0;
-      const total = criterion.requirements.length;
-      return {
-        criterionId: criterion.id,
-        totalRequirements: total,
-        checkedRequirements: checked,
-        grade: calculateGrade(checked, total)
-      };
+    const { personId, criterionId } = getPersonIdAndCriterionIdFromUrl(route.request().url());
+    const dataset = state.ipaDatasetByPersonId[personId];
+    if (!dataset) {
+      return json(route, { message: 'not found' }, 404);
+    }
+
+    const criterion = dataset.criteria.find((item) => item.id === criterionId);
+    if (!criterion) {
+      return json(route, { message: 'not found' }, 404);
+    }
+
+    const progressMap = state.progressByPersonId[personId] ?? {};
+    const progress = progressMap[criterionId];
+    const checkedRequirements = progress?.checkedRequirements ?? [];
+    const fulfilledCount = checkedRequirements.length;
+    const totalCount = criterion.requirements.length;
+
+    return json(route, {
+      criterionId,
+      fulfilledCount,
+      totalCount,
+      gradeLevel: calculateGrade(fulfilledCount, totalCount),
+      checkedRequirements,
+      note: progress?.note ?? null,
+      title: criterion.title
     });
-
-    return json(route, evaluations);
   });
 
-  await page.route(`**/results/${personId}`, async (route) => {
+  await page.route('**/results/*', async (route) => {
     if (route.request().method() !== 'GET') {
       return route.fallback();
     }
 
-    const results = state.ipaDataset.criteria.map((criterion) => {
-      const progress = state.progressByCriterionId[criterion.id];
+    const personId = getPersonIdFromUrl(route.request().url());
+    const dataset = state.ipaDatasetByPersonId[personId];
+    if (!dataset) {
+      return json(route, { message: 'not found' }, 404);
+    }
+
+    const progressMap = state.progressByPersonId[personId] ?? {};
+
+    const results = dataset.criteria.map((criterion) => {
+      const progress = progressMap[criterion.id];
       const checkedRequirements = progress?.checkedRequirements ?? [];
       const fulfilledCount = checkedRequirements.length;
       const totalCount = criterion.requirements.length;
@@ -202,31 +239,84 @@ export const mockBackend = async (page: Page, initialState: BackendState = creat
     return json(route, { personId, results });
   });
 
-  await page.route(`**/results/${personId}/*`, async (route) => {
+  await page.route('**/evaluation/*', async (route) => {
     if (route.request().method() !== 'GET') {
       return route.fallback();
     }
 
-    const url = route.request().url();
-    const criterionId = url.split('/').pop() ?? '';
-    const criterion = state.ipaDataset.criteria.find((item) => item.id === criterionId);
-    if (!criterion) {
+    const personId = getPersonIdFromUrl(route.request().url());
+    const dataset = state.ipaDatasetByPersonId[personId];
+    if (!dataset) {
       return json(route, { message: 'not found' }, 404);
     }
 
-    const progress = state.progressByCriterionId[criterionId];
-    const checkedRequirements = progress?.checkedRequirements ?? [];
-    const fulfilledCount = checkedRequirements.length;
-    const totalCount = criterion.requirements.length;
+    const progressMap = state.progressByPersonId[personId] ?? {};
 
-    return json(route, {
-      criterionId,
-      fulfilledCount,
-      totalCount,
-      gradeLevel: calculateGrade(fulfilledCount, totalCount),
-      checkedRequirements,
-      note: progress?.note ?? null,
-      title: criterion.title
+    const evaluations = dataset.criteria.map((criterion) => {
+      const progress = progressMap[criterion.id];
+      const checked = progress?.checkedRequirements?.length ?? 0;
+      const total = criterion.requirements.length;
+      return {
+        criterionId: criterion.id,
+        totalRequirements: total,
+        checkedRequirements: checked,
+        grade: calculateGrade(checked, total)
+      };
     });
+
+    return json(route, evaluations);
   });
+
+  await page.route('**/ipa/*', async (route) => {
+    if (route.request().method() !== 'GET') {
+      return route.fallback();
+    }
+
+    const personId = getPersonIdFromUrl(route.request().url());
+    const dataset = state.ipaDatasetByPersonId[personId];
+    if (!dataset) {
+      return json(route, { message: 'not found' }, 404);
+    }
+
+    return json(route, dataset);
+  });
+
+  await page.route('**/progress/*', async (route) => {
+    const request = route.request();
+    const personId = getPersonIdFromUrl(request.url());
+
+    state.progressByPersonId[personId] ??= {};
+    const progressMap = state.progressByPersonId[personId];
+
+    if (request.method() === 'GET') {
+      return json(route, Object.values(progressMap));
+    }
+
+    if (request.method() === 'POST') {
+      const body = request.postDataJSON() as {
+        criterionId: string;
+        checkedRequirements: string[];
+        note?: string | null;
+        id?: string;
+      };
+
+      const saved: Progress = {
+        id: body.id ?? `${personId}-${body.criterionId}`,
+        personId,
+        criterionId: body.criterionId,
+        checkedRequirements: body.checkedRequirements ?? [],
+        note: body.note ?? null
+      };
+
+      progressMap[body.criterionId] = saved;
+      return json(route, saved);
+    }
+
+    return route.fallback();
+  });
+
+  // Ensure initial data exists for the default person
+  for (const person of state.persons) {
+    ensurePersonData(person);
+  }
 };

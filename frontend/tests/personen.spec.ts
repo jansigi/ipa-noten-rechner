@@ -15,5 +15,7 @@ test('creates a new person via the form', async ({ page }) => {
 
   await page.getByRole('button', { name: /speichern/i }).click();
 
+  // Person should appear in the list after a successful create + refresh
+  await expect(page.getByRole('heading', { name: 'Personen verwalten' })).toBeVisible();
   await expect(page.getByText('Lea Muster')).toBeVisible();
 });
