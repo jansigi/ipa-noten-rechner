@@ -11,3 +11,4 @@ export interface Criterion {
   question: string;
   requirements: Requirement[];
 }
+

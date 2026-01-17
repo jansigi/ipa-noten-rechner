@@ -6,6 +6,7 @@ import ch.jf.ipa.model.PersonsTable
 import java.util.UUID
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
@@ -35,6 +36,12 @@ class PersonRepositoryImpl : PersonRepository {
                 .singleOrNull()
                 ?.toPerson()
         }
+
+    override suspend fun clearAll() {
+        DatabaseFactory.dbQuery {
+            PersonsTable.deleteAll()
+        }
+    }
 
     private fun ResultRow.toPerson(): Person =
         Person(

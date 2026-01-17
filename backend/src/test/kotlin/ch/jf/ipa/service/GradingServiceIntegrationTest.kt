@@ -29,7 +29,7 @@ class GradingServiceIntegrationTest : RepositoryTestBase() {
         progressRepository = CriterionProgressRepositoryImpl()
         gradingService =
             GradingService(
-                criteriaProvider = FakeCriteriaProvider,
+                criteriaProvider = FakePersonCriteriaProvider,
                 progressRepository = progressRepository,
             )
 
@@ -81,7 +81,7 @@ class GradingServiceIntegrationTest : RepositoryTestBase() {
             assertNotNull(second.title)
         }
 
-    private object FakeCriteriaProvider : CriteriaProvider {
+    private object FakePersonCriteriaProvider : PersonCriteriaProvider {
         private val criteria =
             listOf(
                 CriterionDto(
@@ -107,6 +107,6 @@ class GradingServiceIntegrationTest : RepositoryTestBase() {
                 ),
             )
 
-        override fun getAllCriteria(): List<CriterionDto> = criteria
+        override suspend fun getCriteriaForPerson(personId: UUID): List<CriterionDto> = criteria
     }
 }

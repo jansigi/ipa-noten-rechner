@@ -1,16 +1,14 @@
 package ch.jf.ipa.service
 
 import ch.jf.ipa.dto.CriterionDto
-import ch.jf.ipa.util.CriteriaLoader
+import ch.jf.ipa.repository.CriteriaRepository
 
 interface CriteriaProvider {
-    fun getAllCriteria(): List<CriterionDto>
+    suspend fun getAllCriteria(): List<CriterionDto>
 }
 
-class CriteriaService : CriteriaProvider {
-    private val criteria: List<CriterionDto> by lazy {
-        CriteriaLoader.loadCriteria()
-    }
-
-    override fun getAllCriteria(): List<CriterionDto> = criteria
+class CriteriaService(
+    private val repository: CriteriaRepository,
+) : CriteriaProvider {
+    override suspend fun getAllCriteria(): List<CriterionDto> = repository.getAll()
 }

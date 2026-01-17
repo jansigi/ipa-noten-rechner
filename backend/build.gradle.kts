@@ -49,6 +49,7 @@ dependencies {
 
     implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
     implementation("ch.qos.logback:logback-classic:1.4.14")
+    implementation("org.apache.pdfbox:pdfbox:2.0.31")
 
     testImplementation(kotlin("test"))
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")

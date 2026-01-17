@@ -6,6 +6,7 @@
           <p class="eyebrow">Checkliste</p>
           <h1>Bewertung</h1>
         </div>
+
         @if (store.selectedPerson(); as person) {
           <div class="meta-block">
             <div><span class="label">Name:</span> <strong>{{ person.firstName }} {{ person.lastName }}</strong></div>
@@ -15,6 +16,7 @@
         } @else {
           <div class="meta-block muted">Keine Person ausgewählt</div>
         }
+
         <div class="jump-block">
           <app-custom-dropdown
             label="Person"
@@ -24,7 +26,19 @@
             (selectionChange)="selectPerson($event)"
           ></app-custom-dropdown>
         </div>
+
         <div class="actions-block">
+          <input
+            #fileInput
+            type="file"
+            accept="application/pdf"
+            hidden
+            (change)="onFileSelected($event)"
+          />
+          <button mat-flat-button color="primary" (click)="uploadPdf()" [disabled]="loading()">
+            <mat-icon aria-hidden="true">upload</mat-icon>
+            <span>PDF importieren</span>
+          </button>
           <button
             mat-stroked-button
             color="primary"
@@ -36,6 +50,7 @@
           </button>
         </div>
       </div>
+
       <mat-progress-bar mode="determinate" [value]="store.overallCompletionRatio() * 100"></mat-progress-bar>
     </header>
 
@@ -50,15 +65,11 @@
       }
     </div>
 
-    @if (!store.personDataLoading() && !store.criteriaLoading()) {
-      @if (store.criteria().length) {
+    @if (!store.personDataLoading() && !store.personIpaDatasetLoading()) {
+      @if (checklistCriteria().length) {
         <div class="criteria-scroll">
-          @for (criterion of store.criteria(); track criterion.id) {
-            <mat-card
-              class="criterion-card"
-              #criterionCard
-              [attr.data-criterion-id]="criterion.id"
-            >
+          @for (criterion of checklistCriteria(); track criterion.id) {
+            <mat-card class="criterion-card" #criterionCard [attr.data-criterion-id]="criterion.id">
               <div class="criterion-header">
                 <div class="code">{{ criterion.id }}</div>
                 <div class="titles">
@@ -109,15 +120,19 @@
                     </span>
                   </div>
                 }
-                <button mat-button color="warn" (click)="resetCriterion(criterion.id)">
-                  Kriterium zurücksetzen
-                </button>
+                <button mat-button color="warn" (click)="resetCriterion(criterion.id)">Kriterium zurücksetzen</button>
               </div>
             </mat-card>
           }
         </div>
       } @else {
-        <div class="loading-panel muted">Keine Kriterien verfügbar.</div>
+        <div class="loading-panel muted">
+          <p>Für die ausgewählte Person ist noch keine IPA importiert.</p>
+          <button mat-stroked-button color="primary" (click)="uploadPdf()" [disabled]="loading()">
+            <mat-icon aria-hidden="true">upload</mat-icon>
+            <span>PDF importieren</span>
+          </button>
+        </div>
       }
     } @else {
       <div class="loading-panel">
@@ -139,26 +154,6 @@
         <span class="label-text">Ø Bewertungsstufe</span>
         <span class="grade">{{ formatGrade(store.averageGradeLevel()) }}</span>
       </div>
-
-      <mat-divider></mat-divider>
-
-      @if (store.results(); as results) {
-        <div class="summary-section">
-          <p class="eyebrow">Kriterien (Top 5)</p>
-          @for (entry of results.results | slice: 0:5; track entry.criterionId) {
-            <div class="summary-entry">
-              <div class="summary-left">
-                <span class="label-text">{{ entry.criterionId }}</span>
-                <span class="muted">{{ entry.title }}</span>
-              </div>
-              <div class="summary-right">
-                <div class="fraction">{{ entry.fulfilledCount }} / {{ entry.totalCount }}</div>
-                <div class="grade">Stufe {{ entry.gradeLevel }}</div>
-              </div>
-            </div>
-          }
-        </div>
-      }
     </mat-card>
   </aside>
 </section>

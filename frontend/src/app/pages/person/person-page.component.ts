@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -32,6 +32,8 @@ export class PersonPageComponent {
   protected readonly store = inject(EvaluationStoreService);
   private readonly fb = inject(FormBuilder);
 
+  @ViewChild('fileInput') private fileInput?: ElementRef<HTMLInputElement>;
+
   readonly persons = this.store.persons;
   readonly loading = this.store.personsLoading;
   readonly error = this.store.error;
@@ -42,6 +44,22 @@ export class PersonPageComponent {
     topic: ['', Validators.required],
     submissionDate: ['', Validators.required]
   });
+
+  uploadPdf(): void {
+    this.fileInput?.nativeElement.click();
+  }
+
+  onFileSelected(event: Event): void {
+    const element = event.target as HTMLInputElement | null;
+    const file = element?.files?.item(0);
+    if (!file) {
+      return;
+    }
+    void this.store.importIpaPdf(file);
+    if (element) {
+      element.value = '';
+    }
+  }
 
   submit(): void {
     if (this.form.invalid) {
@@ -58,5 +76,4 @@ export class PersonPageComponent {
     });
     this.form.reset();
   }
-
 }

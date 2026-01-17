@@ -2,14 +2,14 @@ package ch.jf.ipa.service
 
 import ch.jf.ipa.dto.EvaluatedCriterionDto
 import ch.jf.ipa.repository.CriterionProgressRepository
-import ch.jf.ipa.util.CriteriaLoader
 import java.util.UUID
 
 class EvaluationService(
     private val progressRepository: CriterionProgressRepository,
+    private val criteriaProvider: PersonCriteriaProvider,
 ) {
     suspend fun evaluate(personId: UUID): List<EvaluatedCriterionDto> {
-        val criteria = CriteriaLoader.loadCriteria()
+        val criteria = criteriaProvider.getCriteriaForPerson(personId)
         val progressByCriterion =
             progressRepository
                 .getByPersonId(personId)

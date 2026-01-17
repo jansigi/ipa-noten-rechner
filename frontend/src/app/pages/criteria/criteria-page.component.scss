@@ -152,6 +152,17 @@ mat-chip {
   margin: 0;
 }
 
+.metadata-line {
+  margin: 0.75rem 0 0;
+  font-weight: 500;
+  color: var(--text-muted);
+
+  strong {
+    color: var(--text-strong);
+    margin-right: 0.35rem;
+  }
+}
+
 .actions {
   display: flex;
   gap: 0.75rem;

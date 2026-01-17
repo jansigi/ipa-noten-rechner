@@ -34,6 +34,8 @@ export class CriteriaPageComponent {
   readonly error = this.store.error;
   readonly criteria = this.store.criteria;
 
+  readonly candidateName = computed(() => this.store.selectedCandidateName());
+
   readonly filter = signal('');
   readonly filteredCriteria = computed<Criterion[]>(() => {
     const term = this.filter().trim().toLowerCase();
