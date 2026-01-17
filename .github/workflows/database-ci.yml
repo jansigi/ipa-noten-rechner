@@ -1,24 +1,30 @@
 name: Database CI
 
 on:
-  push:
-    branches:
-      - "**"
   pull_request:
 
 jobs:
   database:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
     env:
+      # Secrets are only required when publishing images
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
     steps:
+      # 1) Fetch repository contents
       - name: Checkout
         uses: actions/checkout@v4
 
+      # 2) Boot the database container to validate the image/config
       - name: Start database
+        # We reuse the same docker compose file as locally
         run: docker compose -f container/docker-compose.yml up -d
 
+      # 3) Wait until Postgres is ready to accept connections
       - name: Wait for database
         run: |
           for i in {1..20}; do
@@ -27,16 +33,20 @@ jobs:
             fi
             sleep 2
           done
+          echo "::error::Database did not become ready in time."
           exit 1
 
+      # 4) Always clean up containers (even on failure)
       - name: Shutdown
         if: always()
         run: docker compose -f container/docker-compose.yml down -v
 
+      # 5) Prepare multi-platform Docker builds (push events only)
       - name: Set up Docker Buildx
         if: github.event_name == 'push'
         uses: docker/setup-buildx-action@v3
 
+      # 6) Fail fast with a clear error when secrets are missing
       - name: Validate Docker Hub secrets
         if: github.event_name == 'push'
         run: |
@@ -45,6 +55,7 @@ jobs:
             exit 1
           fi
 
+      # 7) Authenticate against Docker Hub before pushing
       - name: Log in to Docker Hub
         if: github.event_name == 'push'
         uses: docker/login-action@v3
@@ -52,6 +63,7 @@ jobs:
           username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ env.DOCKERHUB_TOKEN }}
 
+      # 8) Build and push the staging image ("deploy" step for the DB)
       - name: Build and push staging image
         if: github.event_name == 'push'
         uses: docker/build-push-action@v6
